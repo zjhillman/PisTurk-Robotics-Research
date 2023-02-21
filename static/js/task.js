@@ -163,6 +163,34 @@ var StroopExperiment = function() {
 	next();
 };
 
+/**********************
+* HRI Test            *
+***********************/
+var HriTest = function() {
+	var vidon; // time video is presented
+
+	var show_vid = function(video_file) {
+		d3.select("#video")
+			.append("source")
+			.attr("src", video_file)
+			.attr("type", "video/mp4")
+	};
+
+	
+	var next = function() {
+		video_file = "static/videos/debug.MP4";
+		show_vid( video_file );
+		vidon = new Date().getTime();
+		d3.select("#query").html('<p id="prompt">You can watch the video as many times as you want.</p>');
+	
+	}
+
+	// Load the stage.html snippet into the body of the page
+	psiTurk.showPage('stage.html');
+
+	// start
+	next();
+}
 
 /****************
 * Questionnaire *
@@ -243,6 +271,6 @@ $(window).on('load', async () => {
     await init;
     psiTurk.doInstructions(
     	instructionPages, // a list of pages you want to display in sequence
-    	function() { currentview = new StroopExperiment(); } // what you want to do when you are done with instructions
+    	function() { currentview = new HriTest(); } // what you want to do when you are done with instructions
     );
 });
