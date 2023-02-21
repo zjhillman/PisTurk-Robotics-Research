@@ -62,17 +62,27 @@ var HriTest = function() {
 	var show_vid = function(video_file) {
 		d3.select("#video")
 			.append("source")
+			.attr("id", "video_source")
 			.attr("src", video_file)
 			.attr("type", "video/mp4")
 	};
 
 	
 	var next = function() {
-		video_file = "static/videos/debug.MP4";
-		show_vid( video_file );
+		video_file = ["static/videos/test1.mp4", "static/videos/test2.mp4"];
+		random = Math.random();
+		if (random < 0.5) {
+			show_vid( video_file[0] );
+		} else {
+			show_vid( video_file[1] );
+		}
 		vidon = new Date().getTime();
 		d3.select("#query").html('<p id="prompt">You can watch the video as many times as you want.</p>');
 	
+	}
+
+	var remove_video = function() {
+		d3.select("#video_source").remove()
 	}
 
 	// Load the stage.html snippet into the body of the page
