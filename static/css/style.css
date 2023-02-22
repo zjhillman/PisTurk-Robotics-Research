@@ -77,7 +77,6 @@ h1 {
 }
 
 video {
-  position: relative;
-  top: 50%;
-  transform: translateY(-50%);
+  margin: 0 auto; 
+  border: 9px solid #ddd;
 }

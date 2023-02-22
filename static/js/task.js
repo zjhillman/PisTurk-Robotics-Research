@@ -59,37 +59,35 @@ var instructionPages = [ // add as a list as many pages as you like
 var HriTest = function() {
 	var vidon; // time video is presented
 
-	var show_vid = function(video_file) {
-		d3.select("#video")
-			.append("source")
-			.attr("id", "video_source")
-			.attr("src", video_file)
-			.attr("type", "video/mp4")
+	var start = function () {
+		// show first video
+		$('#test1').show();
+		$('#test1').trigger('play');
+		$('#test2').hide();
+		vidon = new Date().getTime();
 	};
 
-	
-	var next = function() {
-		video_file = ["static/videos/test1.mp4", "static/videos/test2.mp4"];
-		random = Math.random();
-		if (random < 0.5) {
-			show_vid( video_file[0] );
-		} else {
-			show_vid( video_file[1] );
-		}
+	var next = function () {
+		// show second video
+		$('#test1').hide();
+		$('#test2').show();
+		$('#test2').trigger('play');
 		vidon = new Date().getTime();
-		d3.select("#query").html('<p id="prompt">You can watch the video as many times as you want.</p>');
-	
 	}
 
-	var remove_video = function() {
-		d3.select("#video_source").remove()
-	}
+	var finish = function () {
+		currentview = new Questionnaire();
+	};
 
 	// Load the stage.html snippet into the body of the page
 	psiTurk.showPage('stage.html');
+	d3.select("#query").html('<p id="prompt">You can watch the video as many times as you want.</p>');
 
 	// start
-	next();
+	start();
+	$("#next").click(function () {
+	    next();
+	});
 }
 
 /****************
