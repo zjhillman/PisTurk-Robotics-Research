@@ -3,10 +3,6 @@
 		<h1>Watch this video</h1>
 		<p>Pay attention to the robot.</p>
 		<div id="video_player">
-			<button id="ppbutton" onclick="playPause()">Play/Pause</button>
-      		<button id="rsbutton" onclick="restart()">Restart</button>
-      		<p id="time" style="display:inline">Video progress:  0:00/0:10</p>
-      		<br>
 			<video id="test1" controls width="650">
 				<source src="/static/videos/test1.mp4" type="video/mp4">
 			</video>
@@ -17,46 +13,7 @@
 		<div id="query"></div>
 	</div>
 <!-------
-	<script>
-		var myVideo = document.getElementById("test1");
 
-		function playPause() {
-			if (myVideo.paused)
-				myVideo.play();
-			else
-				myVideo.pause();
-		}
-
-		function restart() {
-			myVideo.currentTime = 0;
-			myVideo.play();
-		}
-
-		function next() {
-			myVideo = document.getElementById("test2");
-			myVideo.ontimeupdate = function() {timeupdate()};
-			$('#test1').hide();
-			$('#test2').show();
-			$('#test2').trigger('play');
-			$('#next').attr('disabled', 'disabled')
-		}
-
-		var gTimeFormat = function(seconds){
-			var m = Math.floor(seconds / 60);
-			var s = Math.floor(seconds - (m * 60)) < 10 ? '0' + Math.floor(seconds - (m * 60)) : Math.floor(seconds - (m * 60));
-			return m + ':' + s;
-		};
-
-		myVideo.ontimeupdate = function() {timeupdate()};
-
-		function timeupdate() {
-			document.getElementById("time").innerHTML = "Video progress:  "+gTimeFormat(myVideo.currentTime)+"/"+gTimeFormat(myVideo.duration);
-
-			if (myVideo.duration - myVideo.currentTime <= 10) {
-				$('#next').removeAttr('disabled');
-			}
-		}
-	</script>
 ---->
 	<div class="instructionsnav">
 		<div class="row">
@@ -66,7 +23,7 @@
 			<div class="col-xs-8">
 			</div>
 			<div class="col-xs-2">
-				<button type="button" id="next" value="next" class="btn btn-primary btn-lg continue">
+				<button type="button" id="next" value="next" class="btn btn-primary btn-lg continue" disabled="'disabled">
                 Next <span class="glyphicon glyphicon-arrow-right"></span>
                 </button>
 			</div>

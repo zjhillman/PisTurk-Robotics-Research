@@ -63,10 +63,10 @@ var HriTest = function() {
 
 	// enable next button when video ends
 
-	var timeupdate = function() {
-		if (myVideo.duration - myVideo.currentTime <= 10) {
-			$('#next').removeAttr('disabled');
-		}
+	async function buttonUpdate() {
+		console.log("Waiting for "+"3"+" seconds");
+		await new Promise(r => setTimeout(r, 3000));
+		$('#next').removeAttr('disabled');
 	}
 
 	var start = function () {
@@ -102,6 +102,7 @@ var HriTest = function() {
 
 	// start
 	start();
+	buttonUpdate();
 	$("#next").click(function () {
 	    next();
 	});
