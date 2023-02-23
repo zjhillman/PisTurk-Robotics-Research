@@ -58,20 +58,37 @@ var instructionPages = [ // add as a list as many pages as you like
 ***********************/
 var HriTest = function() {
 	var vidon; // time video is presented
+	videoId = ['#test1', '#test2'];
+	var myVideo = document.getElementById('test1');
+
+	// enable next button when video ends
+
+	var timeupdate = function() {
+		if (myVideo.duration - myVideo.currentTime <= 10) {
+			$('#next').removeAttr('disabled');
+		}
+	}
 
 	var start = function () {
-		// show first video
-		$('#test1').show();
-		$('#test1').trigger('play');
-		$('#test2').hide();
+		// show first video & hide the rest
+		$(videoId[0]).show();
+		$(videoId[0]).trigger('play');
+		for (var i = 1; i < videoId.length; ++i) {
+			$(videoId[i]).hide();
+		}
+
 		vidon = new Date().getTime();
 	};
 
 	var next = function () {
-		// show second video
-		$('#test1').hide();
-		$('#test2').show();
-		$('#test2').trigger('play');
+		if (videoId.length == 1) {
+			finish();
+		}
+
+		// show next video
+		$(videoId.shift()).hide();
+		$(videoId[0]).show();
+		$(videoId[0]).trigger('play');
 		vidon = new Date().getTime();
 	}
 
