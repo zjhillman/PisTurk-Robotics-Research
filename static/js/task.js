@@ -94,10 +94,10 @@ var HriTest = function() {
 		}
 
 		// hide last video
-		$(videoId[0]).hide();
+		$(videoId.shift()).hide();
 
 		// show next video
-		$(videoId.shift()).show();
+		$(videoId[0]).show();
 		$(videoId[0]).trigger('play');
 		vidon = new Date().getTime();
 	}
