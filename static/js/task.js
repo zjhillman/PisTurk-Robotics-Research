@@ -59,7 +59,8 @@ var instructionPages = [ // add as a list as many pages as you like
 var HriTest = function() {
 	var vidon; // time video is presented
 	videoId = ['#test1', '#test2'];
-	var myVideo = document.getElementById('test1');
+	var video = document.getElementById(videoId[0].substring(1));
+
 
 	// enable next button when video ends
 
@@ -76,18 +77,27 @@ var HriTest = function() {
 		for (var i = 1; i < videoId.length; ++i) {
 			$(videoId[i]).hide();
 		}
+		$('#check-form').hide();
 
 		vidon = new Date().getTime();
 	};
 
 	var next = function () {
-		if (videoId.length == 1) {
+		if (videoId.length == 0) {
 			finish();
+			return;
+		}
+		else if (videoId.length == 1) {
+			$(videoId.shift()).hide();
+			$('#check-form').show();
+			return;
 		}
 
+		// hide last video
+		$(videoId[0]).hide();
+
 		// show next video
-		$(videoId.shift()).hide();
-		$(videoId[0]).show();
+		$(videoId.shift()).show();
 		$(videoId[0]).trigger('play');
 		vidon = new Date().getTime();
 	}

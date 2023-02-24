@@ -80,3 +80,7 @@ video {
   margin: 0 auto; 
   border: 9px solid #ddd;
 }
+
+#check-form {
+  text-align: center;
+}
