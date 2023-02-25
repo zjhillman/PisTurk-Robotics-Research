@@ -63,7 +63,7 @@ var HriTest = function() {
 	videoId = videoList[0];
 	
 
-	var start = function () {
+	function start () {
 		// show first video & hide the rest
 		$(videoId).show();
 		$(videoId).trigger('play');
@@ -75,7 +75,7 @@ var HriTest = function() {
 		vidon = new Date().getTime();
 	};
 
-	var next = function () {
+	function next () {
 		if (videoList.length == 0) {
 			finish();
 			return;
@@ -122,7 +122,20 @@ var HriTest = function() {
 		}
 	}
 
-	var finish = function () {
+	function recordExperimentData() {
+		psiTurk.recordTrialData({'phase':'HriExperiment', 'status':'submit'});
+
+		for (var i = 0; i < watchTime.length; ++i) {
+			psiTurk.recordUnstructuredData('video-'+i+'-watch-time', watchTime);
+		}
+
+		$('select').each( function(i, val) {
+			psiTurk.recordUnstructuredData(this.id, this.value);
+		})
+	}
+
+	function finish () {
+		recordExperimentData();
 		currentview = new Questionnaire();
 	};
 
