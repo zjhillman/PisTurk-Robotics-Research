@@ -58,48 +58,64 @@ var instructionPages = [ // add as a list as many pages as you like
 ***********************/
 var HriTest = function() {
 	var vidon; // time video is presented
-	videoId = ['#test1', '#test2'];
-	// video = videoId.shift();
+	var watchTime = [];
+	videoList = ['#test1', '#test2'];
+	videoId = videoList[0];
 	
 
 	var start = function () {
 		// show first video & hide the rest
-		$(videoId[0]).show();
-		$(videoId[0]).trigger('play');
-		for (var i = 1; i < videoId.length; ++i) {
-			$(videoId[i]).hide();
+		$(videoId).show();
+		$(videoId).trigger('play');
+		for (var i = 1; i < videoList.length; ++i) {
+			$(videoList[i]).hide();
 		}
 		$('#check-form').hide();
 
-		console.log(document.getElementById(videoId[0].substring(1)));
 		vidon = new Date().getTime();
 	};
 
 	var next = function () {
-		if (videoId.length == 0) {
+		if (videoList.length == 0) {
 			finish();
 			return;
 		}
-		else if (videoId.length == 1) {
-			$(videoId.shift()).hide();
+		else if (videoList.length == 1) {
+			videoList.shift();
+			$(videoId).hide();
+			$(videoId).trigger('pause');
 			$('#trial').hide();
 			$('#check-form').show();
+
+			watchTime.push( new Date().getTime() - vidon);
+			console.log(watchTime);
 			return;
 		}
 
 		// hide last video
-		$(videoId.shift()).hide();
+		$(videoId).hide();
+		$(videoId).trigger('pause');
+		videoList.shift();
 
 		// show next video
-		$(videoId[0]).show();
-		$(videoId[0]).trigger('play');
+		videoId = videoList[0];
+		$(videoId).show();
+		$(videoId).trigger('play');
+
+		// disable button until next video is played
+		document.getElementById('next').setAttribute('disabled', '');
+		console.log('button disabled');
+
+		// reset video time
+		watchTime.push( new Date().getTime() - vidon );
 		vidon = new Date().getTime();
 	}
 
-	function timeupdate() {
-		var video = document.getElementById(videoId[0].substring(1));
-		if (video.duration - video.currentTime < 10) {
+	function timeupdate(id) {
+		var video = document.getElementById(id);
+		if ((video.duration - video.currentTime < 10) && (id == videoId.substring(1))) {
 			$('#next').removeAttr('disabled');
+			console.log('button enabled by '+id+' at '+video.currentTime);
 		}
 	}
 
@@ -117,7 +133,10 @@ var HriTest = function() {
 	    next();
 	});
 	document.getElementById('test1').addEventListener('timeupdate', function () {
-		timeupdate();
+		timeupdate('test1');
+	});
+	document.getElementById('test2').addEventListener('timeupdate', function () {
+		timeupdate('test2');
 	});
 }
 
