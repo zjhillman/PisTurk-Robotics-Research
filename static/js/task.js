@@ -59,16 +59,8 @@ var instructionPages = [ // add as a list as many pages as you like
 var HriTest = function() {
 	var vidon; // time video is presented
 	videoId = ['#test1', '#test2'];
-	var video = document.getElementById(videoId[0].substring(1));
-
-
-	// enable next button when video ends
-
-	async function buttonUpdate() {
-		console.log("Waiting for "+"30"+" seconds");
-		await new Promise(r => setTimeout(r, 30000));
-		$('#next').removeAttr('disabled');
-	}
+	// video = videoId.shift();
+	
 
 	var start = function () {
 		// show first video & hide the rest
@@ -79,6 +71,7 @@ var HriTest = function() {
 		}
 		$('#check-form').hide();
 
+		console.log(document.getElementById(videoId[0].substring(1)));
 		vidon = new Date().getTime();
 	};
 
@@ -89,6 +82,7 @@ var HriTest = function() {
 		}
 		else if (videoId.length == 1) {
 			$(videoId.shift()).hide();
+			$('#trial').hide();
 			$('#check-form').show();
 			return;
 		}
@@ -102,6 +96,13 @@ var HriTest = function() {
 		vidon = new Date().getTime();
 	}
 
+	function timeupdate() {
+		var video = document.getElementById(videoId[0].substring(1));
+		if (video.duration - video.currentTime < 10) {
+			$('#next').removeAttr('disabled');
+		}
+	}
+
 	var finish = function () {
 		currentview = new Questionnaire();
 	};
@@ -112,9 +113,11 @@ var HriTest = function() {
 
 	// start
 	start();
-	buttonUpdate();
 	$("#next").click(function () {
 	    next();
+	});
+	document.getElementById('test1').addEventListener('timeupdate', function () {
+		timeupdate();
 	});
 }
 
