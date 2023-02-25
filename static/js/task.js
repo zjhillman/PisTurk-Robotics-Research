@@ -81,9 +81,12 @@ var HriTest = function() {
 			return;
 		}
 		else if (videoList.length == 1) {
-			videoList.shift();
+			//hide last video
 			$(videoId).hide();
 			$(videoId).trigger('pause');
+			videoList.shift();
+
+			// show form
 			$('#trial').hide();
 			$('#check-form').show();
 
