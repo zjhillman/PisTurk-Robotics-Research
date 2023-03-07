@@ -77,6 +77,7 @@ var HriTest = function() {
 
 	function next () {
 		if (videoList.length == 0) {
+			$(videoId).trigger('pause');
 			watchTime.push( new Date().getTime() - vidon);
 			console.log(watchTime);
 			finish();
@@ -103,6 +104,10 @@ var HriTest = function() {
 
 	function timeupdate(id) {
 		var video = document.getElementById(id);
+		if (video == null)
+			return;
+		
+		// if there are 10 or less seconds remaining in the current video, enable the next button
 		if ((video.duration - video.currentTime < 10) && (id == videoId.substring(1))) {
 			$('#next').removeAttr('disabled');
 			console.log('button enabled by '+id+' at '+video.currentTime);
@@ -113,12 +118,14 @@ var HriTest = function() {
 		psiTurk.recordTrialData({'phase':'HriExperiment', 'status':'submit'});
 
 		for (var i = 0; i < watchTime.length; ++i) {
-			psiTurk.recordUnstructuredData('video-'+i+'-watch-time', watchTime);
+			var currentVideo = `Video${1}WatchTime`;
+			psiTurk.recordTrialData({'phase':'HriExperiment', currentVideo:watchTime[i]});
 		}
-
-		$('select').each( function(i, val) {
-			psiTurk.recordUnstructuredData(this.id, this.value);
-		})
+		
+		// depreciated form within HriExperiment()
+		// $('select').each( function(i, val) {
+		// 	psiTurk.recordUnstructuredData(this.id, this.value);
+		// })
 	}
 
 	function finish () {
