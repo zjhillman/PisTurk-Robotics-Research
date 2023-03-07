@@ -60,14 +60,14 @@ var HriTest = function() {
 	var vidon; // time video is presented
 	var watchTime = [];
 	videoList = ['#test1', '#test2'];
-	videoId = videoList[0];
+	videoId = videoList.shift();
 	
 
 	function start () {
 		// show first video & hide the rest
 		$(videoId).show();
 		$(videoId).trigger('play');
-		for (var i = 1; i < videoList.length; ++i) {
+		for (var i = 0; i < videoList.length; ++i) {
 			$(videoList[i]).hide();
 		}
 		$('#check-form').hide();
@@ -77,31 +77,18 @@ var HriTest = function() {
 
 	function next () {
 		if (videoList.length == 0) {
-			finish();
-			return;
-		}
-		else if (videoList.length == 1) {
-			//hide last video
-			$(videoId).hide();
-			$(videoId).trigger('pause');
-			videoList.shift();
-
-			// show form
-			$('#trial').hide();
-			$('#check-form').show();
-
 			watchTime.push( new Date().getTime() - vidon);
 			console.log(watchTime);
+			finish();
 			return;
 		}
 
 		// hide last video
 		$(videoId).hide();
 		$(videoId).trigger('pause');
-		videoList.shift();
 
 		// show next video
-		videoId = videoList[0];
+		videoId = videoList.shift();
 		$(videoId).show();
 		$(videoId).trigger('play');
 
