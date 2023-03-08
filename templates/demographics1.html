@@ -1,0 +1,85 @@
+<div id="container-demographics">
+
+	<h1>Pre-Questionnaire</h1>
+
+	<hr />
+
+    <p>Please tell us about yourself so that we may more accurately understand our results.</p>
+
+	<div class="demographics well">
+
+	    <!-- beginning of a question -->
+        <div class="row question">
+            <div class="col-md-8">
+                What is your gender?
+            </div>
+            <div class="col-md-4">
+                <select id="gender" name="gender" onchange="otherGender(this)">
+                    <option value="" selected>Please select an option below</option>
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                    <option value="prefer not to say">Prefer not to say</option>
+                    <option value="other">other</option>
+                </select>
+            </div>
+            <div id="ifOtherGender" style="display: none;">
+                <input type="text" id="otherGender" name="otherGender">
+            </div>
+        </div>
+        <!-- end of a question -->
+
+        <script type="text/javascript">
+            //function otherGender(that) {
+            //    if (that.value = "other") {
+            //        document.getElementById("ifOtherGender").style.display = "block";
+            //    } else {
+            //        document.getElementById("ifOtherGender").style.display = "none";
+            //    }
+            //} 
+        </script>
+	    
+	    <!-- beginning of a question -->
+        <div class="row question">
+            <div class="col-md-8">
+                What is your age?
+            </div>
+            <div class="col-md-4">
+                <select id="age" name="age">
+                    <option value="" selected>Please select an option below</option>
+                    <option value="traditionalist/silent generation">Over 77</option>
+                    <option value="upper boomer">69-77</option>
+                    <option value="lower boomer">59-68</option>
+                    <option value="gen x">47-58</option>
+                    <option value="upper millennials">38-46</option>
+                    <option value="lower millennials">29-37</option>
+                    <option value="upper gen z">21-28</option>
+                    <option value="lower gen z">14-20</option>
+                    <option value="gen alpha">Under 13</option>
+                </select>
+            </div>
+        </div>
+        <!-- end of a question -->
+
+	</div>
+
+	<hr />
+
+
+    <div class="instructionsnav">
+        <div class="row">
+            <div class="col-xs-2">
+                <button type="button" id="prev" value="prev" class="btn btn-primary btn-lg previous">
+                <span class="glyphicon glyphicon-arrow-left"></span> Previous
+                </button>
+            </div>
+            <div class="col-xs-8">
+            </div>
+            <div class="col-xs-2">
+                <button type="button" id="next" value="next" class="btn btn-primary btn-lg continue">
+                Next <span class="glyphicon glyphicon-arrow-right"></span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+</div>

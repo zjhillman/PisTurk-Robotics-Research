@@ -17,6 +17,8 @@ var pages = [
 	"instructions/instruct-2.html",
 	"instructions/instruct-3.html",
 	"instructions/instruct-ready.html",
+	"demographics1.html",
+	"demographics2.html",
 	"stage.html",
 	"postquestionnaire.html"
 ];
@@ -39,6 +41,8 @@ var instructionPages = [ // add as a list as many pages as you like
 	"instructions/instruct-1.html",
 	"instructions/instruct-2.html",
 	"instructions/instruct-3.html",
+	"demographics1.html",
+ 	"demographics2.html",
 	"instructions/instruct-ready.html"
 ];
 
@@ -51,6 +55,10 @@ var instructionPages = [ // add as a list as many pages as you like
 * need code to get those pages from the PsiTurk object and 
 * insert them into the document.
 *
+********************/
+
+/********************
+* Pre Questionnaire *
 ********************/
 
 /**********************
@@ -70,7 +78,6 @@ var HriTest = function() {
 		for (var i = 0; i < videoList.length; ++i) {
 			$(videoList[i]).hide();
 		}
-		$('#check-form').hide();
 
 		vidon = new Date().getTime();
 	};
@@ -150,9 +157,9 @@ var HriTest = function() {
 	});
 }
 
-/****************
-* Questionnaire *
-****************/
+/*********************
+* Post Questionnaire *
+*********************/
 
 var Questionnaire = function() {
 
