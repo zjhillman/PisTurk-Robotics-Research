@@ -17,8 +17,7 @@ var pages = [
 	"instructions/instruct-2.html",
 	"instructions/instruct-3.html",
 	"instructions/instruct-ready.html",
-	"demographics1.html",
-	"demographics2.html",
+	"demographics.html",
 	"stage.html",
 	"postquestionnaire.html"
 ];
@@ -41,8 +40,6 @@ var instructionPages = [ // add as a list as many pages as you like
 	"instructions/instruct-1.html",
 	"instructions/instruct-2.html",
 	"instructions/instruct-3.html",
-	"demographics1.html",
- 	"demographics2.html",
 	"instructions/instruct-ready.html"
 ];
 
@@ -57,9 +54,26 @@ var instructionPages = [ // add as a list as many pages as you like
 *
 ********************/
 
-/********************
-* Pre Questionnaire *
-********************/
+/*********************
+* Demo Questionnaire *
+*********************/
+var demoQuestionnaire = function() {
+	psiTurk.showPage("demographics.html");
+
+	var recordDemoResponses = function() {
+		$('select').each( function(i, val) {
+			var selectId = this.id;
+			var selectVal = this.val;
+			psiTurk.recordTrialData({'phase':'demographics', selectId:selectVal});		
+		});
+	}
+	
+
+	$("#next").click( function() {
+		recordDemoResponses();
+		currentview = new HriTest();
+	})
+}
 
 /**********************
 * HRI Test            *
@@ -236,6 +250,6 @@ $(window).on('load', async () => {
     await init;
     psiTurk.doInstructions(
     	instructionPages, // a list of pages you want to display in sequence
-    	function() { currentview = new HriTest(); } // what you want to do when you are done with instructions
+    	function() { currentview = new demoQuestionnaire(); } // what you want to do when you are done with instructions
     );
 });

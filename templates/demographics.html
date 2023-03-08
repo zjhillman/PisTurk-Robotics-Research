@@ -29,13 +29,13 @@
         <!-- end of a question -->
 
         <script type="text/javascript">
-            //function otherGender(that) {
-            //    if (that.value = "other") {
-            //        document.getElementById("ifOtherGender").style.display = "block";
-            //    } else {
-            //        document.getElementById("ifOtherGender").style.display = "none";
-            //    }
-            //} 
+            function otherGender(that) {
+                if (that.value == "other") {
+                    document.getElementById("ifOtherGender").style.display = "block";
+                } else {
+                    document.getElementById("ifOtherGender").style.display = "none";
+                }
+            } 
         </script>
 	    
 	    <!-- beginning of a question -->
@@ -68,9 +68,7 @@
     <div class="instructionsnav">
         <div class="row">
             <div class="col-xs-2">
-                <button type="button" id="prev" value="prev" class="btn btn-primary btn-lg previous">
-                <span class="glyphicon glyphicon-arrow-left"></span> Previous
-                </button>
+                <!---- no previous button on demographics -->
             </div>
             <div class="col-xs-8">
             </div>
