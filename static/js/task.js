@@ -66,6 +66,12 @@ var demoQuestionnaire = function() {
 			var selectVal = this.val;
 			psiTurk.recordTrialData({'phase':'demographics', selectId:selectVal});		
 		});
+		
+		otherTextField = document.getElementById('otherGender').value;
+		console.log("user entered '" + otherTextField + "' as their gender");
+		if ( otherTextField != "" && otherTextField != null) {
+			psiTurk.recordTrialData({'phase':'demographcis', 'othergender':otherTextField});
+		}
 	}
 	
 
@@ -116,7 +122,6 @@ var HriTest = function() {
 
 		// disable button until next video is played
 		document.getElementById('next').setAttribute('disabled', '');
-		console.log('button disabled');
 
 		// reset video time
 		watchTime.push( new Date().getTime() - vidon );
@@ -128,10 +133,12 @@ var HriTest = function() {
 		if (video == null)
 			return;
 		
-		// if there are 10 or less seconds remaining in the current video, enable the next button
-		if ((video.duration - video.currentTime < 10) && (id == videoId.substring(1))) {
+		/* Enabled the next button IF
+		 * the current video called the update, the video has 10 or less seconds remaining, and if the button is disabled
+		 */
+		if ((video.duration - video.currentTime < 10) && (id == videoId.substring(1)) && document.getElementById('next').hasAttribute('disabled')) {
 			$('#next').removeAttr('disabled');
-			console.log('button enabled by '+id+' at '+video.currentTime);
+			console.log('button enabled by '+id+' at '+video.currentTime + 'seconds');
 		}
 	}
 
