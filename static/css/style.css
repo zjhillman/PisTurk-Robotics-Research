@@ -81,6 +81,23 @@ video {
   border: 9px solid #ddd;
 }
 
-#check-form {
+img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.whichRobot {
+  display: flex;
+}
+
+.robotCard {
+  flex: 25%;
+  display: block;
+  padding: 5px;
   text-align: center;
+}
+
+label {
+  font-weight: normal !important;
 }
