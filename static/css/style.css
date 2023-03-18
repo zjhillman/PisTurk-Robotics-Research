@@ -96,12 +96,13 @@ img {
 
 .whichRobot {
   display: flex;
+  padding-left: 15px;
+  padding-right: 15px;
 }
 
 .robotCard {
   flex: 25%;
   display: block;
-  padding: 5px;
   text-align: center;
 }
 
@@ -116,4 +117,24 @@ label {
 
 .postH1 {
   font-size: larger;
+}
+
+.robot-xp-experience, .prolific-experience {
+  display: flex;
+  margin-top: 10px;
+  padding-left: 30px;
+}
+
+.robot-xp-radio, .prolific-radio {
+  flex: 10%;
+  display: block;
+}
+
+.robot-xp-descriptions, .prolific-descriptions {
+  padding-left: 30px;
+  padding-right: 55px;
+}
+
+input[type='number'] {
+  width: 249.183px;
 }
