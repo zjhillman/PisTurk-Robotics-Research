@@ -138,3 +138,7 @@ label {
 input[type='number'] {
   width: 249.183px;
 }
+
+button[id="continue"] {
+  text-align: center;
+}
