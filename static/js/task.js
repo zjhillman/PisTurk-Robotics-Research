@@ -94,6 +94,16 @@ var audio_visual = function() {
 		grade();
 	})
 
+	$("#video-test").click( function() {
+		if (document.getElementById("video-test").checked) {
+			document.getElementById("video-box-text").innerHTML = "Enabled";
+		}
+		else
+		document.getElementById("video-box-text").innerHTML = "Disabled";
+
+		grade();
+	})
+
 	$("#next").click( function() {
 		currentview = new demographics();
 	})
