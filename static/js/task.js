@@ -62,19 +62,39 @@ var audio_visual = function() {
 	psiTurk.showPage("audiovisual.html");
 
 
+	// show enabled or disabled if the box is checked or not
+	var test = function() {
+		$(".av-test").each(() => {
+			if (this.is(":checked")) {
+				var labels = document.getElementsByTagName("label");
+			} else {
+				$("label[for='"+this.attr(id)+"']").empty();
+				$("label[for='"+this.attr(id)+"']").append("Disabled");
+			}
+
+		})
+	}
+
 	// enable button if boxes are checked
 	var grade = function() {
 		if ($(".av-test:checked").length == $(".av-test").length) {
-			$("#next").removeAttr('disabled')
+			$("#next").removeAttr('disabled');
+		} else {
+			document.getElementById("next").setAttribute('disabled', '');
 		}
 	}
 
 	$("#audio-test").click( function() {
+		if (document.getElementById("audio-test").checked) {
+			document.getElementById("audio-box-text").innerHTML = "Enabled";
+		}
+		else
+		document.getElementById("audio-box-text").innerHTML = "Disabled";
+
 		grade();
 	})
 
 	$("#next").click( function() {
-		recordDemoResponses();
 		currentview = new demographics();
 	})
 }
