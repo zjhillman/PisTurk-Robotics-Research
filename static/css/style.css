@@ -142,3 +142,11 @@ input[type='number'] {
 button[id="continue"] {
   text-align: center;
 }
+
+.video-container {
+  display: grid;
+}
+
+/* .checkbox-container {
+/*   flex: 10%;
+/* }

@@ -4,13 +4,30 @@
     <hr />
 
     <div class="av well">
-        <div class="audio-test">
-            <audio></audio>
+
+        <!-- beginning of audio -->
+        <div class="audio-test row question">
+            <div class="col-md-8">
+                <p style="display: inline;">A sound is playing, if you can hear it click the checkbox.</p>
+            </div>
+            <br>
+
+            <div class="video-container">
+                    <!--<audio></audio> -->
+                    <p style="display: inline">[Audio goes here]</p>
+                    <div class="checkbox-container">
+                        <input type="checkbox" id="audio-test" class="av-test"></input>
+                        <label for="audio-test" id="disabled-text">Disabled</label>
+                        <label for="audio-test" id="enabled-text">Enabled</label>
+                    </div>
+            </div>
+           
+            
 
         </div>
 
         <div class="video-test">
-
+            <video></video>
         </div>
         <!-- todo -->
     </div>
@@ -26,7 +43,7 @@
             <div class="col-xs-8">
             </div>
             <div class="col-xs-2">
-                <button type="button" id="next" value="next" class="btn btn-primary btn-lg continue">
+                <button type="button" id="next" value="next" class="btn btn-primary btn-lg continue" disabled="disabled'">
                 Next <span class="glyphicon glyphicon-arrow-right"></span>
                 </button>
             </div>

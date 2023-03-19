@@ -17,7 +17,7 @@ var pages = [
 	"instructions/instruct-2.html",
 	"instructions/instruct-3.html",
 	"instructions/instruct-ready.html",
-	"instructions/audiovisual.html",
+	"audiovisual.html",
 	"demographics.html",
 	"stage.html",
 	"postquestionnaire.html"
@@ -56,9 +56,33 @@ var instructionPages = [ // add as a list as many pages as you like
 ********************/
 
 /*********************
+*  Audio Visual Test *
+*********************/
+var audio_visual = function() {
+	psiTurk.showPage("audiovisual.html");
+
+
+	// enable button if boxes are checked
+	var grade = function() {
+		if ($(".av-test:checked").length == $(".av-test").length) {
+			$("#next").removeAttr('disabled')
+		}
+	}
+
+	$("#audio-test").click( function() {
+		grade();
+	})
+
+	$("#next").click( function() {
+		recordDemoResponses();
+		currentview = new demographics();
+	})
+}
+
+/*********************
 * Demo Questionnaire *
 *********************/
-var demoQuestionnaire = function() {
+var demographics = function() {
 	psiTurk.showPage("demographics.html");
 
 	var recordDemoResponses = function() {
@@ -258,6 +282,6 @@ $(window).on('load', async () => {
     await init;
     psiTurk.doInstructions(
     	instructionPages, // a list of pages you want to display in sequence
-    	function() { currentview = new demoQuestionnaire(); } // what you want to do when you are done with instructions
+    	function() { currentview = new audio_visual(); } // what you want to do when you are done with instructions
     );
 });
