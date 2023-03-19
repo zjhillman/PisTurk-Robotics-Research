@@ -17,6 +17,7 @@ var pages = [
 	"instructions/instruct-2.html",
 	"instructions/instruct-3.html",
 	"instructions/instruct-ready.html",
+	"instructions/audiovisual.html",
 	"demographics.html",
 	"stage.html",
 	"postquestionnaire.html"
