@@ -120,13 +120,13 @@ label {
   font-size: larger;
 }
 
-.robot-xp-experience, .prolific-experience {
+.robot-xp-experience, .prolific-experience, .rossa-scale {
   display: flex;
   margin-top: 10px;
   padding-left: 30px;
 }
 
-.robot-xp-radio, .prolific-radio {
+.robot-xp-radio, .prolific-radio, .rossa-radio {
   flex: 10%;
   display: block;
 }
