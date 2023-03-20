@@ -18,9 +18,9 @@
                     <option value="prefer not to say">Prefer not to say</option>
                     <option value="other">other</option>
                 </select>
-            </div>
-            <div id="ifOtherGender" style="display: none;">
-                <input type="text" id="otherGender" name="otherGender">
+                <br>
+
+                <input type="text" id="otherGender" name="otherGender" style="display: none; margin-top: 8px;">
             </div>
         </div>
         <!-- end of a question -->
@@ -28,9 +28,9 @@
         <script type="text/javascript">
             function otherGender(that) {
                 if (that.value == "other") {
-                    document.getElementById("ifOtherGender").style.display = "block";
+                    document.getElementById("otherGender").style.display = "block";
                 } else {
-                    document.getElementById("ifOtherGender").style.display = "none";
+                    document.getElementById("otherGender").style.display = "none";
                 }
             } 
         </script>
@@ -49,6 +49,17 @@
         <!-- beginning of a question -->
         <div class="row question">
             <div class="col-md-8">
+                ProlificID:
+            </div>
+            <div class="col-md-4">
+                <input type="text" name="age" id="age">
+            </div>
+        </div>
+        <!-- end of a question -->
+
+        <!-- beginning of a question -->
+        <div class="row question">
+            <div class="col-md-8">
                 <p style="display: inline">How much experience do you have with robots and the subject of Robotics?</p>
             </div>
             <br>
@@ -57,39 +68,39 @@
                     <input type="radio" name="robotXP" id="robotXP1" value="1"></input>
                     <label for="robotXP1">1</label>
                 </div>
-                <div class="prolific-radio">
+                <div class="robot-xp-radio">
                     <input type="radio" name="robotXP" id="robotXP2" value="2"></input>
                     <label for="robotXP2">2</label>
                 </div>
-                <div class="prolific-radio">
+                <div class="robot-xp-radio">
                     <input type="radio" name="robotXP" id="robotXP3" value="3"></input>
                     <label for="robotXP3">3</label>
                 </div>
-                <div class="prolific-radio">
+                <div class="robot-xp-radio">
                     <input type="radio" name="robotXP" id="robotXP4" value="4"></input>
                     <label for="robotXP4">4</label>
                 </div>
-                <div class="prolific-radio">
+                <div class="robot-xp-radio">
                     <input type="radio" name="robotXP" id="robotXP5" value="5"></input>
                     <label for="robotXP5">5</label>
                 </div>
-                <div class="prolific-radio">
+                <div class="robot-xp-radio">
                     <input type="radio" name="robotXP" id="robotXP6" value="6"></input>
                     <label for="robotXP6">6</label>
                 </div>
-                <div class="prolific-radio">
+                <div class="robot-xp-radio">
                     <input type="radio" name="robotXP" id="robotXP7" value="7"></input>
                     <label for="robotXP7">7</label>
                 </div>
-                <div class="prolific-radio">
+                <div class="robot-xp-radio">
                     <input type="radio" name="robotXP" id="robotXP8" value="8"></input>
                     <label for="robotXP8">8</label>
                 </div>
-                <div class="prolific-radio">
+                <div class="robot-xp-radio">
                     <input type="radio" name="robotXP" id="robotXP9" value="9"></input>
                     <label for="robotXP9">9</label>
                 </div>
-                <div class="prolific-radio">
+                <div class="robot-xp-radio">
                     <input type="radio" name="robotXP" id="robotXP10" value="10"></input>
                     <label for="robotXP10">10</label>
                 </div>

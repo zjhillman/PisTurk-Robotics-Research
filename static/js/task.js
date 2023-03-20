@@ -89,7 +89,7 @@ var audio_visual = function() {
 			document.getElementById("audio-box-text").innerHTML = "Enabled";
 		}
 		else
-		document.getElementById("audio-box-text").innerHTML = "Disabled";
+			document.getElementById("audio-box-text").innerHTML = "Disabled";
 
 		grade();
 	})
@@ -99,7 +99,7 @@ var audio_visual = function() {
 			document.getElementById("video-box-text").innerHTML = "Enabled";
 		}
 		else
-		document.getElementById("video-box-text").innerHTML = "Disabled";
+			document.getElementById("video-box-text").innerHTML = "Disabled";
 
 		grade();
 	})
