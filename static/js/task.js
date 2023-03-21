@@ -141,10 +141,36 @@ var demographics = function() {
 ***********************/
 var HriTest = function() {
 	var vidon; // time video is presented
+	var startTime = Date.now();
 	var watchTime = [];
 	videoList = ['#test1', '#test2'];
 	videoId = videoList.shift();
 	
+	setInterval(function () {
+		let elaspedTime = Date.now() - startTime;
+		printTime(elaspedTime);
+	}, 1000);
+
+	var printTime = function (t) {
+		document.getElementById("time-elasped").innerHTML = timeToString(t);
+	}
+
+	function timeToString(time) {
+		var diffInHours = time / 3600000;
+		var hh = Math.floor(diffInHours);
+
+		var diffInMins = (diffInHours - hh) * 60;
+		var mm = Math.floor(diffInMins);
+
+		var diffInSecs = (diffInMins - mm) * 60;
+		var ss = Math.floor(diffInSecs);
+
+		var formattedMM = mm.toString().padStart(2, "0");
+		var formattedSS = ss.toString().padStart(2, "0");
+
+
+		return `${formattedMM}:${formattedSS}`
+	}
 
 	function start () {
 		// show first video & hide the rest
