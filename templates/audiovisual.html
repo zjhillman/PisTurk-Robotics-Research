@@ -8,13 +8,14 @@
         <!-- beginning of audio -->
         <div class="audio-test row question">
             <div class="col-md-8">
-                <p style="display: inline;">A sound is playing, if you can hear it click the checkbox.</p>
+                <p style="display: inline;">Press the play button to play a sound, if you can hear a cardinal then click the checkbox below.</p>
             </div>
             <br>
 
             <div class="audio-container">
-                    <!--<audio></audio> -->
-                    <p style="display: inline">[Audio goes here]</p>
+                    <audio controls>
+                        <source src="/static/audio/cardinal.mp3" type="audio/mpeg">
+                    </audio>
                     <div class="checkbox-container">
                         <input type="checkbox" id="audio-test" class="av-test"></input>
                         <label for="audio-test" id="audio-box-text">Disabled</label>
@@ -25,13 +26,14 @@
         <!-- beginning of video -->
         <div class="video-test row question">
             <div class="col-md-8">
-                <p style="display: inline;">A video is playing, if you can see it click the checkbox.</p>
+                <p style="display: inline;">A video of the aurora borealis is playing on loop. If you can see the video without problem, click the checkbox below.</p>
             </div>
             <br>
 
             <div class="video-container">
-                    <!--<video></video> -->
-                    <p style="display: inline">[Video goes here]</p>
+                    <video autoplay loop>
+                        <source src="/static/videos/aurora-borealis.mp4" type="video/mp4">
+                    </video>
                     <div class="checkbox-container">
                         <input type="checkbox" id="video-test" class="av-test"></input>
                         <label for="video-test" id="video-box-text">Disabled</label>
