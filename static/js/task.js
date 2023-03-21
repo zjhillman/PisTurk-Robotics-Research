@@ -138,10 +138,12 @@ var demographics = function() {
 
 /**********************
 * HRI Test            *
-***********************/
+**********************/
 var HriTest = function() {
 	var vidon; // time video is presented
 	var startTime = Date.now();
+	var warned = false;
+	var expired = false;
 	var watchTime = [];
 	videoList = ['#test1', '#test2'];
 	videoId = videoList.shift();
@@ -149,10 +151,26 @@ var HriTest = function() {
 	setInterval(function () {
 		let elaspedTime = Date.now() - startTime;
 		printTime(elaspedTime);
+		checkTimer(elaspedTime);
 	}, 1000);
 
-	var printTime = function (t) {
-		document.getElementById("time-elasped").innerHTML = timeToString(t);
+	var printTime = function (time) {
+		document.getElementById("time-elasped").innerHTML = timeToString(time);
+		console.log(time);
+	}
+
+	var checkTimer = function (time) {
+		// 1500000 == 25 minutes
+		if (time >= 1500000 && warned == false) {
+			warned = true;
+			alert("5 minutes remaining");
+		}
+
+		// 1800000 == 30 minutes
+		if (time >= 1800000 && expired == false) {
+			expired = true;
+			alert("Time Expired!\nYou failed to complete the experiment within the time limit");
+		}
 	}
 
 	function timeToString(time) {
