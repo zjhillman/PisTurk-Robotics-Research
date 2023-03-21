@@ -78,6 +78,8 @@ h1 {
 }
 
 video {
+  height: auto;
+  width: 100%;
   margin: 0 auto; 
   border: 9px solid #ddd;
 }

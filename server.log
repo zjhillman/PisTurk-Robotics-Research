@@ -45971,3 +45971,29 @@
 [2023-03-20 18:49:08 -0500] [30700] [CRITICAL] WORKER TIMEOUT (pid:41528)
 2023-03-20 18:49:09,170 Scheduler started
 2023-03-20 18:49:09,204 Scheduler started
+[2023-03-20 19:14:56 -0500] [40600] [ERROR] Socket error processing request.
+Traceback (most recent call last):
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/gunicorn/workers/base_async.py", line 65, in handle
+    util.reraise(*sys.exc_info())
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/gunicorn/util.py", line 625, in reraise
+    raise value
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/gunicorn/workers/base_async.py", line 55, in handle
+    self.handle_request(listener_name, req, client, addr)
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/gunicorn/workers/ggevent.py", line 143, in handle_request
+    super().handle_request(listener_name, req, sock, addr)
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/gunicorn/workers/base_async.py", line 128, in handle_request
+    util.reraise(*sys.exc_info())
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/gunicorn/util.py", line 625, in reraise
+    raise value
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/gunicorn/workers/base_async.py", line 111, in handle_request
+    resp.write_file(respiter)
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/gunicorn/http/wsgi.py", line 396, in write_file
+    if not self.sendfile(respiter):
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/gunicorn/http/wsgi.py", line 386, in sendfile
+    sent += os.sendfile(sockno, fileno, offset + sent, count)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/gunicorn/workers/ggevent.py", line 36, in _gevent_sendfile
+    return _os_sendfile(fdout, fdin, offset, nbytes)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+OSError: [Errno 57] Socket is not connected
