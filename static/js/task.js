@@ -115,6 +115,22 @@ var audio_visual = function() {
 var demographics = function() {
 	psiTurk.showPage("demographics.html");
 
+	var grade = function () {
+		var gender = document.getElementById("gender").value;
+		var otherG = document.getElementById("otherGender").value;
+		var age = document.getElementById("age").value;
+		var prolificID = document.getElementById("prolific-id").value;
+		var robot = $('input[name="robotXP"]:checked').val();
+		var prolific = $('input[name="prolificXP"]:checked').val();
+
+		console.log("gender: " + gender);
+		console.log("other: " + otherG);
+		console.log("age: " + age);
+		console.log("ID: " + prolificID);
+		console.log("robot experience: " + robot);
+		console.log("prolific experience: " + prolific)
+	}
+
 	var recordDemoResponses = function() {
 		$('select').each( function(i, val) {
 			var selectId = this.id;
@@ -127,6 +143,8 @@ var demographics = function() {
 		if ( otherTextField != "" && otherTextField != null) {
 			psiTurk.recordTrialData({'phase':'demographcis', 'othergender':otherTextField});
 		}
+
+		grade();
 	}
 	
 
@@ -156,7 +174,6 @@ var HriTest = function() {
 
 	var printTime = function (time) {
 		document.getElementById("time-elasped").innerHTML = timeToString(time);
-		console.log(time);
 	}
 
 	var checkTimer = function (time) {
