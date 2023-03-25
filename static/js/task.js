@@ -6,6 +6,7 @@
 
 // Initalize psiturk object
 var psiTurk = new PsiTurk(uniqueId, adServerLoc, mode);
+const DEBUG = true;
 
 var mycondition = condition;  // these two variables are passed by the psiturk server process
 var mycounterbalance = counterbalance;  // they tell you which condition you have been assigned to
@@ -19,7 +20,8 @@ var pages = [
 	"instructions/instruct-ready.html",
 	"audiovisual.html",
 	"demographics.html",
-	"stage.html",
+	"videogroup1.html",
+	"rossa.html",
 	"postquestionnaire.html"
 ];
 
@@ -114,44 +116,79 @@ var audio_visual = function() {
 *********************/
 var demographics = function() {
 	psiTurk.showPage("demographics.html");
+	psiTurk.recordTrialData({"phase":"demographics", 'status':'begin'});
 
 	var grade = function () {
 		var gender = document.getElementById("gender").value;
-		var otherG = document.getElementById("otherGender").value;
+		var other = document.getElementById("otherGender").value;
+		var age = document.getElementById("age").value;
+		var prolificID = document.getElementById("prolific-id").value;
+		var robot = $('input[name="robotXP"]:checked').val();
+		var prolific = $('input[name="prolificXP"]:checked').val();
+		
+		if (DEBUG) {
+			console.log("gender: " + gender);
+			console.log("other: " + other);
+			console.log("age: " + age);
+			console.log("ID: " + prolificID);
+			console.log("robot experience: " + robot);
+			console.log("prolific experience: " + prolific);
+		}
+		
+		// test if input is proper
+
+		$('#next').removeAttr('disabled');
+	}
+
+	var recordDemoResponses = function() {
+		psiTurk.recordTrialData({"phase":"demographics", 'status':'submit'});
+
+		var gender = document.getElementById("gender").value;
+		var other = document.getElementById("otherGender").value;
 		var age = document.getElementById("age").value;
 		var prolificID = document.getElementById("prolific-id").value;
 		var robot = $('input[name="robotXP"]:checked').val();
 		var prolific = $('input[name="prolificXP"]:checked').val();
 
-		console.log("gender: " + gender);
-		console.log("other: " + otherG);
-		console.log("age: " + age);
-		console.log("ID: " + prolificID);
-		console.log("robot experience: " + robot);
-		console.log("prolific experience: " + prolific)
-	}
+		psiTurk.recordTrialData({"phase":"demographics", 'gender':gender});
+		psiTurk.recordTrialData({"phase":"demographics", 'other':other});
+		psiTurk.recordTrialData({"phase":"demographics", 'age':age});
+		psiTurk.recordTrialData({"phase":"demographics", 'prolific':prolificID});
+		psiTurk.recordTrialData({"phase":"demographics", 'robot':robot});
+		psiTurk.recordTrialData({"phase":"demographics", 'prolific':prolific});
 
-	var recordDemoResponses = function() {
-		$('select').each( function(i, val) {
-			var selectId = this.id;
-			var selectVal = this.val;
-			psiTurk.recordTrialData({'phase':'demographics', selectId:selectVal});		
-		});
-		
-		otherTextField = document.getElementById('otherGender').value;
-		console.log("user entered '" + otherTextField + "' as their gender");
-		if ( otherTextField != "" && otherTextField != null) {
-			psiTurk.recordTrialData({'phase':'demographcis', 'othergender':otherTextField});
-		}
-
-		grade();
+		return;
 	}
 	
 
 	$("#next").click( function() {
 		recordDemoResponses();
 		currentview = new HriTest();
-	})
+	});
+
+	$('#gender').change(function () {
+		grade();
+	});
+
+	$('#otherGender').change(function () {
+		grade();
+	});
+
+	$('#age').change(function () {
+		grade();
+	});
+
+	$('#prolific-id').change(function () {
+		grade();
+	});
+
+	$('input[name="robotXP"]:checked').change(function () {
+		grade();
+	});
+
+	$('input[name="prolificXP"]:checked').change(function () {
+		grade();
+	});
 }
 
 /**********************
@@ -274,11 +311,12 @@ var HriTest = function() {
 
 	function finish () {
 		recordExperimentData();
-		currentview = new Questionnaire();
+		currentview = new RossaScale();
 	};
 
 	// Load the stage.html snippet into the body of the page
-	psiTurk.showPage('stage.html');
+	psiTurk.showPage('videogroup1.html');
+	psiTurk.recordTrialData({"phase":"hri-experiment", 'status':'begin'});
 	d3.select("#query").html('<p id="prompt">You can watch the video as many times as you want.</p>');
 
 	// start
@@ -294,10 +332,45 @@ var HriTest = function() {
 	});
 }
 
+/**************
+* Rossa Scale *
+**************/
+var RossaScale = function () {
+	psiTurk.showPage('rossa.html')
+	psiTurk.recordTrialData({"phase":"rossascale", 'status':'begin'});
+
+	var next = function () {
+		finish();
+		return;
+	}
+
+	var recordExperimentData = function () {
+		psiTurk.recordTrialData({"phase":"rossascale", 'status':'submit'});
+
+		$("input:checked").each( function(i, val) {
+			var label = $(this).attr("name");
+			var data = $(this).val();
+			if (DEBUG) console.log("label:data");
+			if (DEBUG) console.log(label+":"+data)
+			psiTurk.recordTrialData({"phase":"rossascale", label:data});
+		});
+
+		psiTurk.recordTrialData({"phase":"rossascale", 'label':'data'});
+	}
+
+	var finish = function () {
+		recordExperimentData();
+		currentview = new Questionnaire();
+	}
+
+	$("#next").click(function () {
+	    next();
+	});
+}
+
 /*********************
 * Post Questionnaire *
 *********************/
-
 var Questionnaire = function() {
 
 	var error_message = "<h1>Oops!</h1><p>Something went wrong submitting your HIT. This might happen if you lose your internet connection. Press the button to resubmit.</p><button id='resubmit'>Resubmit</button>";
