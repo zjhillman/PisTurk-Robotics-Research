@@ -149,11 +149,6 @@ audio {
   border: 9px;
 }
 
-.submit-container {
-  text-align: right;
-  margin-right: 30px;
-}
-
 #test-video {
   margin-top: 5px;
 }
@@ -161,4 +156,10 @@ audio {
 #error {
   color: rgb(240, 2, 2);
   font-size: large;
+}
+
+.submit-contrainer {
+  margin-top: -50px;
+  text-align: right;
+  margin-right: 30px;
 }
