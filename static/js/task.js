@@ -79,7 +79,8 @@ var audio_visual = function() {
 
 	// test to enable next button
 	var grade = function() {
-		if ( ($('#video-test').val().toLowerCase() == 'yes') && ($('#audio-test').val().toLowerCase() == 'yes') )
+		if ( ($('#audio-test').val().toLowerCase() == 'forward')
+			&& ($('#video-test').val().toLowerCase() == 'yes') )
 			$('#next').removeAttr('disabled');
 		else
 			$('#next').attr('disabled', '');
@@ -104,6 +105,12 @@ var audio_visual = function() {
 // 
 	// 	grade();
 	// })
+	$('#woman-speaking').on('ended', function () {
+		setTimeout( function () {
+			document.getElementById('woman-speaking').currentTime = 0;
+			$('#woman-speaking').trigger('play');
+		}, 3000);
+	});
 
 	$('#video-test').change( function () {
 		grade();
