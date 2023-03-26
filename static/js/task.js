@@ -119,8 +119,11 @@ var audio_visual = function() {
 	// })
 	$('#test-audio').on('ended', function () {
 		setTimeout( function () {
-			document.getElementById('test-audio').currentTime = 0;
-			$('#test-audio').trigger('play');
+			var audio = document.getElementById('test-audio');
+			if (audio != null) {
+				audio.currentTime = 0;
+				$('#test-audio').trigger('play');
+			}
 		}, 3000);
 	});
 
