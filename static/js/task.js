@@ -79,11 +79,23 @@ var audio_visual = function() {
 
 	// test to enable next button
 	var grade = function() {
-		if ( ($('#audio-test').val().toLowerCase() == 'forward')
-			&& ($('#video-test').val().toLowerCase() == 'yes') )
-			$('#next').removeAttr('disabled');
-		else
+		if ( ($('#test-audio-answer').val().toLowerCase() == 'forward')
+			&& ($('#test-video-answer').val().toLowerCase() == 'yes') ){
+				$('#next').removeAttr('disabled');
+				$('#error').attr('style', 'display: hide;');
+				document.getElementById('error').innerHTML = "";
+			}
+		else {
 			$('#next').attr('disabled', '');
+			$('#error').removeAttr('style');
+
+			if ($('#test-audio-answer').val().toLowerCase() != 'forward')
+				document.getElementById('error').innerHTML = "Please listen to the spoken word carefully";
+			else if ($('#test-video-answer').val().toLowerCase() != 'yes')
+				document.getElementById('error').innerHTML = "Please confirm if you can see the video";
+			else
+				document.getElementById('error').innerHTML = "Please read the directions and respond appropiately";
+		}
 	}
 
 	// $("#audio-test").click( function() {
@@ -105,20 +117,27 @@ var audio_visual = function() {
 // 
 	// 	grade();
 	// })
-	$('#woman-speaking').on('ended', function () {
+	$('#test-audio').on('ended', function () {
 		setTimeout( function () {
-			document.getElementById('woman-speaking').currentTime = 0;
-			$('#woman-speaking').trigger('play');
+			document.getElementById('test-audio').currentTime = 0;
+			$('#test-audio').trigger('play');
 		}, 3000);
 	});
 
-	$('#video-test').change( function () {
+	$('#test-audio-answer').change( function () {
 		grade();
+	});
+
+	$('#test-video-answer').change( function () {
+		grade();
+	});
+	
+	$('#submit').click( function () {
 	});
 
 	$("#next").click( function() {
 		currentview = new demographics();
-	})
+	});
 }
 
 /*********************

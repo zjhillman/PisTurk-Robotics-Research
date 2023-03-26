@@ -136,12 +136,6 @@ input[type='number'], input[type='text'] {
   width: 249.183px;
 }
 
-.video-container {
-  display: grid;
-  text-align: center;
-  padding: 15px 15px;
-}
-
 audio {
   display: inline-block;
   height: 50px;
@@ -153,4 +147,18 @@ audio {
   float: right;
   margin-right: 5px;
   border: 9px;
+}
+
+.submit-container {
+  text-align: right;
+  margin-right: 30px;
+}
+
+#test-video {
+  margin-top: 5px;
+}
+
+#error {
+  color: rgb(240, 2, 2);
+  font-size: large;
 }

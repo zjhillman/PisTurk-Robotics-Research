@@ -2,6 +2,7 @@
 
     <h1>Audio Visual Test</h1>
     <hr />
+    <p style="display: hide;" id="error"></p>
 
     <div class="av well">
 
@@ -11,16 +12,15 @@
                 <p style="display: inline;">A word is being spoken, please type the word you hear</p>
                 <br>
 
-                <audio id="woman-speaking" controls autoplay>
+                <audio id="test-audio" autoplay>
                     <source src="/static/audio/forward.wav" type="audio/wav">
                 </audio>
             </div>
 
             <div class="col-md-4">
                     <div class="checkbox-container">
-
-                        <label for="audio-test" id="audio-box-text">Answer:</label>
-                        <input type="text" id="audio-test" class="av-test"></input>
+                        <label for="test-audio-answer" id="audio-box-text">Answer:</label>
+                        <input type="text" id="test-audio-answer" class="av-test"></input>
                     </div>
             </div>
         </div>
@@ -31,19 +31,28 @@
                 <p style="display: inline;">A video of the aurora borealis is playing on loop. If you can see the video without problem, type "yes"</p>
                 <br>
 
-                <video autoplay loop>
+                <video id="test-video" autoplay loop>
                     <source src="/static/videos/aurora-borealis.mp4" type="video/mp4">
                 </video>
             </div>
 
             <div class="col-md-4">
                     <div class="checkbox-container">
-                        <label for="video-test" id="video-box-text">Answer:</label>
-                        <input type="text" id="video-test" class="av-test"></input>
+                        <label for="test-video-answer" id="video-box-text">Answer:</label>
+                        <input type="text" id="test-video-answer" class="av-test"></input>
                     </div>
             </div>
 
         </div>
+
+        <!-- 
+        submit button
+        <div class="row question">
+            <div class="submit-container">
+                <button id="submit">Submit</button>
+            </div>
+        </div>
+        -->
         <!-- todo -->
     </div>
     <hr />
