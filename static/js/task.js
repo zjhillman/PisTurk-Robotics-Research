@@ -6,7 +6,10 @@
 
 // Initalize psiturk object
 var psiTurk = new PsiTurk(uniqueId, adServerLoc, mode);
+
 const DEBUG = true;
+var allotedTimePerVideo = 600000;
+
 
 var mycondition = condition;  // these two variables are passed by the psiturk server process
 var mycounterbalance = counterbalance;  // they tell you which condition you have been assigned to
@@ -293,7 +296,7 @@ var demographics = function() {
 
 	$("#next").click( function() {
 		recordDemoResponses();
-		currentview = new VideoGroup1();
+		currentview = new VideoGroup1(0);
 	});
 }
 
@@ -308,9 +311,111 @@ var VideoGroup1 = function () {
 	// Load the stage.html snippet into the body of the page
 	psiTurk.showPage('videogroup1.html');
 	psiTurk.recordTrialData({"phase":"video-group-1", 'status':'begin'});
+	experimentStartTime = Date.now();
 	d3.select("#query").html('<p id="prompt">You can watch the video as many times as you want.</p>');
+	
+	var timerInterval = setInterval(function () {
+		let elaspedTime = Date.now() - startTime;
+		printTime(elaspedTime);
+		checkTimer(elaspedTime);
+	}, 1000);
 
-	setInterval(function () {
+	var printTime = function (time) {
+		document.getElementById("time-elasped").innerHTML = timeToString(time);
+	}
+
+	var checkTimer = function (time) {
+		// 1500000 == 25 minutes
+		if (time >= allotedTimePerVideo - 300000 && warned == false) {
+			warned = true;
+			alert("5 minutes remaining");
+		}
+
+		// 1800000 == 30 minutes
+		if (time >= allotedTimePerVideo && expired == false) {
+			expired = true;
+			alert("Time Expired!\nYou failed to complete the experiment within the time limit");
+		}
+	}
+
+	function timeToString(time) {
+		var diffInHours = time / 3600000;
+		var hh = Math.floor(diffInHours);
+
+		var diffInMins = (diffInHours - hh) * 60;
+		var mm = Math.floor(diffInMins);
+
+		var diffInSecs = (diffInMins - mm) * 60;
+		var ss = Math.floor(diffInSecs);
+
+		var formattedMM = mm.toString().padStart(2, "0");
+		var formattedSS = ss.toString().padStart(2, "0");
+
+
+		return `${formattedMM}:${formattedSS}`
+	}
+
+	var recordExperimentData = () => {
+
+	}
+
+	function next () {
+		clearInterval(timerInterval);
+		recordExperimentData();
+		currentview = new RossaScale(0);
+	};
+
+	var timeupdate = (id) => {
+		var video = document.getElementById(id);
+		if (video == null)
+			return;
+
+		if ((video.duration - video.currentTime < 10) && document.getElementById('next').hasAttribute('disabled')) {
+			$('#next').removeAttr('disabled');
+			if (DEBUG) console.log('button enabled by '+id+' at '+video.currentTime + 'seconds');
+		}
+	}
+
+	document.getElementById('test1').addEventListener('timeupdate', function () {
+		timeupdate('test1');
+	});
+
+	$('#play-button').click( () => {
+		var video = document.getElementById('test1');
+		if (!video.paused && !video.ended) { 
+			$('#test1').trigger('pause');
+			document.getElementById('play-button').innerHTML = "Play"
+		}
+		else {
+			$('#test1').trigger('play');
+			document.getElementById('play-button').innerHTML = "Pause"
+		}
+	});
+
+	$('#restart-button').click( () => {
+		var video = document.getElementById('test1');
+		video.currentTime = 0;
+	});
+
+	$('#next').click( () => {
+		next();
+	});
+}
+
+/****************
+* Video Group 2 *
+****************/
+var VideoGroup2 = function () {
+	var startTime = Date.now();
+	var warned = false;
+	var expired = false;
+
+	// Load the stage.html snippet into the body of the page
+	psiTurk.showPage('videogroup1.html');
+	psiTurk.recordTrialData({"phase":"video-group-1", 'status':'begin'});
+	d3.select("#query").html('<p id="prompt">You can watch the video as many times as you want.</p>');
+	
+	var timerInterval = setInterval(function () {
 		let elaspedTime = Date.now() - startTime;
 		printTime(elaspedTime);
 		checkTimer(elaspedTime);
@@ -355,9 +460,10 @@ var VideoGroup1 = function () {
 
 	}
 
-	function finishVG1 () {
+	function next () {
+		clearInterval((timerInterval));
 		recordExperimentData();
-		currentview = new RossaScale();
+		currentview = new RossaScale(1);
 	};
 
 	var timeupdate = (id) => {
@@ -377,10 +483,14 @@ var VideoGroup1 = function () {
 
 	$('#play-button').click( () => {
 		var video = document.getElementById('test1');
-		if (!video.paused && !video.ended)
+		if (!video.paused && !video.ended) { 
 			$('#test1').trigger('pause');
-		else
+			document.getElementById('play-button').innerHTML = "Play"
+		}
+		else {
 			$('#test1').trigger('play');
+			document.getElementById('play-button').innerHTML = "Pause"
+		}
 	});
 
 	$('#restart-button').click( () => {
@@ -389,7 +499,7 @@ var VideoGroup1 = function () {
 	});
 
 	$('#next').click( () => {
-		finishVG1();
+		next();
 	});
 }
 
@@ -537,12 +647,17 @@ var HriTest = function() {
 /**************
 * Rossa Scale *
 **************/
-var RossaScale = function () {
+var RossaScale = function (lastVideoWatched) {
 	psiTurk.showPage('rossa.html')
 	psiTurk.recordTrialData({"phase":"rossascale", 'status':'begin'});
 
 	var next = function () {
-		finish();
+		recordExperimentData();
+
+		if (lastVideoWatched == false)
+			currentview = new VideoGroup2();
+		else
+			currentview = new Questionnaire();
 		return;
 	}
 
@@ -558,11 +673,6 @@ var RossaScale = function () {
 		});
 
 		psiTurk.recordTrialData({"phase":"rossascale", 'label':'data'});
-	}
-
-	var finish = function () {
-		recordExperimentData();
-		currentview = new Questionnaire();
 	}
 
 	$("#next").click(function () {

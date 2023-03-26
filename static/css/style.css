@@ -167,3 +167,10 @@ audio {
   display: inline;
   text-align: center;
 }
+
+.timer-text {
+  padding: 2px;
+  border-width: 3px;
+  border-style: solid;
+  border-color: gray;
+}
