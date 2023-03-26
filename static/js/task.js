@@ -77,34 +77,37 @@ var audio_visual = function() {
 		})
 	}
 
-	// enable button if boxes are checked
+	// test to enable next button
 	var grade = function() {
-		if ($(".av-test:checked").length == $(".av-test").length) {
-			$("#next").removeAttr('disabled');
-		} else {
-			document.getElementById("next").setAttribute('disabled', '');
-		}
+		if ( ($('#video-test').val().toLowerCase() == 'yes') && ($('#audio-test').val().toLowerCase() == 'yes') )
+			$('#next').removeAttr('disabled');
+		else
+			$('#next').attr('disabled', '');
 	}
 
-	$("#audio-test").click( function() {
-		if (document.getElementById("audio-test").checked) {
-			document.getElementById("audio-box-text").innerHTML = "Enabled";
-		}
-		else
-			document.getElementById("audio-box-text").innerHTML = "Disabled";
+	// $("#audio-test").click( function() {
+	// 	if (document.getElementById("audio-test").checked) {
+	// 		document.getElementById("audio-box-text").innerHTML = "Enabled";
+	// 	}
+	// 	else
+	// 		document.getElementById("audio-box-text").innerHTML = "Disabled";
+// 
+	// 	grade();
+	// })
+// 
+	// $("#video-test").click( function() {
+	// 	if (document.getElementById("video-test").checked) {
+	// 		document.getElementById("video-box-text").innerHTML = "Enabled";
+	// 	}
+	// 	else
+	// 		document.getElementById("video-box-text").innerHTML = "Disabled";
+// 
+	// 	grade();
+	// })
 
+	$('#video-test').change( function () {
 		grade();
-	})
-
-	$("#video-test").click( function() {
-		if (document.getElementById("video-test").checked) {
-			document.getElementById("video-box-text").innerHTML = "Enabled";
-		}
-		else
-			document.getElementById("video-box-text").innerHTML = "Disabled";
-
-		grade();
-	})
+	});
 
 	$("#next").click( function() {
 		currentview = new demographics();

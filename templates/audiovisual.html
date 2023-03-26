@@ -8,17 +8,19 @@
         <!-- beginning of audio -->
         <div class="audio-test row question">
             <div class="col-md-8">
-                <p style="display: inline;">Press the play button to play a sound, if you can hear a cardinal then click the checkbox below.</p>
-            </div>
-            <br>
+                <p style="display: inline;">Listen to the sound and type in the box.</p>
+                <br>
 
-            <div class="audio-container">
-                    <audio controls>
-                        <source src="/static/audio/cardinal.mp3" type="audio/mpeg">
-                    </audio>
+                <audio controls autoplay loop>
+                    <source src="/static/audio/cardinal.mp3" type="audio/mpeg">
+                </audio>
+            </div>
+
+            <div class="col-md-4">
                     <div class="checkbox-container">
-                        <input type="checkbox" id="audio-test" class="av-test"></input>
-                        <label for="audio-test" id="audio-box-text">Disabled</label>
+
+                        <label for="audio-test" id="audio-box-text">Answer:</label>
+                        <input type="text" id="audio-test" class="av-test"></input>
                     </div>
             </div>
         </div>
@@ -26,17 +28,19 @@
         <!-- beginning of video -->
         <div class="video-test row question">
             <div class="col-md-8">
-                <p style="display: inline;">A video of the aurora borealis is playing on loop. If you can see the video without problem, click the checkbox below.</p>
+                <p style="display: inline;">A video of the aurora borealis is playing on loop. If you can see the video without problem, type "yes"</p>
+                <br>
+
+                <video autoplay loop>
+                    <source src="/static/videos/aurora-borealis.mp4" type="video/mp4">
+                </video>
             </div>
             <br>
 
-            <div class="video-container">
-                    <video autoplay loop>
-                        <source src="/static/videos/aurora-borealis.mp4" type="video/mp4">
-                    </video>
+            <div class="col-md-4">
                     <div class="checkbox-container">
-                        <input type="checkbox" id="video-test" class="av-test"></input>
-                        <label for="video-test" id="video-box-text">Disabled</label>
+                        <label for="video-test" id="video-box-text">Answer:</label>
+                        <input type="text" id="video-test" class="av-test"></input>
                     </div>
             </div>
 
@@ -53,7 +57,7 @@
             <div class="col-xs-8">
             </div>
             <div class="col-xs-2">
-                <button type="button" id="next" value="next" class="btn btn-primary btn-lg continue" disabled="disabled'">
+                <button type="button" id="next" value="next" class="btn btn-primary btn-lg continue" disabled>
                 Next <span class="glyphicon glyphicon-arrow-right"></span>
                 </button>
             </div>
