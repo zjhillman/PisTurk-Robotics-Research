@@ -162,3 +162,8 @@ audio {
   text-align: right;
   margin-right: 30px;
 }
+
+.video-controls {
+  display: inline;
+  text-align: center;
+}

@@ -173,31 +173,31 @@ var demographics = function() {
 
 		correct = gradeGender(gender, other);
 		if (!correct){
-			alert("your gender is not correct")
+			alert("Please select your gender, if you chose 'other' you must type your response")
 			return
 		}
 
 		correct = gradeAge(age);
 		if (!correct){
-			alert("your age is not correct")
+			alert("You must enter a valid age")
 			return
 		}
 
 		correct = gradeID(prolificID);
 		if (!correct){
-			alert("your prolificID is not correct")
+			alert("Please enter an appropriate prolific id")
 			return
 		}
 
 		correct = gradeRobot(robot);
 		if (!correct){
-			alert("you did not pick a bubble for your experience with robotics")
+			alert("Please select a value for your experience with robotics")
 			return
 		}
 
 		correct = gradeProlific(prolific);
 		if (!correct){
-			alert("you did not pick a bubble for your experience with prolific")
+			alert("Please select a value for your experience with prolific")
 			return
 		}
 
@@ -294,6 +294,17 @@ var demographics = function() {
 	$("#next").click( function() {
 		recordDemoResponses();
 		currentview = new HriTest();
+	});
+}
+
+/*********************
+* Demo Questionnaire *
+*********************/
+var VideoGroup1 = function () {
+	$('#play-button').click();
+	$('#restart-butto').click();
+	$('#next').click( () => {
+		currentview = new RossaScale();
 	});
 }
 
