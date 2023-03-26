@@ -78,7 +78,7 @@ var audio_visual = function() {
 	}
 
 	// test to enable next button
-	var grade = function() {
+	var gradeAudioVisualTest = function() {
 		if ( ($('#test-audio-answer').val().toLowerCase() == 'forward')
 			&& ($('#test-video-answer').val().toLowerCase() == 'yes') ){
 				$('#next').removeAttr('disabled');
@@ -125,14 +125,15 @@ var audio_visual = function() {
 	});
 
 	$('#test-audio-answer').change( function () {
-		grade();
+		//grade();
 	});
 
 	$('#test-video-answer').change( function () {
-		grade();
+		//grade();
 	});
 	
 	$('#submit').click( function () {
+		gradeAudioVisualTest();
 	});
 
 	$("#next").click( function() {
@@ -147,7 +148,7 @@ var demographics = function() {
 	psiTurk.showPage("demographics.html");
 	psiTurk.recordTrialData({"phase":"demographics", 'status':'begin'});
 
-	var grade = function () {
+	var gradeDemographicsTest = function () {
 		var gender = document.getElementById("gender").value;
 		var other = document.getElementById("otherGender").value;
 		var age = document.getElementById("age").value;
@@ -165,6 +166,37 @@ var demographics = function() {
 		}
 		
 		// test if input is proper
+		var correct;
+
+		correct = gradeGender(gender, other);
+		if (!correct){
+			alert("your gender is not correct")
+			return
+		}
+
+		correct = gradeAge(age);
+		if (!correct){
+			alert("your age is not correct")
+			return
+		}
+
+		correct = gradeID(prolificID);
+		if (!correct){
+			alert("your prolificID is not correct")
+			return
+		}
+
+		correct = gradeRobot(robot);
+		if (!correct){
+			alert("you did not pick a bubble for your experience with robotics")
+			return
+		}
+
+		correct = gradeProlific(prolific);
+		if (!correct){
+			alert("you did not pick a bubble for your experience with prolific")
+			return
+		}
 
 		$('#next').removeAttr('disabled');
 	}
@@ -188,35 +220,77 @@ var demographics = function() {
 
 		return;
 	}
-	
+
+	var gradeGender = function (gender, other) {
+		if (gender == "")
+			return false;
+		else if (gender == "male" || gender == "female")
+			return true;
+		else if (gender == "other" && other !="")
+			return true;
+		else
+			return false;
+	}
+
+	var gradeAge = function (age) {
+		if (17 < age && age < 101)
+			return true;
+	}
+
+	var gradeID = (id) => {
+		if (id == "")
+			return false;
+		else if (id != null)
+			return true;
+		else
+			return false;
+	}
+
+	var gradeRobot = function (rating) {
+		if (0 < rating && rating < 11)
+			return true;
+		else
+			return false;
+	}
+
+	var gradeProlific = function (rating) {
+		if (0 < rating && rating < 11)
+			return true;
+		else
+			return false;
+	}
+
+	$('#gender').change(function () {
+		gradeGender();
+	});
+
+	$('#otherGender').change(function () {
+		gradeGender();
+	});
+
+	$('#age').change(function () {
+		gradeAge();
+	});
+
+	$('#prolific-id').change(function () {
+		gradeID();
+	});
+
+	$('input[name="robotXP"]:checked').change(function () {
+		gradeRobot();
+	});
+
+	$('input[name="prolificXP"]:checked').change(function () {
+		gradeProlific();
+	});
+
+	$('#submit').click( function () {
+		gradeDemographicsTest();
+	} );
 
 	$("#next").click( function() {
 		recordDemoResponses();
 		currentview = new HriTest();
-	});
-
-	$('#gender').change(function () {
-		grade();
-	});
-
-	$('#otherGender').change(function () {
-		grade();
-	});
-
-	$('#age').change(function () {
-		grade();
-	});
-
-	$('#prolific-id').change(function () {
-		grade();
-	});
-
-	$('input[name="robotXP"]:checked').change(function () {
-		grade();
-	});
-
-	$('input[name="prolificXP"]:checked').change(function () {
-		grade();
 	});
 }
 
