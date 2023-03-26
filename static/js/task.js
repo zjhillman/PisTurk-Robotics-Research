@@ -293,18 +293,103 @@ var demographics = function() {
 
 	$("#next").click( function() {
 		recordDemoResponses();
-		currentview = new HriTest();
+		currentview = new VideoGroup1();
 	});
 }
 
 /*********************
-* Demo Questionnaire *
+* Video Group 1 *
 *********************/
 var VideoGroup1 = function () {
-	$('#play-button').click();
-	$('#restart-butto').click();
-	$('#next').click( () => {
+	var startTime = Date.now();
+	var warned = false;
+	var expired = false;
+
+	// Load the stage.html snippet into the body of the page
+	psiTurk.showPage('videogroup1.html');
+	psiTurk.recordTrialData({"phase":"video-group-1", 'status':'begin'});
+	d3.select("#query").html('<p id="prompt">You can watch the video as many times as you want.</p>');
+
+	setInterval(function () {
+		let elaspedTime = Date.now() - startTime;
+		printTime(elaspedTime);
+		checkTimer(elaspedTime);
+	}, 1000);
+
+	var printTime = function (time) {
+		document.getElementById("time-elasped").innerHTML = timeToString(time);
+	}
+
+	var checkTimer = function (time) {
+		// 1500000 == 25 minutes
+		if (time >= 1500000 && warned == false) {
+			warned = true;
+			alert("5 minutes remaining");
+		}
+
+		// 1800000 == 30 minutes
+		if (time >= 1800000 && expired == false) {
+			expired = true;
+			alert("Time Expired!\nYou failed to complete the experiment within the time limit");
+		}
+	}
+
+	function timeToString(time) {
+		var diffInHours = time / 3600000;
+		var hh = Math.floor(diffInHours);
+
+		var diffInMins = (diffInHours - hh) * 60;
+		var mm = Math.floor(diffInMins);
+
+		var diffInSecs = (diffInMins - mm) * 60;
+		var ss = Math.floor(diffInSecs);
+
+		var formattedMM = mm.toString().padStart(2, "0");
+		var formattedSS = ss.toString().padStart(2, "0");
+
+
+		return `${formattedMM}:${formattedSS}`
+	}
+
+	var recordExperimentData = () => {
+
+	}
+
+	function finishVG1 () {
+		recordExperimentData();
 		currentview = new RossaScale();
+	};
+
+	var timeupdate = (id) => {
+		var video = document.getElementById(id);
+		if (video == null)
+			return;
+
+		if ((video.duration - video.currentTime < 10) && document.getElementById('next').hasAttribute('disabled')) {
+			$('#next').removeAttr('disabled');
+			if (DEBUG) console.log('button enabled by '+id+' at '+video.currentTime + 'seconds');
+		}
+	}
+
+	document.getElementById('test1').addEventListener('timeupdate', function () {
+		timeupdate('test1');
+	});
+
+	$('#play-button').click( () => {
+		var video = document.getElementById('test1');
+		if (!video.paused && !video.ended)
+			$('#test1').trigger('pause');
+		else
+			$('#test1').trigger('play');
+	});
+
+	$('#restart-button').click( () => {
+		var video = document.getElementById('test1');
+		video.currentTime = 0;
+	});
+
+	$('#next').click( () => {
+		finishVG1();
 	});
 }
 
