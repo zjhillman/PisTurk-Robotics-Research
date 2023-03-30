@@ -156,6 +156,7 @@ audio {
 #error {
   color: rgb(240, 2, 2);
   font-size: large;
+  font-weight: bold;
 }
 
 .submit-container {

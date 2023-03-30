@@ -8,7 +8,10 @@
 var psiTurk = new PsiTurk(uniqueId, adServerLoc, mode);
 
 const DEBUG = true;
-var allotedTimePerVideo = 600000;
+var allotedTime = 10 * 60000; // 10 minutes
+var experimentStarTime;
+var warned = false;
+var expired = false;
 
 
 var mycondition = condition;  // these two variables are passed by the psiturk server process
@@ -304,9 +307,7 @@ var demographics = function() {
 * Video Group 1 *
 *********************/
 var VideoGroup1 = function () {
-	var startTime = Date.now();
-	var warned = false;
-	var expired = false;
+	experimentStartTime = Date.now();
 
 	// Load the stage.html snippet into the body of the page
 	psiTurk.showPage('videogroup1.html');
@@ -315,7 +316,7 @@ var VideoGroup1 = function () {
 	d3.select("#query").html('<p id="prompt">You can watch the video as many times as you want.</p>');
 	
 	var timerInterval = setInterval(function () {
-		let elaspedTime = Date.now() - startTime;
+		let elaspedTime = Date.now() - experimentStartTime;
 		printTime(elaspedTime);
 		checkTimer(elaspedTime);
 	}, 1000);
@@ -326,13 +327,13 @@ var VideoGroup1 = function () {
 
 	var checkTimer = function (time) {
 		// 1500000 == 25 minutes
-		if (time >= allotedTimePerVideo - 300000 && warned == false) {
+		if (time >= allotedTime - 300000 && warned == false) {
 			warned = true;
 			alert("5 minutes remaining");
 		}
 
 		// 1800000 == 30 minutes
-		if (time >= allotedTimePerVideo && expired == false) {
+		if (time >= allotedTime && expired == false) {
 			expired = true;
 			alert("Time Expired!\nYou failed to complete the experiment within the time limit");
 		}
@@ -372,7 +373,7 @@ var VideoGroup1 = function () {
 
 		if ((video.duration - video.currentTime < 10) && document.getElementById('next').hasAttribute('disabled')) {
 			$('#next').removeAttr('disabled');
-			if (DEBUG) console.log('button enabled by '+id+' at '+video.currentTime + 'seconds');
+			if (DEBUG) console.log('button enabled by '+id+' at '+video.currentTime + ' seconds');
 		}
 	}
 
@@ -652,19 +653,34 @@ var RossaScale = function (lastVideoWatched) {
 	psiTurk.recordTrialData({"phase":"rossascale", 'status':'begin'});
 
 	var next = function () {
-		recordExperimentData();
+		if (!areRadiosChecked()) {
+			var error = document.getElementById('error');
+			error.innerHTML = "Please check that you made a selection for every question";
+			error.setAttribute('style', 'display: inline-block;');
+		}
+		else {
+			recordExperimentData();
 
-		if (lastVideoWatched == false)
-			currentview = new VideoGroup2();
+			if (lastVideoWatched == false)
+				currentview = new VideoGroup2();
+			else
+				currentview = new Questionnaire();
+			return;
+		}
+	}
+
+	// returns true if all radio groups are selected
+	var areRadiosChecked = () => {
+		if ($('input:radio:checked').length != 9)
+			return false;
 		else
-			currentview = new Questionnaire();
-		return;
+			return true;
 	}
 
 	var recordExperimentData = function () {
 		psiTurk.recordTrialData({"phase":"rossascale", 'status':'submit'});
 
-		$("input:checked").each( function(i, val) {
+		$("input:checked").each( function() {
 			var label = $(this).attr("name");
 			var data = $(this).val();
 			if (DEBUG) console.log("label:data");
@@ -674,6 +690,8 @@ var RossaScale = function (lastVideoWatched) {
 
 		psiTurk.recordTrialData({"phase":"rossascale", 'label':'data'});
 	}
+
+
 
 	$("#next").click(function () {
 	    next();
