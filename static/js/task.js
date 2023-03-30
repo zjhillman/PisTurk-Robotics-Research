@@ -157,6 +157,7 @@ var demographics = function() {
 	psiTurk.recordTrialData({"phase":"demographics", 'status':'begin'});
 
 	var gradeDemographicsTest = function () {
+		var error = document.getElementById('error');
 		var gender = document.getElementById("gender").value;
 		var other = document.getElementById("otherGender").value;
 		var age = document.getElementById("age").value;
@@ -178,31 +179,31 @@ var demographics = function() {
 
 		correct = gradeGender(gender, other);
 		if (!correct){
-			alert("Please select your gender, if you chose 'other' you must type your response")
+			error.innerHTML = "Please select your gender, if you chose 'other' you must type your response";
 			return false;
 		}
 
 		correct = gradeAge(age);
 		if (!correct){
-			alert("You must enter a valid age")
+			error.innerHTML = "You must enter a valid age";
 			return false;
 		}
 
 		correct = gradeID(prolificID);
 		if (!correct){
-			alert("Please enter an appropriate prolific id")
+			error.innerHTML = "Please enter an appropriate prolific id";
 			return false;
 		}
 
 		correct = gradeRobot(robot);
 		if (!correct){
-			alert("Please select a value for your experience with robotics")
+			error.innerHTML = "Please select a value for your experience with robotics";
 			return false;
 		}
 
 		correct = gradeProlific(prolific);
 		if (!correct){
-			alert("Please select a value for your experience with prolific")
+			error.innerHTML = "Please select a value for your experience with prolific";
 			return false;
 		}
 
@@ -704,6 +705,16 @@ var Questionnaire = function() {
 
 	var error_message = "<h1>Oops!</h1><p>Something went wrong submitting your HIT. This might happen if you lose your internet connection. Press the button to resubmit.</p><button id='resubmit'>Resubmit</button>";
 
+	var gradeQuestionnaire = () => {
+		if ($('input:radio:checked').length != 1) {
+			document.getElementById('error').innerHTML = "Please make sure all questions are answered.";
+			return false;
+		}
+
+
+		return true;
+	}
+	
 	record_responses = function() {
 
 		psiTurk.recordTrialData({'phase':'postquestionnaire', 'status':'submit'});
@@ -744,14 +755,17 @@ var Questionnaire = function() {
 	psiTurk.recordTrialData({'phase':'postquestionnaire', 'status':'begin'});
 	
 	$("#next").click(function () {
-	    record_responses();
-	    psiTurk.saveData({
-            success: function(){
-                psiTurk.computeBonus('compute_bonus', function() { 
-                	psiTurk.completeHIT(); // when finished saving compute bonus, the quit
-                }); 
-            }, 
-            error: prompt_resubmit});
+		if (gradeQuestionnaire()) {
+			record_responses();
+			psiTurk.saveData({
+				success: function(){
+					psiTurk.computeBonus('compute_bonus', function() { 
+						psiTurk.completeHIT(); // when finished saving compute bonus, the quit
+					}); 
+				}, 
+				error: prompt_resubmit});
+		}
+		else;
 	});
     
 	
