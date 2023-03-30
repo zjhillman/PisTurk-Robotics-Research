@@ -179,34 +179,34 @@ var demographics = function() {
 		correct = gradeGender(gender, other);
 		if (!correct){
 			alert("Please select your gender, if you chose 'other' you must type your response")
-			return
+			return false;
 		}
 
 		correct = gradeAge(age);
 		if (!correct){
 			alert("You must enter a valid age")
-			return
+			return false;
 		}
 
 		correct = gradeID(prolificID);
 		if (!correct){
 			alert("Please enter an appropriate prolific id")
-			return
+			return false;
 		}
 
 		correct = gradeRobot(robot);
 		if (!correct){
 			alert("Please select a value for your experience with robotics")
-			return
+			return false;
 		}
 
 		correct = gradeProlific(prolific);
 		if (!correct){
 			alert("Please select a value for your experience with prolific")
-			return
+			return false;
 		}
 
-		$('#next').removeAttr('disabled');
+		return true;
 	}
 
 	var recordDemoResponses = function() {
@@ -292,13 +292,12 @@ var demographics = function() {
 		gradeProlific();
 	});
 
-	$('#submit').click( function () {
-		gradeDemographicsTest();
-	} );
-
 	$("#next").click( function() {
-		recordDemoResponses();
-		currentview = new VideoGroup1(0);
+		if (gradeDemographicsTest()) {
+			recordDemoResponses();
+			currentview = new VideoGroup1(0);
+		}
+		else;
 	});
 }
 
