@@ -90,9 +90,9 @@ var audio_visual = function() {
 				$('#next').removeAttr('disabled');
 				$('#error').attr('style', 'display: hide;');
 				document.getElementById('error').innerHTML = "";
+				return true
 			}
 		else {
-			$('#next').attr('disabled', '');
 			$('#error').removeAttr('style');
 
 			if ($('#test-audio-answer').val().toLowerCase() != 'forward')
@@ -101,6 +101,7 @@ var audio_visual = function() {
 				document.getElementById('error').innerHTML = "Please confirm if you can see the video";
 			else
 				document.getElementById('error').innerHTML = "Please read the directions and respond appropiately";
+			return false;
 		}
 	}
 
@@ -123,6 +124,7 @@ var audio_visual = function() {
 // 
 	// 	grade();
 	// })
+
 	$('#test-audio').on('ended', function () {
 		setTimeout( function () {
 			var audio = document.getElementById('test-audio');
@@ -140,13 +142,10 @@ var audio_visual = function() {
 	$('#test-video-answer').change( function () {
 		//grade();
 	});
-	
-	$('#submit').click( function () {
-		gradeAudioVisualTest();
-	});
 
 	$("#next").click( function() {
-		currentview = new demographics();
+		if (gradeAudioVisualTest())
+			currentview = new demographics();
 	});
 }
 
