@@ -8,8 +8,8 @@
 var psiTurk = new PsiTurk(uniqueId, adServerLoc, mode);
 
 const DEBUG = true;
-var allotedTime = 10 * 60000; // 10 minutes
-var experimentStarTime;
+var allotedTime = 20 * 60000; // 20 minutes
+var experimentStartTime;
 var warned = false;
 var expired = false;
 
@@ -314,6 +314,8 @@ var VideoGroup1 = function () {
 	psiTurk.recordTrialData({"phase":"video-group-1", 'status':'begin'});
 	experimentStartTime = Date.now();
 	d3.select("#query").html('<p id="prompt">You can watch the video as many times as you want.</p>');
+	document.getElementById('time-elapsed').innerHTML = timeToString(Date.now() - experimentStartTime);
+	document.getElementById('timer-text').innerHTML = '/' + timeToString(allotedTime);
 	
 	var timerInterval = setInterval(function () {
 		let elaspedTime = Date.now() - experimentStartTime;
@@ -322,7 +324,7 @@ var VideoGroup1 = function () {
 	}, 1000);
 
 	var printTime = function (time) {
-		document.getElementById("time-elasped").innerHTML = timeToString(time);
+		document.getElementById("time-elapsed").innerHTML = timeToString(time);
 	}
 
 	var checkTimer = function (time) {
@@ -407,34 +409,33 @@ var VideoGroup1 = function () {
 * Video Group 2 *
 ****************/
 var VideoGroup2 = function () {
-	var startTime = Date.now();
-	var warned = false;
-	var expired = false;
 
 	// Load the stage.html snippet into the body of the page
 	psiTurk.showPage('videogroup1.html');
 	psiTurk.recordTrialData({"phase":"video-group-1", 'status':'begin'});
 	d3.select("#query").html('<p id="prompt">You can watch the video as many times as you want.</p>');
+	document.getElementById('time-elapsed').innerHTML = timeToString(Date.now() - experimentStartTime);
+	document.getElementById('timer-text').innerHTML = '/' + timeToString(allotedTime);
 	
 	var timerInterval = setInterval(function () {
-		let elaspedTime = Date.now() - startTime;
+		let elaspedTime = Date.now() - experimentStartTime;
 		printTime(elaspedTime);
 		checkTimer(elaspedTime);
 	}, 1000);
 
 	var printTime = function (time) {
-		document.getElementById("time-elasped").innerHTML = timeToString(time);
+		document.getElementById("time-elapsed").innerHTML = timeToString(time);
 	}
 
 	var checkTimer = function (time) {
 		// 1500000 == 25 minutes
-		if (time >= 1500000 && warned == false) {
+		if (time >= allotedTime - 300000 && warned == false) {
 			warned = true;
 			alert("5 minutes remaining");
 		}
 
 		// 1800000 == 30 minutes
-		if (time >= 1800000 && expired == false) {
+		if (time >= allotedTime && expired == false) {
 			expired = true;
 			alert("Time Expired!\nYou failed to complete the experiment within the time limit");
 		}

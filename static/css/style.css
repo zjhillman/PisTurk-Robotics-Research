@@ -142,11 +142,15 @@ audio {
   width: 100%;
 }
 
-.timer-text {
+.timer {
   display: inline;
   float: right;
   margin-right: 5px;
   border: 9px;
+  padding: 2px;
+  border-width: 3px;
+  border-style: solid;
+  border-color: gray;
 }
 
 #test-video {
@@ -167,11 +171,4 @@ audio {
 .video-controls {
   display: inline;
   text-align: center;
-}
-
-.timer-text {
-  padding: 2px;
-  border-width: 3px;
-  border-style: solid;
-  border-color: gray;
 }
