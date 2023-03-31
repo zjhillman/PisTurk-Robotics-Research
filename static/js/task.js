@@ -809,27 +809,8 @@ var RossaScale = function (lastVideoWatched) {
 *********************/
 var Questionnaire = function() {
 	var error_message = "<h1>Oops!</h1><p>Something went wrong submitting your HIT. This might happen if you lose your internet connection. Press the button to resubmit.</p><button id='resubmit'>Resubmit</button>";
-
-	var gradeQuestionnaire = () => {
-		if ($('input:radio:checked').length != 1) {
-			disableNextButton();
-			document.getElementById('error').innerHTML = "Please make sure all questions are answered.";
-			return false;
-		}
-		enableNextButton();
-		return true;
-	} 
-
-	var enableNextButton = () => {
-		$('#next').removeAttr('disabled');
-	}
-
-	var disableNextButton = () => {
-		$('#next').attr('disabled', '');
-	}
 	
 	record_responses = function() {
-
 		psiTurk.recordTrialData({'phase':'postquestionnaire', 'status':'submit'});
 
 		$('textarea').each( function(i, val) {
@@ -866,6 +847,36 @@ var Questionnaire = function() {
 	// Load the questionnaire snippet 
 	psiTurk.showPage('postquestionnaire.html');
 	psiTurk.recordTrialData({'phase':'postquestionnaire', 'status':'begin'});
+
+	var gradeQuestionnaire = () => {
+		if ($('input:radio:checked').length != 1) {
+			document.getElementById('error').innerHTML = "Please make sure all questions are answered.";
+			return false;
+		} else
+			return true;
+	} 
+
+	var enableNextButton = () => {
+		$('#next').removeAttr('disabled');
+	}
+
+	var disableNextButton = () => {
+		$('#next').attr('disabled', '');
+	}
+
+	$('input[name="selectRobot').change( () => {
+		if (gradeQuestionnaire())
+			enableNextButton();
+		else
+			disableNextButton();
+	});
+
+	$('select[name="difficulty"]').change( () => {
+		if (gradeQuestionnaire())
+			enableNextButton();
+		else
+			disableNextButton();
+	})
 	
 	$("#next").click(function () {
 		record_responses();
