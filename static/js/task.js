@@ -68,7 +68,8 @@ var instructionPages = [ // add as a list as many pages as you like
 *********************/
 var audio_visual = function() {
 	psiTurk.showPage("audiovisual.html");
-
+	var numberOfTests = 0;
+	const numberOfInputs = 2;
 
 	// show enabled or disabled if the box is checked or not
 	var test = function() {
@@ -85,6 +86,9 @@ var audio_visual = function() {
 
 	// test to enable next button
 	var gradeAudioVisualTest = function() {
+		if (++numberOfTests < numberOfInputs)
+			return false;
+
 		if ( ($('#test-audio-answer').val().toLowerCase() == 'forward')
 			&& ($('#test-video-answer').val().toLowerCase() == 'amazing') ){
 				$('#next').removeAttr('disabled');
@@ -103,6 +107,14 @@ var audio_visual = function() {
 				document.getElementById('error').innerHTML = "Please read the directions and respond appropiately";
 			return false;
 		}
+	}
+
+	var enableNextButton = () => {
+		$('#next').removeAttr('disabled');
+	}
+
+	var disableNextButton = () => {
+		$('#next').attr('disabled', '');
 	}
 
 	// $("#audio-test").click( function() {
@@ -136,16 +148,21 @@ var audio_visual = function() {
 	});
 
 	$('#test-audio-answer').change( function () {
-		//grade();
+		if (gradeAudioVisualTest())
+			enableNextButton();
+		else
+			disableNextButton();
 	});
 
 	$('#test-video-answer').change( function () {
-		//grade();
+		if (gradeAudioVisualTest())
+			enableNextButton();
+		else
+			disableNextButton();
 	});
 
 	$("#next").click( function() {
-		if (gradeAudioVisualTest())
-			currentview = new demographics();
+		currentview = new demographics();
 	});
 }
 
@@ -155,6 +172,8 @@ var audio_visual = function() {
 var demographics = function() {
 	psiTurk.showPage("demographics.html");
 	psiTurk.recordTrialData({"phase":"demographics", 'status':'begin'});
+	var numberOfTests = 0;
+	const numberOfInputs = 5;
 
 	var gradeDemographicsTest = function () {
 		var error = document.getElementById('error');
@@ -172,7 +191,11 @@ var demographics = function() {
 			console.log("ID: " + prolificID);
 			console.log("robot experience: " + robot);
 			console.log("prolific experience: " + prolific);
+			console.log("failed attemps " + numberOfTests)
 		}
+
+		if (++numberOfTests < numberOfInputs)
+			return false;
 		
 		// test if input is proper
 		var correct;
@@ -180,33 +203,39 @@ var demographics = function() {
 		correct = gradeGender(gender, other);
 		if (!correct){
 			error.innerHTML = "Please select your gender, if you chose 'other' you must type your response";
+			error.hidden = false;
 			return false;
 		}
 
 		correct = gradeAge(age);
 		if (!correct){
 			error.innerHTML = "You must enter a valid age";
+			error.hidden = false;
 			return false;
 		}
 
 		correct = gradeID(prolificID);
 		if (!correct){
 			error.innerHTML = "Please enter an appropriate prolific id";
+			error.hidden = false;
 			return false;
 		}
 
 		correct = gradeRobot(robot);
 		if (!correct){
 			error.innerHTML = "Please select a value for your experience with robotics";
+			error.hidden = false;
 			return false;
 		}
 
 		correct = gradeProlific(prolific);
 		if (!correct){
 			error.innerHTML = "Please select a value for your experience with prolific";
+			error.hidden = false;
 			return false;
 		}
 
+		error.hidden = true;
 		return true;
 	}
 
@@ -269,36 +298,59 @@ var demographics = function() {
 			return false;
 	}
 
+	var enableNextButton = () => {
+		$('#next').removeAttr('disabled');
+	}
+
+	var disableNextButton = () => {
+		$('#next').attr('disabled', '');
+	}
+
 	$('#gender').change(function () {
-		gradeGender();
+		if (gradeDemographicsTest())
+			enableNextButton();
+		else
+			disableNextButton();
 	});
 
 	$('#otherGender').change(function () {
-		gradeGender();
+		if (gradeDemographicsTest())
+			enableNextButton();
+		else
+			disableNextButton();
 	});
 
 	$('#age').change(function () {
-		gradeAge();
+		if (gradeDemographicsTest())
+			enableNextButton();
+		else
+			disableNextButton();
 	});
 
 	$('#prolific-id').change(function () {
-		gradeID();
+		if (gradeDemographicsTest())
+			enableNextButton();
+		else
+			disableNextButton();
 	});
 
-	$('input[name="robotXP"]:checked').change(function () {
-		gradeRobot();
+	$('input[name="robotXP"]').change(function () {
+		if (gradeDemographicsTest())
+			enableNextButton();
+		else
+			disableNextButton();
 	});
 
-	$('input[name="prolificXP"]:checked').change(function () {
-		gradeProlific();
+	$('input[name="prolificXP"]').change(function () {
+		if (gradeDemographicsTest())
+			enableNextButton();
+		else
+			disableNextButton();
 	});
 
 	$("#next").click( function() {
-		if (gradeDemographicsTest()) {
-			recordDemoResponses();
-			currentview = new VideoGroup1(0);
-		}
-		else;
+		recordDemoResponses();
+		currentview = new VideoGroup1(0);
 	});
 }
 
@@ -651,27 +703,48 @@ var HriTest = function() {
 var RossaScale = function (lastVideoWatched) {
 	psiTurk.showPage('rossa.html')
 	psiTurk.recordTrialData({"phase":"rossascale", 'status':'begin'});
+	var numberOfTests = 0;
+	const numberOfInputs = 9;
 
 	var next = function () {
+		recordExperimentData();
+
+		if (lastVideoWatched == false)
+			currentview = new VideoGroup2();
+		else
+			currentview = new Questionnaire();
+		return;
+	}
+
+	var gradeRossaScale = () => {
+		if (++numberOfTests < numberOfInputs)
+			return false;
+
+		var error = document.getElementById('error');
 		if (!areRadiosChecked()) {
-			var error = document.getElementById('error');
+			disabledNextButton();
 			error.innerHTML = "Please check that you made a selection for every question";
 			error.setAttribute('style', 'display: inline-block;');
+			return false;
+		} else {
+			error.hidden = true;
+			enableNextButton();
+			return true;
 		}
-		else {
-			recordExperimentData();
 
-			if (lastVideoWatched == false)
-				currentview = new VideoGroup2();
-			else
-				currentview = new Questionnaire();
-			return;
-		}
+	}
+
+	var enableNextButton = () => {
+		$('#next').removeAttr('disabled');
+	}
+
+	var disableNextButton = () => {
+		$('#next').attr('disabled', '');
 	}
 
 	// returns true if all radio groups are selected
 	var areRadiosChecked = () => {
-		if ($('input:radio:checked').length != 9)
+		if ($('input:radio:checked').length != numberOfInputs)
 			return false;
 		else
 			return true;
@@ -691,7 +764,41 @@ var RossaScale = function (lastVideoWatched) {
 		psiTurk.recordTrialData({"phase":"rossascale", 'label':'data'});
 	}
 
+	$('input[name="rossa-reliable"]').change ( () => {
+		gradeRossaScale();
+	});
 
+	$('input[name="rossa-confident"]').change ( () => {
+		gradeRossaScale();
+	});
+
+	$('input[name="rossa-responsive"]').change ( () => {
+		gradeRossaScale();
+	});
+
+	$('input[name="rossa-sociable"]').change ( () => {
+		gradeRossaScale();
+	});
+
+	$('input[name="rossa-compassion"]').change ( () => {
+		gradeRossaScale();
+	});
+
+	$('input[name="rossa-awkward"]').change ( () => {
+		gradeRossaScale();
+	});
+
+	$('input[name="rossa-scary"]').change ( () => {
+		gradeRossaScale();
+	});
+
+	$('input[name="rossa-strange"]').change ( () => {
+		gradeRossaScale();
+	});
+
+	$('input[name="rossa-dangerous"]').change ( () => {
+		gradeRossaScale();
+	});
 
 	$("#next").click(function () {
 	    next();
@@ -702,16 +809,18 @@ var RossaScale = function (lastVideoWatched) {
 * Post Questionnaire *
 *********************/
 var Questionnaire = function() {
-
+	var numberOfTests = 0;
+	const numberOfInputs = 2;
 	var error_message = "<h1>Oops!</h1><p>Something went wrong submitting your HIT. This might happen if you lose your internet connection. Press the button to resubmit.</p><button id='resubmit'>Resubmit</button>";
 
 	var gradeQuestionnaire = () => {
+		if (++numberOfTests < numberOfInputs)
+			return false;
+
 		if ($('input:radio:checked').length != 1) {
 			document.getElementById('error').innerHTML = "Please make sure all questions are answered.";
 			return false;
 		}
-
-
 		return true;
 	}
 	
