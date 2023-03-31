@@ -1,24 +1,29 @@
-<div id="container-audio-visual">
+<div id="container-audiovisual">
 
     <h1>Audio Visual Test</h1>
     <hr />
 
     <div class="av well">
 
+        <div class="audio-video">
+            <audio id="test-audio" autoplay>
+                <source src="/static/audio/forward.wav" type="audio/wav">
+            </audio>
+
+            <video id="test-video" style="width: 75%; margin-bottom: 15px;" autoplay loop>
+                <source src="/static/videos/amazing.mp4" type="video/mp4">
+            </video>
+        </div>
+
         <!-- beginning of audio -->
         <div class="audio-test row question">
             <div class="col-md-8">
                 <p style="display: inline;">A word is being spoken, please type the word you hear</p>
                 <br>
-
-                <audio id="test-audio" autoplay>
-                    <source src="/static/audio/forward.wav" type="audio/wav">
-                </audio>
             </div>
 
             <div class="col-md-4">
                     <div class="checkbox-container">
-                        <label for="test-audio-answer" id="audio-box-text">Answer:</label>
                         <input type="text" id="test-audio-answer" class="av-test"></input>
                     </div>
             </div>
@@ -27,17 +32,12 @@
         <!-- beginning of video -->
         <div class="video-test row question">
             <div class="col-md-8">
-                <p style="display: inline;">A video of the aurora borealis is playing on loop. If you can see the video without problem, type "yes"</p>
+                <p style="display: inline;">A video is being played, please type the word that you see</p>
                 <br>
-
-                <video id="test-video" autoplay loop>
-                    <source src="/static/videos/aurora-borealis.mp4" type="video/mp4">
-                </video>
             </div>
 
             <div class="col-md-4">
                     <div class="checkbox-container">
-                        <label for="test-video-answer" id="video-box-text">Answer:</label>
                         <input type="text" id="test-video-answer" class="av-test"></input>
                     </div>
             </div>
@@ -45,7 +45,6 @@
         </div>
         <!-- todo -->
     </div>
-    <hr />
 
     <p style="display: hide;" id="error"></p>
 

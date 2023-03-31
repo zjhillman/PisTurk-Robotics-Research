@@ -86,7 +86,7 @@ var audio_visual = function() {
 	// test to enable next button
 	var gradeAudioVisualTest = function() {
 		if ( ($('#test-audio-answer').val().toLowerCase() == 'forward')
-			&& ($('#test-video-answer').val().toLowerCase() == 'yes') ){
+			&& ($('#test-video-answer').val().toLowerCase() == 'amazing') ){
 				$('#next').removeAttr('disabled');
 				$('#error').attr('style', 'display: hide;');
 				document.getElementById('error').innerHTML = "";
