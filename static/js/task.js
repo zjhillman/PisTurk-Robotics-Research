@@ -8,7 +8,7 @@
 var psiTurk = new PsiTurk(uniqueId, adServerLoc, mode);
 
 const DEBUG = true;
-var allotedTime = 20 * 60000; // 20 minutes
+var allotedTime = 15 * 60000; // 15 minutes
 var experimentStartTime;
 var warned = false;
 var expired = false;
