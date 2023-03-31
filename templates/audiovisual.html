@@ -3,17 +3,17 @@
     <h1>Audio Visual Test</h1>
     <hr />
 
+    <div class="audio-video">
+        <audio id="test-audio" autoplay>
+            <source src="/static/audio/forward.wav" type="audio/wav">
+        </audio>
+
+        <video id="test-video" style="margin-bottom: 15px;" autoplay loop>
+            <source src="/static/videos/amazing.m4v" type="video/mp4">
+        </video>
+    </div>
+
     <div class="av well">
-
-        <div class="audio-video">
-            <audio id="test-audio" autoplay>
-                <source src="/static/audio/forward.wav" type="audio/wav">
-            </audio>
-
-            <video id="test-video" style="width: 75%; margin-bottom: 15px;" autoplay loop>
-                <source src="/static/videos/amazing.mp4" type="video/mp4">
-            </video>
-        </div>
 
         <!-- beginning of audio -->
         <div class="audio-test row question">
@@ -30,7 +30,7 @@
         </div>
            
         <!-- beginning of video -->
-        <div class="video-test row question">
+        <div class="video-test row">
             <div class="col-md-8">
                 <p style="display: inline;">A video is being played, please type the word that you see</p>
                 <br>
@@ -45,6 +45,7 @@
         </div>
         <!-- todo -->
     </div>
+    <hr>
 
     <p style="display: hide;" id="error"></p>
 
