@@ -722,7 +722,7 @@ var RossaScale = function (lastVideoWatched) {
 
 		var error = document.getElementById('error');
 		if (!areRadiosChecked()) {
-			disabledNextButton();
+			disableNextButton();
 			error.innerHTML = "Please check that you made a selection for every question";
 			error.setAttribute('style', 'display: inline-block;');
 			return false;
@@ -756,7 +756,6 @@ var RossaScale = function (lastVideoWatched) {
 		$("input:checked").each( function() {
 			var label = $(this).attr("name");
 			var data = $(this).val();
-			if (DEBUG) console.log("label:data");
 			if (DEBUG) console.log(label+":"+data)
 			psiTurk.recordTrialData({"phase":"rossascale", label:data});
 		});
@@ -809,19 +808,24 @@ var RossaScale = function (lastVideoWatched) {
 * Post Questionnaire *
 *********************/
 var Questionnaire = function() {
-	var numberOfTests = 0;
-	const numberOfInputs = 2;
 	var error_message = "<h1>Oops!</h1><p>Something went wrong submitting your HIT. This might happen if you lose your internet connection. Press the button to resubmit.</p><button id='resubmit'>Resubmit</button>";
 
 	var gradeQuestionnaire = () => {
-		if (++numberOfTests < numberOfInputs)
-			return false;
-
 		if ($('input:radio:checked').length != 1) {
+			disableNextButton();
 			document.getElementById('error').innerHTML = "Please make sure all questions are answered.";
 			return false;
 		}
+		enableNextButton();
 		return true;
+	} 
+
+	var enableNextButton = () => {
+		$('#next').removeAttr('disabled');
+	}
+
+	var disableNextButton = () => {
+		$('#next').attr('disabled', '');
 	}
 	
 	record_responses = function() {
@@ -864,17 +868,14 @@ var Questionnaire = function() {
 	psiTurk.recordTrialData({'phase':'postquestionnaire', 'status':'begin'});
 	
 	$("#next").click(function () {
-		if (gradeQuestionnaire()) {
-			record_responses();
-			psiTurk.saveData({
-				success: function(){
-					psiTurk.computeBonus('compute_bonus', function() { 
-						psiTurk.completeHIT(); // when finished saving compute bonus, the quit
-					}); 
-				}, 
-				error: prompt_resubmit});
-		}
-		else;
+		record_responses();
+		psiTurk.saveData({
+			success: function(){
+				psiTurk.computeBonus('compute_bonus', function() { 
+					psiTurk.completeHIT(); // when finished saving compute bonus, the quit
+				}); 
+			}, 
+			error: prompt_resubmit});
 	});
     
 	

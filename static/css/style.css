@@ -108,8 +108,7 @@ label {
 }
 
 .postH2 {
-  font-size: smaller;
-  color: rgba(0, 0, 0, 0.60);
+  color: rgba(50, 50, 50, 0.6);
 }
 
 .postH1 {
