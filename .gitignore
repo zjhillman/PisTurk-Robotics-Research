@@ -6,3 +6,4 @@ server.log
 server.log
 participants.db
 .psiturk_history
+.python-version
