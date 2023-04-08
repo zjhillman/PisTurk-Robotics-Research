@@ -68,7 +68,6 @@ var instructionPages = [ // add as a list as many pages as you like
 *********************/
 var audio_visual = function() {
 	psiTurk.showPage("audiovisual.html");
-	var numberOfTests = 0;
 	const audioAnswer = 'forward';
 	const videoAnswer = 'amazing';
 
@@ -191,9 +190,6 @@ var demographics = function() {
 			console.log("prolific experience: " + prolific);
 			console.log("failed attemps " + numberOfTests)
 		}
-
-		if (++numberOfTests < numberOfInputs)
-			return false;
 		
 		// test if input is proper
 		var correct;
