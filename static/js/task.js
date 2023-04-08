@@ -68,8 +68,8 @@ var instructionPages = [ // add as a list as many pages as you like
 *********************/
 var audio_visual = function() {
 	psiTurk.showPage("audiovisual.html");
-	var numberOfTests = 0;
-	const numberOfInputs = 2;
+	const audioAnswer = 'forward';
+	const videoAnswer = 'amazing';
 
 	// show enabled or disabled if the box is checked or not
 	var test = function() {
@@ -86,25 +86,22 @@ var audio_visual = function() {
 
 	// test to enable next button
 	var gradeAudioVisualTest = function() {
-		if (++numberOfTests < numberOfInputs)
-			return false;
-
-		if ( ($('#test-audio-answer').val().toLowerCase() == 'forward')
-			&& ($('#test-video-answer').val().toLowerCase() == 'amazing') ){
+		if ( ($('#test-audio-answer').val().toLowerCase() == audioAnswer)
+			&& ($('#test-video-answer').val().toLowerCase() == videoAnswer) ){
 				$('#next').removeAttr('disabled');
 				$('#error').attr('style', 'display: hide;');
 				document.getElementById('error').innerHTML = "";
-				return true
+				return true;
 			}
 		else {
 			$('#error').removeAttr('style');
 
-			if ($('#test-audio-answer').val().toLowerCase() != 'forward')
+			if ( !audioAnswer.includes($('#test-audio-answer').val().toLowerCase()) )
 				document.getElementById('error').innerHTML = "Please listen to the spoken word carefully";
-			else if ($('#test-video-answer').val().toLowerCase() != 'yes')
-				document.getElementById('error').innerHTML = "Please confirm if you can see the video";
+			else if ( !videoAnswer.includes($('#test-video-answer').val().toLowerCase()) )
+				document.getElementById('error').innerHTML = "Please make sure the word you typed matches the word in the video";
 			else
-				document.getElementById('error').innerHTML = "Please read the directions and respond appropiately";
+				document.getElementById('error').innerHTML = "";
 			return false;
 		}
 	}
@@ -147,14 +144,14 @@ var audio_visual = function() {
 		}, 3000);
 	});
 
-	$('#test-audio-answer').change( function () {
+	$('#test-audio-answer').on('input', () => {
 		if (gradeAudioVisualTest())
 			enableNextButton();
 		else
 			disableNextButton();
 	});
 
-	$('#test-video-answer').change( function () {
+	$('#test-video-answer').on('input', () => {
 		if (gradeAudioVisualTest())
 			enableNextButton();
 		else
@@ -172,8 +169,7 @@ var audio_visual = function() {
 var demographics = function() {
 	psiTurk.showPage("demographics.html");
 	psiTurk.recordTrialData({"phase":"demographics", 'status':'begin'});
-	var numberOfTests = 0;
-	const numberOfInputs = 5;
+	var gTest = false, aTest = false, pTest = false, xp1Test = false, xp2Test = false;
 
 	var gradeDemographicsTest = function () {
 		var error = document.getElementById('error');
@@ -191,52 +187,47 @@ var demographics = function() {
 			console.log("ID: " + prolificID);
 			console.log("robot experience: " + robot);
 			console.log("prolific experience: " + prolific);
-			console.log("failed attemps " + numberOfTests)
 		}
-
-		if (++numberOfTests < numberOfInputs)
-			return false;
 		
 		// test if input is proper
-		var correct;
+		gTest = gradeGender(gender, other);
+		aTest = gradeAge(age);
+		pTest = gradeID(prolificID);
+		xp1Test = gradeRobot(robot);
+		xp2Test = gradeProlific(prolific);
 
-		correct = gradeGender(gender, other);
-		if (!correct){
+		if (gTest && aTest && pTest && xp1Test && xp2Test) {
+			error.innerHTML = "";
+			error.hidden = true;
+			return true;
+		}
+		else if (!xp1Test || !xp2Test) {
+			if (!aTest && age != "") {
+				error.innerHTML = "You must enter a valid age";
+				error.hidden = false;
+				return false;
+			}
+			else {
+				error.innerHTML = "";
+				error.hidden = true;
+				return false;
+			}
+		}
+		else if (!gTest){
 			error.innerHTML = "Please select your gender, if you chose 'other' you must type your response";
 			error.hidden = false;
 			return false;
 		}
-
-		correct = gradeAge(age);
-		if (!correct){
+		else if (!aTest){
 			error.innerHTML = "You must enter a valid age";
 			error.hidden = false;
 			return false;
 		}
-
-		correct = gradeID(prolificID);
-		if (!correct){
+		else if (!pTest){
 			error.innerHTML = "Please enter an appropriate prolific id";
 			error.hidden = false;
 			return false;
 		}
-
-		correct = gradeRobot(robot);
-		if (!correct){
-			error.innerHTML = "Please select a value for your experience with robotics";
-			error.hidden = false;
-			return false;
-		}
-
-		correct = gradeProlific(prolific);
-		if (!correct){
-			error.innerHTML = "Please select a value for your experience with prolific";
-			error.hidden = false;
-			return false;
-		}
-
-		error.hidden = true;
-		return true;
 	}
 
 	var recordDemoResponses = function() {
@@ -262,7 +253,7 @@ var demographics = function() {
 	var gradeGender = function (gender, other) {
 		if (gender == "")
 			return false;
-		else if (gender == "male" || gender == "female")
+		else if (gender == "male" || gender == "female" || gender == "prefer not to say")
 			return true;
 		else if (gender == "other" && other !="")
 			return true;
@@ -285,14 +276,14 @@ var demographics = function() {
 	}
 
 	var gradeRobot = function (rating) {
-		if (0 < rating && rating < 11)
+		if (rating != undefined)
 			return true;
 		else
 			return false;
 	}
 
 	var gradeProlific = function (rating) {
-		if (0 < rating && rating < 11)
+		if (rating != undefined)
 			return true;
 		else
 			return false;
@@ -306,28 +297,28 @@ var demographics = function() {
 		$('#next').attr('disabled', '');
 	}
 
-	$('#gender').change(function () {
+	$('#gender').change( () => {
 		if (gradeDemographicsTest())
 			enableNextButton();
 		else
 			disableNextButton();
 	});
 
-	$('#otherGender').change(function () {
+	$('#otherGender').on('input', () => {
 		if (gradeDemographicsTest())
 			enableNextButton();
 		else
 			disableNextButton();
 	});
 
-	$('#age').change(function () {
+	$('#age').on('input', () => {
 		if (gradeDemographicsTest())
 			enableNextButton();
 		else
 			disableNextButton();
 	});
 
-	$('#prolific-id').change(function () {
+	$('#prolific-id').on('input', () => {
 		if (gradeDemographicsTest())
 			enableNextButton();
 		else
