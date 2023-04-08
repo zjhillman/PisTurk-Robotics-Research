@@ -69,7 +69,8 @@ var instructionPages = [ // add as a list as many pages as you like
 var audio_visual = function() {
 	psiTurk.showPage("audiovisual.html");
 	var numberOfTests = 0;
-	const numberOfInputs = 2;
+	const audioAnswer = 'forward';
+	const videoAnswer = 'amazing';
 
 	// show enabled or disabled if the box is checked or not
 	var test = function() {
@@ -86,25 +87,22 @@ var audio_visual = function() {
 
 	// test to enable next button
 	var gradeAudioVisualTest = function() {
-		if (++numberOfTests < numberOfInputs)
-			return false;
-
-		if ( ($('#test-audio-answer').val().toLowerCase() == 'forward')
-			&& ($('#test-video-answer').val().toLowerCase() == 'amazing') ){
+		if ( ($('#test-audio-answer').val().toLowerCase() == audioAnswer)
+			&& ($('#test-video-answer').val().toLowerCase() == videoAnswer) ){
 				$('#next').removeAttr('disabled');
 				$('#error').attr('style', 'display: hide;');
 				document.getElementById('error').innerHTML = "";
-				return true
+				return true;
 			}
 		else {
 			$('#error').removeAttr('style');
 
-			if ($('#test-audio-answer').val().toLowerCase() != 'forward')
+			if ( !audioAnswer.includes($('#test-audio-answer').val().toLowerCase()) )
 				document.getElementById('error').innerHTML = "Please listen to the spoken word carefully";
-			else if ($('#test-video-answer').val().toLowerCase() != 'yes')
-				document.getElementById('error').innerHTML = "Please confirm if you can see the video";
+			else if ( !videoAnswer.includes($('#test-video-answer').val().toLowerCase()) )
+				document.getElementById('error').innerHTML = "Please make sure the word you typed matches the word in the video";
 			else
-				document.getElementById('error').innerHTML = "Please read the directions and respond appropiately";
+				document.getElementById('error').innerHTML = "";
 			return false;
 		}
 	}
@@ -147,14 +145,14 @@ var audio_visual = function() {
 		}, 3000);
 	});
 
-	$('#test-audio-answer').change( function () {
+	$('#test-audio-answer').on('input', () => {
 		if (gradeAudioVisualTest())
 			enableNextButton();
 		else
 			disableNextButton();
 	});
 
-	$('#test-video-answer').change( function () {
+	$('#test-video-answer').on('input', () => {
 		if (gradeAudioVisualTest())
 			enableNextButton();
 		else
