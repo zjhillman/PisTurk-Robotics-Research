@@ -169,8 +169,7 @@ var audio_visual = function() {
 var demographics = function() {
 	psiTurk.showPage("demographics.html");
 	psiTurk.recordTrialData({"phase":"demographics", 'status':'begin'});
-	var numberOfTests = 0;
-	const numberOfInputs = 5;
+	var gTest = false, aTest = false, pTest = false, xp1Test = false, xp2Test = false;
 
 	var gradeDemographicsTest = function () {
 		var error = document.getElementById('error');
@@ -188,49 +187,47 @@ var demographics = function() {
 			console.log("ID: " + prolificID);
 			console.log("robot experience: " + robot);
 			console.log("prolific experience: " + prolific);
-			console.log("failed attemps " + numberOfTests)
 		}
 		
 		// test if input is proper
-		var correct;
+		gTest = gradeGender(gender, other);
+		aTest = gradeAge(age);
+		pTest = gradeID(prolificID);
+		xp1Test = gradeRobot(robot);
+		xp2Test = gradeProlific(prolific);
 
-		correct = gradeGender(gender, other);
-		if (!correct){
+		if (gTest && aTest && pTest && xp1Test && xp2Test) {
+			error.innerHTML = "";
+			error.hidden = true;
+			return true;
+		}
+		else if (!xp1Test || !xp2Test) {
+			if (!aTest && age != "") {
+				error.innerHTML = "You must enter a valid age";
+				error.hidden = false;
+				return false;
+			}
+			else {
+				error.innerHTML = "";
+				error.hidden = true;
+				return false;
+			}
+		}
+		else if (!gTest){
 			error.innerHTML = "Please select your gender, if you chose 'other' you must type your response";
 			error.hidden = false;
 			return false;
 		}
-
-		correct = gradeAge(age);
-		if (!correct){
+		else if (!aTest){
 			error.innerHTML = "You must enter a valid age";
 			error.hidden = false;
 			return false;
 		}
-
-		correct = gradeID(prolificID);
-		if (!correct){
+		else if (!pTest){
 			error.innerHTML = "Please enter an appropriate prolific id";
 			error.hidden = false;
 			return false;
 		}
-
-		correct = gradeRobot(robot);
-		if (!correct){
-			error.innerHTML = "Please select a value for your experience with robotics";
-			error.hidden = false;
-			return false;
-		}
-
-		correct = gradeProlific(prolific);
-		if (!correct){
-			error.innerHTML = "Please select a value for your experience with prolific";
-			error.hidden = false;
-			return false;
-		}
-
-		error.hidden = true;
-		return true;
 	}
 
 	var recordDemoResponses = function() {
@@ -256,7 +253,7 @@ var demographics = function() {
 	var gradeGender = function (gender, other) {
 		if (gender == "")
 			return false;
-		else if (gender == "male" || gender == "female")
+		else if (gender == "male" || gender == "female" || gender == "prefer not to say")
 			return true;
 		else if (gender == "other" && other !="")
 			return true;
@@ -279,14 +276,14 @@ var demographics = function() {
 	}
 
 	var gradeRobot = function (rating) {
-		if (0 < rating && rating < 11)
+		if (rating != undefined)
 			return true;
 		else
 			return false;
 	}
 
 	var gradeProlific = function (rating) {
-		if (0 < rating && rating < 11)
+		if (rating != undefined)
 			return true;
 		else
 			return false;
@@ -300,28 +297,28 @@ var demographics = function() {
 		$('#next').attr('disabled', '');
 	}
 
-	$('#gender').change(function () {
+	$('#gender').change( () => {
 		if (gradeDemographicsTest())
 			enableNextButton();
 		else
 			disableNextButton();
 	});
 
-	$('#otherGender').change(function () {
+	$('#otherGender').on('input', () => {
 		if (gradeDemographicsTest())
 			enableNextButton();
 		else
 			disableNextButton();
 	});
 
-	$('#age').change(function () {
+	$('#age').on('input', () => {
 		if (gradeDemographicsTest())
 			enableNextButton();
 		else
 			disableNextButton();
 	});
 
-	$('#prolific-id').change(function () {
+	$('#prolific-id').on('input', () => {
 		if (gradeDemographicsTest())
 			enableNextButton();
 		else
