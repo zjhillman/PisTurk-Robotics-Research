@@ -1,3 +1,4 @@
 PsiTurk
 psycopg2-binary
 pyopenssl>=23.1.0
+pysetuptools==58
