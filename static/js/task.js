@@ -170,8 +170,13 @@ var demographics = function() {
 	psiTurk.showPage("demographics.html");
 	psiTurk.recordTrialData({"phase":"demographics", 'status':'begin'});
 	var gTest = false, aTest = false, pTest = false, xp1Test = false, xp2Test = false;
+	var numberOfTests = 0;
+	const curve = 5;
 
 	var gradeDemographicsTest = function () {
+		if (++numberOfTests < curve) 
+			return false;
+
 		var error = document.getElementById('error');
 		var gender = document.getElementById("gender").value;
 		var other = document.getElementById("otherGender").value;
@@ -272,6 +277,8 @@ var demographics = function() {
 	var gradeAge = function (age) {
 		if (17 < age && age < 101)
 			return true;
+		else 
+			return false
 	}
 
 	var gradeID = (id) => {
@@ -378,7 +385,7 @@ var VideoGroup1 = function () {
 	}
 
 	var checkTimer = function (time) {
-		// 1500000 == 25 minutes
+		// 300000 == 5 minutes, so if the user is within 5 minutes of the time limit
 		if (time >= allotedTime - 300000 && warned == false) {
 			warned = true;
 			alert("5 minutes remaining");
@@ -391,7 +398,7 @@ var VideoGroup1 = function () {
 		}
 	}
 
-	function timeToString(time) {
+	function timeToString (time) {
 		var diffInHours = time / 3600000;
 		var hh = Math.floor(diffInHours);
 
@@ -478,7 +485,7 @@ var VideoGroup2 = function () {
 	}
 
 	var checkTimer = function (time) {
-		// 1500000 == 25 minutes
+		// 300000 == 5 minutes, so if the user is within 5 minutes of the time limit
 		if (time >= allotedTime - 300000 && warned == false) {
 			warned = true;
 			alert("5 minutes remaining");
@@ -704,8 +711,52 @@ var RossaScale = function (lastVideoWatched) {
 	psiTurk.recordTrialData({"phase":"rossascale", 'status':'begin'});
 	var numberOfTests = 0;
 	const numberOfInputs = 9;
+	document.getElementById('time-elapsed').innerHTML = timeToString(Date.now() - experimentStartTime);
+	document.getElementById('timer-text').innerHTML = '/' + timeToString(allotedTime);
+	
+	var timerInterval = setInterval(function () {
+		let elaspedTime = Date.now() - experimentStartTime;
+		printTime(elaspedTime);
+		checkTimer(elaspedTime);
+	}, 1000);
+
+	var printTime = function (time) {
+		document.getElementById("time-elapsed").innerHTML = timeToString(time);
+	}
+
+	var checkTimer = function (time) {
+		// 300000 == 5 minutes, so if the user is within 5 minutes of the time limit
+		if (time >= allotedTime - 300000 && warned == false) {
+			warned = true;
+			alert("5 minutes remaining");
+		}
+
+		// 1800000 == 30 minutes
+		if (time >= allotedTime && expired == false) {
+			expired = true;
+			alert("Time Expired!\nYou failed to complete the experiment within the time limit");
+		}
+	}
+
+	function timeToString(time) {
+		var diffInHours = time / 3600000;
+		var hh = Math.floor(diffInHours);
+
+		var diffInMins = (diffInHours - hh) * 60;
+		var mm = Math.floor(diffInMins);
+
+		var diffInSecs = (diffInMins - mm) * 60;
+		var ss = Math.floor(diffInSecs);
+
+		var formattedMM = mm.toString().padStart(2, "0");
+		var formattedSS = ss.toString().padStart(2, "0");
+
+
+		return `${formattedMM}:${formattedSS}`
+	}
 
 	var next = function () {
+		timerInterval.clearInterval;
 		recordExperimentData();
 
 		if (lastVideoWatched == false)
