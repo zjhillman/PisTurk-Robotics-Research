@@ -240,13 +240,21 @@ var demographics = function() {
 		var robot = $('input[name="robotXP"]:checked').val();
 		var prolific = $('input[name="prolificXP"]:checked').val();
 
+		if (DEBUG) {
+			console.log("gender: " + gender);
+			console.log("other: " + other);
+			console.log("age: " + age);
+			console.log("ID: " + prolificID);
+			console.log("robot experience: " + robot);
+			console.log("prolific experience: " + prolific);
+		}
+
 		psiTurk.recordTrialData({"phase":"demographics", 'gender':gender});
 		psiTurk.recordTrialData({"phase":"demographics", 'other':other});
 		psiTurk.recordTrialData({"phase":"demographics", 'age':age});
 		psiTurk.recordTrialData({"phase":"demographics", 'prolific':prolificID});
 		psiTurk.recordTrialData({"phase":"demographics", 'robot':robot});
 		psiTurk.recordTrialData({"phase":"demographics", 'prolific':prolific});
-
 		return;
 	}
 
@@ -744,14 +752,12 @@ var RossaScale = function (lastVideoWatched) {
 	var recordExperimentData = function () {
 		psiTurk.recordTrialData({"phase":"rossascale", 'status':'submit'});
 
-		$("input:checked").each( function() {
-			var label = $(this).attr("name");
+		$("input:checked").each( function () {
+			var name = $(this).attr("name");
 			var data = $(this).val();
-			if (DEBUG) console.log(label+":"+data)
-			psiTurk.recordTrialData({"phase":"rossascale", label:data});
+			if (DEBUG) console.log(name+":"+data)
+			psiTurk.recordTrialData({"phase":"rossascale", name:data});
 		});
-
-		psiTurk.recordTrialData({"phase":"rossascale", 'label':'data'});
 	}
 
 	$('input[name="rossa-reliable"]').change ( () => {
@@ -799,26 +805,37 @@ var RossaScale = function (lastVideoWatched) {
 * Post Questionnaire *
 *********************/
 var Questionnaire = function() {
+	// Load the questionnaire snippet 
+	psiTurk.showPage('postquestionnaire.html');
+	psiTurk.recordTrialData({'phase':'postquestionnaire', 'status':'begin'});
+
 	var error_message = "<h1>Oops!</h1><p>Something went wrong submitting your HIT. This might happen if you lose your internet connection. Press the button to resubmit.</p><button id='resubmit'>Resubmit</button>";
-	
+
 	record_responses = function() {
 		psiTurk.recordTrialData({'phase':'postquestionnaire', 'status':'submit'});
 
-		$('textarea').each( function(i, val) {
-			psiTurk.recordUnstructuredData(this.id, this.value);
-		});
-		$('select').each( function(i, val) {
-			psiTurk.recordUnstructuredData(this.id, this.value);		
+		$('input:checked').each( function () {
+			var name = $(this).attr("name");
+			var data = $(this).val();
+			if (DEBUG) console.log(name+":"+data)
+			psiTurk.recordTrialData({"phase":"postquestionnaire", name:data});
+		})
+
+		$('select').each( function() {
+			var name = $(this).attr("name");
+			var data = $(this).val();
+			if (DEBUG) console.log(name+":"+data)
+			psiTurk.recordTrialData({"phase":"postquestionnaire", name:data});		
 		});
 
 	};
 
-	prompt_resubmit = function() {
+	prompt_resubmit = function () {
 		document.body.innerHTML = error_message;
 		$("#resubmit").click(resubmit);
 	};
 
-	resubmit = function() {
+	resubmit = function () {
 		document.body.innerHTML = "<h1>Trying to resubmit...</h1>";
 		reprompt = setTimeout(prompt_resubmit, 10000);
 		
@@ -835,9 +852,6 @@ var Questionnaire = function() {
 		});
 	};
 
-	// Load the questionnaire snippet 
-	psiTurk.showPage('postquestionnaire.html');
-	psiTurk.recordTrialData({'phase':'postquestionnaire', 'status':'begin'});
 
 	var gradeQuestionnaire = () => {
 		if ($('input:radio:checked').length != 1) {
