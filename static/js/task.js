@@ -170,8 +170,13 @@ var demographics = function() {
 	psiTurk.showPage("demographics.html");
 	psiTurk.recordTrialData({"phase":"demographics", 'status':'begin'});
 	var gTest = false, aTest = false, pTest = false, xp1Test = false, xp2Test = false;
+	var numberOfTests = 0;
+	const curve = 5;
 
 	var gradeDemographicsTest = function () {
+		if (++numberOfTests < curve) 
+			return false;
+
 		var error = document.getElementById('error');
 		var gender = document.getElementById("gender").value;
 		var other = document.getElementById("otherGender").value;
@@ -240,13 +245,21 @@ var demographics = function() {
 		var robot = $('input[name="robotXP"]:checked').val();
 		var prolific = $('input[name="prolificXP"]:checked').val();
 
+		if (DEBUG) {
+			console.log("gender: " + gender);
+			console.log("other: " + other);
+			console.log("age: " + age);
+			console.log("ID: " + prolificID);
+			console.log("robot experience: " + robot);
+			console.log("prolific experience: " + prolific);
+		}
+
 		psiTurk.recordTrialData({"phase":"demographics", 'gender':gender});
 		psiTurk.recordTrialData({"phase":"demographics", 'other':other});
 		psiTurk.recordTrialData({"phase":"demographics", 'age':age});
 		psiTurk.recordTrialData({"phase":"demographics", 'prolific':prolificID});
 		psiTurk.recordTrialData({"phase":"demographics", 'robot':robot});
 		psiTurk.recordTrialData({"phase":"demographics", 'prolific':prolific});
-
 		return;
 	}
 
@@ -264,6 +277,8 @@ var demographics = function() {
 	var gradeAge = function (age) {
 		if (17 < age && age < 101)
 			return true;
+		else 
+			return false
 	}
 
 	var gradeID = (id) => {
@@ -370,7 +385,7 @@ var VideoGroup1 = function () {
 	}
 
 	var checkTimer = function (time) {
-		// 1500000 == 25 minutes
+		// 300000 == 5 minutes, so if the user is within 5 minutes of the time limit
 		if (time >= allotedTime - 300000 && warned == false) {
 			warned = true;
 			alert("5 minutes remaining");
@@ -383,7 +398,7 @@ var VideoGroup1 = function () {
 		}
 	}
 
-	function timeToString(time) {
+	function timeToString (time) {
 		var diffInHours = time / 3600000;
 		var hh = Math.floor(diffInHours);
 
@@ -470,7 +485,7 @@ var VideoGroup2 = function () {
 	}
 
 	var checkTimer = function (time) {
-		// 1500000 == 25 minutes
+		// 300000 == 5 minutes, so if the user is within 5 minutes of the time limit
 		if (time >= allotedTime - 300000 && warned == false) {
 			warned = true;
 			alert("5 minutes remaining");
@@ -696,8 +711,52 @@ var RossaScale = function (lastVideoWatched) {
 	psiTurk.recordTrialData({"phase":"rossascale", 'status':'begin'});
 	var numberOfTests = 0;
 	const numberOfInputs = 9;
+	document.getElementById('time-elapsed').innerHTML = timeToString(Date.now() - experimentStartTime);
+	document.getElementById('timer-text').innerHTML = '/' + timeToString(allotedTime);
+	
+	var timerInterval = setInterval(function () {
+		let elaspedTime = Date.now() - experimentStartTime;
+		printTime(elaspedTime);
+		checkTimer(elaspedTime);
+	}, 1000);
+
+	var printTime = function (time) {
+		document.getElementById("time-elapsed").innerHTML = timeToString(time);
+	}
+
+	var checkTimer = function (time) {
+		// 300000 == 5 minutes, so if the user is within 5 minutes of the time limit
+		if (time >= allotedTime - 300000 && warned == false) {
+			warned = true;
+			alert("5 minutes remaining");
+		}
+
+		// 1800000 == 30 minutes
+		if (time >= allotedTime && expired == false) {
+			expired = true;
+			alert("Time Expired!\nYou failed to complete the experiment within the time limit");
+		}
+	}
+
+	function timeToString(time) {
+		var diffInHours = time / 3600000;
+		var hh = Math.floor(diffInHours);
+
+		var diffInMins = (diffInHours - hh) * 60;
+		var mm = Math.floor(diffInMins);
+
+		var diffInSecs = (diffInMins - mm) * 60;
+		var ss = Math.floor(diffInSecs);
+
+		var formattedMM = mm.toString().padStart(2, "0");
+		var formattedSS = ss.toString().padStart(2, "0");
+
+
+		return `${formattedMM}:${formattedSS}`
+	}
 
 	var next = function () {
+		timerInterval.clearInterval;
 		recordExperimentData();
 
 		if (lastVideoWatched == false)
@@ -744,14 +803,12 @@ var RossaScale = function (lastVideoWatched) {
 	var recordExperimentData = function () {
 		psiTurk.recordTrialData({"phase":"rossascale", 'status':'submit'});
 
-		$("input:checked").each( function() {
-			var label = $(this).attr("name");
+		$("input:checked").each( function () {
+			var name = $(this).attr("name");
 			var data = $(this).val();
-			if (DEBUG) console.log(label+":"+data)
-			psiTurk.recordTrialData({"phase":"rossascale", label:data});
+			if (DEBUG) console.log(name+":"+data)
+			psiTurk.recordTrialData({"phase":"rossascale", name:data});
 		});
-
-		psiTurk.recordTrialData({"phase":"rossascale", 'label':'data'});
 	}
 
 	$('input[name="rossa-reliable"]').change ( () => {
@@ -799,26 +856,37 @@ var RossaScale = function (lastVideoWatched) {
 * Post Questionnaire *
 *********************/
 var Questionnaire = function() {
+	// Load the questionnaire snippet 
+	psiTurk.showPage('postquestionnaire.html');
+	psiTurk.recordTrialData({'phase':'postquestionnaire', 'status':'begin'});
+
 	var error_message = "<h1>Oops!</h1><p>Something went wrong submitting your HIT. This might happen if you lose your internet connection. Press the button to resubmit.</p><button id='resubmit'>Resubmit</button>";
-	
+
 	record_responses = function() {
 		psiTurk.recordTrialData({'phase':'postquestionnaire', 'status':'submit'});
 
-		$('textarea').each( function(i, val) {
-			psiTurk.recordUnstructuredData(this.id, this.value);
-		});
-		$('select').each( function(i, val) {
-			psiTurk.recordUnstructuredData(this.id, this.value);		
+		$('input:checked').each( function () {
+			var name = $(this).attr("name");
+			var data = $(this).val();
+			if (DEBUG) console.log(name+":"+data)
+			psiTurk.recordTrialData({"phase":"postquestionnaire", name:data});
+		})
+
+		$('select').each( function() {
+			var name = $(this).attr("name");
+			var data = $(this).val();
+			if (DEBUG) console.log(name+":"+data)
+			psiTurk.recordTrialData({"phase":"postquestionnaire", name:data});		
 		});
 
 	};
 
-	prompt_resubmit = function() {
+	prompt_resubmit = function () {
 		document.body.innerHTML = error_message;
 		$("#resubmit").click(resubmit);
 	};
 
-	resubmit = function() {
+	resubmit = function () {
 		document.body.innerHTML = "<h1>Trying to resubmit...</h1>";
 		reprompt = setTimeout(prompt_resubmit, 10000);
 		
@@ -835,9 +903,6 @@ var Questionnaire = function() {
 		});
 	};
 
-	// Load the questionnaire snippet 
-	psiTurk.showPage('postquestionnaire.html');
-	psiTurk.recordTrialData({'phase':'postquestionnaire', 'status':'begin'});
 
 	var gradeQuestionnaire = () => {
 		if ($('input:radio:checked').length != 1) {
