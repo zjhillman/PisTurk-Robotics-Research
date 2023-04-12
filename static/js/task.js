@@ -7,7 +7,7 @@
 // Initalize psiturk object
 var psiTurk = new PsiTurk(uniqueId, adServerLoc, mode);
 
-const DEBUG = true;
+const DEBUG = false;
 var allotedTime = 15 * 60000; // 15 minutes
 var experimentStartTime;
 var warned = false;
