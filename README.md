@@ -12,7 +12,7 @@ The only alternative to downgrading the cryptagraphy package is to manually patc
 
 ### Heroku
 
-As mentioned above, you must set the cryptography package by writing ```cyrptography==38.0.2``` in the requirements.txt file in the root of the experiment. Note that while the issue may appear to be a problem with an incompatibility between python and psiTurk, this is not the case. This experiment uses the most up-to-date version of Python3 (v3.11.3)
+As mentioned above, you must set the cryptography package by writing ```cyrptography==38.0.2``` in the requirements.txt file in the root of the experiment. Note that while the issue may appear to be a problem with an incompatibility between python and psiTurk, this is not the case. This experiment uses the most up-to-date version of Python3 (v3.11.3). Python 3.8.16, 3.9.16, 3.10.16, and 3.11.3 all yeild the same results.
 
 ### ROS2, PocketSphinx, & Ttys3
 
