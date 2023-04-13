@@ -7,7 +7,7 @@
 // Initalize psiturk object
 var psiTurk = new PsiTurk(uniqueId, adServerLoc, mode);
 
-const DEBUG = false;
+const DEBUG = true;
 var allotedTime = 15 * 60000; // 15 minutes
 var experimentStartTime;
 var warned = false;
@@ -184,15 +184,6 @@ var demographics = function() {
 		var prolificID = document.getElementById("prolific-id").value;
 		var robot = $('input[name="robotXP"]:checked').val();
 		var prolific = $('input[name="prolificXP"]:checked').val();
-		
-		if (DEBUG) {
-			console.log("gender: " + gender);
-			console.log("other: " + other);
-			console.log("age: " + age);
-			console.log("ID: " + prolificID);
-			console.log("robot experience: " + robot);
-			console.log("prolific experience: " + prolific);
-		}
 		
 		// test if input is proper
 		gTest = gradeGender(gender, other);
@@ -708,9 +699,9 @@ var HriTest = function() {
 **************/
 var RossaScale = function (lastVideoWatched) {
 	psiTurk.showPage('rossa.html')
-	psiTurk.recordTrialData({"phase":"rossascale", 'status':'begin'});
+	psiTurk.recordTrialData({"phase":"scale", 'status':'begin'});
 	var numberOfTests = 0;
-	const numberOfInputs = 9;
+	const numberOfInputs = 12;
 	document.getElementById('time-elapsed').innerHTML = timeToString(Date.now() - experimentStartTime);
 	document.getElementById('timer-text').innerHTML = '/' + timeToString(allotedTime);
 	
@@ -771,6 +762,7 @@ var RossaScale = function (lastVideoWatched) {
 			return false;
 
 		var error = document.getElementById('error');
+		console.log(numberOfTests +" v. " + numberOfInputs)
 		if (!areRadiosChecked()) {
 			disableNextButton();
 			error.innerHTML = "Please check that you made a selection for every question";
@@ -801,10 +793,10 @@ var RossaScale = function (lastVideoWatched) {
 	}
 
 	var recordExperimentData = function () {
-		psiTurk.recordTrialData({"phase":"rossascale", 'status':'submit'});
+		psiTurk.recordTrialData({"phase":"scale", 'status':'submit'});
 
 		$("input:checked").each( function () {
-			var name = $(this).attr("name");
+			var name = $(this).attr('name');
 			var data = $(this).val();
 			if (DEBUG) console.log(name+":"+data)
 			psiTurk.recordTrialData({"phase":"rossascale", name:data});
