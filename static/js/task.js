@@ -27,7 +27,7 @@ var pages = [
 	"audiovisual.html",
 	"demographics.html",
 	"videogroup1.html",
-	"rossa.html",
+	"scale.html",
 	"postquestionnaire.html"
 ];
 
@@ -413,7 +413,7 @@ var VideoGroup1 = function () {
 	function next () {
 		clearInterval(timerInterval);
 		recordExperimentData();
-		currentview = new RossaScale(0);
+		currentview = new ScaleQuestionnaire(0);
 	};
 
 	var timeupdate = (id) => {
@@ -513,7 +513,7 @@ var VideoGroup2 = function () {
 	function next () {
 		clearInterval((timerInterval));
 		recordExperimentData();
-		currentview = new RossaScale(1);
+		currentview = new ScaleQuestionnaire(1);
 	};
 
 	var timeupdate = (id) => {
@@ -673,7 +673,7 @@ var HriTest = function() {
 
 	function finish () {
 		recordExperimentData();
-		currentview = new RossaScale();
+		currentview = new ScaleQuestionnaire();
 	};
 
 	// Load the stage.html snippet into the body of the page
@@ -694,11 +694,11 @@ var HriTest = function() {
 	});
 }
 
-/**************
-* Rossa Scale *
-**************/
-var RossaScale = function (lastVideoWatched) {
-	psiTurk.showPage('rossa.html')
+/**********************
+* Scale Questionnaire *
+**********************/
+var ScaleQuestionnaire = function (lastVideoWatched) {
+	psiTurk.showPage('scale.html')
 	psiTurk.recordTrialData({"phase":"scale", 'status':'begin'});
 	var numberOfTests = 0;
 	const numberOfInputs = 12;
@@ -757,7 +757,7 @@ var RossaScale = function (lastVideoWatched) {
 		return;
 	}
 
-	var gradeRossaScale = () => {
+	var gradeScale = () => {
 		if (++numberOfTests < numberOfInputs)
 			return false;
 
