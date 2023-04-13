@@ -150,7 +150,8 @@
 # If ON_CLOUD=1, then this defaults to env var $DATABASE_URL, if set.
 
 # database_url = sqlite:///participants.db
-;database_url = postgres://uhbtycqikouhqd:1635b9310a56d66638f2cc02c5a739a38eb5925fea7955197c3d77757c4f435c@ec2-44-214-132-149.compute-1.amazonaws.com:5432/d1vahlhh2e47h0
+;
+database_url = postgres://uhbtycqikouhqd:1635b9310a56d66638f2cc02c5a739a38eb5925fea7955197c3d77757c4f435c@ec2-44-214-132-149.compute-1.amazonaws.com:5432/d1vahlhh2e47h0
 
 # psiTurk creates several database tables to store data and to manage aspects of
 # automated tasks, campaigns, etc...
