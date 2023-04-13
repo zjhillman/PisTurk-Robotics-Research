@@ -702,8 +702,11 @@ var ScaleQuestionnaire = function (lastVideoWatched) {
 	psiTurk.recordTrialData({"phase":"scale", 'status':'begin'});
 	var numberOfTests = 0;
 	const numberOfInputs = 12;
+	const inputsPerPage = 4;
 	document.getElementById('time-elapsed').innerHTML = timeToString(Date.now() - experimentStartTime);
 	document.getElementById('timer-text').innerHTML = '/' + timeToString(allotedTime);
+	var scalePage = 1;
+	var droppedTests = 4
 	
 	var timerInterval = setInterval(function () {
 		let elaspedTime = Date.now() - experimentStartTime;
@@ -746,8 +749,60 @@ var ScaleQuestionnaire = function (lastVideoWatched) {
 		return `${formattedMM}:${formattedSS}`
 	}
 
-	var next = function () {
-		timerInterval.clearInterval;
+	var start = () => {
+		$('.form1').show();
+		$('.form2').hide();
+		$('.form3').hide();
+		$('#prev').hide();
+	}
+
+	var prev = () => {
+		switch (scalePage) {
+			case 1:
+				break;
+			case 2:
+				scalePage--;
+				$('.form1').show();
+				$('.form2').hide();
+				$('.form3').hide();
+				$('#prev').hide();
+				break;
+			case 3:
+				scalePage--;
+				$('.form1').hide();
+				$('.form2').show();
+				$('.form3').hide();
+				break;
+			default:
+				break;
+		}
+	}
+
+	var next = () => {
+		switch (scalePage) {
+			case 1:
+				scalePage++;
+				$('.form1').hide();
+				$('.form2').show();
+				$('.form3').hide();
+				$('#prev').show();
+				break;
+			case 2:
+				scalePage++;
+				$('.form1').hide();
+				$('.form2').hide();
+				$('.form3').show();
+				break;
+			case 3:
+				finish()
+				break;
+			default:
+				break;
+		}
+	}
+
+	var finish = function () {
+		clearInterval(timerInterval);
 		recordExperimentData();
 
 		if (lastVideoWatched == false)
@@ -758,11 +813,10 @@ var ScaleQuestionnaire = function (lastVideoWatched) {
 	}
 
 	var gradeScale = () => {
-		if (++numberOfTests < numberOfInputs)
+		if (++numberOfTests < scalePage * droppedTests)
 			return false;
 
 		var error = document.getElementById('error');
-		console.log(numberOfTests +" v. " + numberOfInputs)
 		if (!areRadiosChecked()) {
 			disableNextButton();
 			error.innerHTML = "Please check that you made a selection for every question";
@@ -786,10 +840,12 @@ var ScaleQuestionnaire = function (lastVideoWatched) {
 
 	// returns true if all radio groups are selected
 	var areRadiosChecked = () => {
-		if ($('input:radio:checked').length != numberOfInputs)
-			return false;
-		else
+		var numOfCheckedInputs = $('input:radio:checked').length;
+		
+		if (scalePage * inputsPerPage <= numOfCheckedInputs)
 			return true;
+		else
+			return false;
 	}
 
 	var recordExperimentData = function () {
@@ -799,44 +855,62 @@ var ScaleQuestionnaire = function (lastVideoWatched) {
 			var name = $(this).attr('name');
 			var data = $(this).val();
 			if (DEBUG) console.log(name+":"+data)
-			psiTurk.recordTrialData({"phase":"rossascale", name:data});
+			psiTurk.recordTrialData({"phase":"scale-questionnaire", name:data});
 		});
 	}
 
-	$('input[name="rossa-reliable"]').change ( () => {
-		gradeRossaScale();
+	start();
+
+	$('input[name="scale-reliable"]').change ( () => {
+		gradeScale();
 	});
 
-	$('input[name="rossa-confident"]').change ( () => {
-		gradeRossaScale();
+	$('input[name="scale-confident"]').change ( () => {
+		gradeScale();
 	});
 
-	$('input[name="rossa-responsive"]').change ( () => {
-		gradeRossaScale();
+	$('input[name="scale-responsive"]').change ( () => {
+		gradeScale();
 	});
 
-	$('input[name="rossa-sociable"]').change ( () => {
-		gradeRossaScale();
+	$('input[name="scale-sociable"]').change ( () => {
+		gradeScale();
 	});
 
-	$('input[name="rossa-compassion"]').change ( () => {
-		gradeRossaScale();
+	$('input[name="scale-compassion"]').change ( () => {
+		gradeScale();
 	});
 
-	$('input[name="rossa-awkward"]').change ( () => {
-		gradeRossaScale();
+	$('input[name="scale-awkward"]').change ( () => {
+		gradeScale();
 	});
 
-	$('input[name="rossa-scary"]').change ( () => {
-		gradeRossaScale();
+	$('input[name="scale-scary"]').change ( () => {
+		gradeScale();
 	});
 
-	$('input[name="rossa-strange"]').change ( () => {
-		gradeRossaScale();
+	$('input[name="scale-strange"]').change ( () => {
+		gradeScale();
 	});
 
-	$('input[name="rossa-dangerous"]').change ( () => {
-		gradeRossaScale();
+	$('input[name="scale-dangerous"]').change ( () => {
+		gradeScale();
+	});
+
+	$('input[name="scale-logical"]').change ( () => {
+		gradeScale();
+	});
+
+	$('input[name="scale-artificial"]').change ( () => {
+		gradeScale();
+	});
+
+	$('input[name="scale-similar"]').change ( () => {
+		gradeScale();
+	});
+
+	$("#prev").click(function () {
+	    prev();
 	});
 
 	$("#next").click(function () {
