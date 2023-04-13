@@ -31,7 +31,7 @@ h1 {
 /* these are all the same for now, but easy to modify individually */
 #container-not-an-ad, #container-error, #container-exp, #container-consent, 
 #container-instructions, #container-audiovisual, #container-demographics, 
-#container-rossa, #container-questionnaire {
+#container-scale, #container-questionnaire {
     background: white;
     margin: 30px;
 }
@@ -115,18 +115,18 @@ label {
   font-size: larger;
 }
 
-.robot-xp-experience, .prolific-experience, .rossa-scale {
+.robot-xp-experience, .prolific-experience, .scale-scale {
   display: flex;
   margin-top: 5px;
   padding-left: 30px;
 }
 
-.robot-xp-radio, .prolific-radio, .rossa-radio {
+.robot-xp-radio, .prolific-radio, .scale-radio {
   flex: 10%;
   display: block;
 }
 
-.robot-xp-descriptions, .prolific-descriptions, .rossa-descriptions {
+.robot-xp-descriptions, .prolific-descriptions, .scale-descriptions {
   padding-left: 30px;
   padding-right: 55px;
 }

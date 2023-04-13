@@ -7,7 +7,7 @@
 // Initalize psiturk object
 var psiTurk = new PsiTurk(uniqueId, adServerLoc, mode);
 
-const DEBUG = false;
+const DEBUG = true;
 var allotedTime = 15 * 60000; // 15 minutes
 var experimentStartTime;
 var warned = false;
@@ -27,7 +27,7 @@ var pages = [
 	"audiovisual.html",
 	"demographics.html",
 	"videogroup1.html",
-	"rossa.html",
+	"scale.html",
 	"postquestionnaire.html"
 ];
 
@@ -185,15 +185,6 @@ var demographics = function() {
 		var robot = $('input[name="robotXP"]:checked').val();
 		var prolific = $('input[name="prolificXP"]:checked').val();
 		
-		if (DEBUG) {
-			console.log("gender: " + gender);
-			console.log("other: " + other);
-			console.log("age: " + age);
-			console.log("ID: " + prolificID);
-			console.log("robot experience: " + robot);
-			console.log("prolific experience: " + prolific);
-		}
-		
 		// test if input is proper
 		gTest = gradeGender(gender, other);
 		aTest = gradeAge(age);
@@ -255,11 +246,11 @@ var demographics = function() {
 		}
 
 		psiTurk.recordTrialData({"phase":"demographics", 'gender':gender});
-		psiTurk.recordTrialData({"phase":"demographics", 'other':other});
+		psiTurk.recordTrialData({"phase":"demographics", 'other-gender':other});
 		psiTurk.recordTrialData({"phase":"demographics", 'age':age});
-		psiTurk.recordTrialData({"phase":"demographics", 'prolific':prolificID});
-		psiTurk.recordTrialData({"phase":"demographics", 'robot':robot});
-		psiTurk.recordTrialData({"phase":"demographics", 'prolific':prolific});
+		psiTurk.recordTrialData({"phase":"demographics", 'prolific-id':prolificID});
+		psiTurk.recordTrialData({"phase":"demographics", 'robotics-experience':robot});
+		psiTurk.recordTrialData({"phase":"demographics", 'prolific-experience':prolific});
 		return;
 	}
 
@@ -422,7 +413,7 @@ var VideoGroup1 = function () {
 	function next () {
 		clearInterval(timerInterval);
 		recordExperimentData();
-		currentview = new RossaScale(0);
+		currentview = new ScaleQuestionnaire(0);
 	};
 
 	var timeupdate = (id) => {
@@ -522,7 +513,7 @@ var VideoGroup2 = function () {
 	function next () {
 		clearInterval((timerInterval));
 		recordExperimentData();
-		currentview = new RossaScale(1);
+		currentview = new ScaleQuestionnaire(1);
 	};
 
 	var timeupdate = (id) => {
@@ -682,7 +673,7 @@ var HriTest = function() {
 
 	function finish () {
 		recordExperimentData();
-		currentview = new RossaScale();
+		currentview = new ScaleQuestionnaire();
 	};
 
 	// Load the stage.html snippet into the body of the page
@@ -703,16 +694,19 @@ var HriTest = function() {
 	});
 }
 
-/**************
-* Rossa Scale *
-**************/
-var RossaScale = function (lastVideoWatched) {
-	psiTurk.showPage('rossa.html')
-	psiTurk.recordTrialData({"phase":"rossascale", 'status':'begin'});
+/**********************
+* Scale Questionnaire *
+**********************/
+var ScaleQuestionnaire = function (lastVideoWatched) {
+	psiTurk.showPage('scale.html')
+	psiTurk.recordTrialData({"phase":"scale", 'status':'begin'});
 	var numberOfTests = 0;
-	const numberOfInputs = 9;
+	const numberOfInputs = 12;
+	const inputsPerPage = 4;
 	document.getElementById('time-elapsed').innerHTML = timeToString(Date.now() - experimentStartTime);
 	document.getElementById('timer-text').innerHTML = '/' + timeToString(allotedTime);
+	var scalePage = 1;
+	var droppedTests = 4
 	
 	var timerInterval = setInterval(function () {
 		let elaspedTime = Date.now() - experimentStartTime;
@@ -755,8 +749,65 @@ var RossaScale = function (lastVideoWatched) {
 		return `${formattedMM}:${formattedSS}`
 	}
 
-	var next = function () {
-		timerInterval.clearInterval;
+	var start = () => {
+		$('.form1').show();
+		$('.form2').hide();
+		$('.form3').hide();
+		$('#prev').hide();
+		$('#next').show();
+	}
+
+	var prev = () => {
+		switch (scalePage) {
+			case 1:
+				break;
+			case 2:
+				scalePage--;
+				$('.form1').show();
+				$('.form2').hide();
+				$('.form3').hide();
+				$('#prev').hide();
+				gradeScale();
+				break;
+			case 3:
+				scalePage--;
+				$('.form1').hide();
+				$('.form2').show();
+				$('.form3').hide();
+				gradeScale();
+				break;
+			default:
+				break;
+		}
+	}
+
+	var next = () => {
+		switch (scalePage) {
+			case 1:
+				scalePage++;
+				$('.form1').hide();
+				$('.form2').show();
+				$('.form3').hide();
+				$('#prev').show();
+				gradeScale();
+				break;
+			case 2:
+				scalePage++;
+				$('.form1').hide();
+				$('.form2').hide();
+				$('.form3').show();
+				gradeScale();
+				break;
+			case 3:
+				finish()
+				break;
+			default:
+				break;
+		}
+	}
+
+	var finish = function () {
+		clearInterval(timerInterval);
 		recordExperimentData();
 
 		if (lastVideoWatched == false)
@@ -766,22 +817,32 @@ var RossaScale = function (lastVideoWatched) {
 		return;
 	}
 
-	var gradeRossaScale = () => {
-		if (++numberOfTests < numberOfInputs)
+	var gradeScale = () => {
+		if (++numberOfTests < droppedTests)
 			return false;
 
 		var error = document.getElementById('error');
 		if (!areRadiosChecked()) {
-			disableNextButton();
-			error.innerHTML = "Please check that you made a selection for every question";
-			error.setAttribute('style', 'display: inline-block;');
+			var numOfCheckedInputs = $('input:checked').length;
+			if (numberOfInputs <= numOfCheckedInputs) {
+				disableNextButton();
+				error.innerHTML = "Please check that you made a selection for every question";
+				error.setAttribute('style', 'display: inline-block;');
+			}
+			else if (scalePage * inputsPerPage <= numOfCheckedInputs) {
+				error.hidden = true;
+				enableNextButton();
+			}
+			else {
+				error.hidden = true;
+				disableNextButton();
+			}
 			return false;
 		} else {
 			error.hidden = true;
 			enableNextButton();
 			return true;
 		}
-
 	}
 
 	var enableNextButton = () => {
@@ -794,57 +855,77 @@ var RossaScale = function (lastVideoWatched) {
 
 	// returns true if all radio groups are selected
 	var areRadiosChecked = () => {
-		if ($('input:radio:checked').length != numberOfInputs)
-			return false;
-		else
+		var numOfCheckedInputs = $('input:radio:checked').length;
+		
+		if (numberOfInputs <= numOfCheckedInputs)
 			return true;
+		else
+			return false;
 	}
 
 	var recordExperimentData = function () {
-		psiTurk.recordTrialData({"phase":"rossascale", 'status':'submit'});
+		psiTurk.recordTrialData({"phase":"scale", 'status':'submit'});
 
 		$("input:checked").each( function () {
-			var name = $(this).attr("name");
+			var name = $(this).attr('name');
 			var data = $(this).val();
 			if (DEBUG) console.log(name+":"+data)
-			psiTurk.recordTrialData({"phase":"rossascale", name:data});
+			psiTurk.recordTrialData({"phase":"scale-questionnaire", name:data});
 		});
 	}
 
-	$('input[name="rossa-reliable"]').change ( () => {
-		gradeRossaScale();
+	start();
+
+	$('input[name="scale-reliable"]').change ( () => {
+		gradeScale();
 	});
 
-	$('input[name="rossa-confident"]').change ( () => {
-		gradeRossaScale();
+	$('input[name="scale-confident"]').change ( () => {
+		gradeScale();
 	});
 
-	$('input[name="rossa-responsive"]').change ( () => {
-		gradeRossaScale();
+	$('input[name="scale-responsive"]').change ( () => {
+		gradeScale();
 	});
 
-	$('input[name="rossa-sociable"]').change ( () => {
-		gradeRossaScale();
+	$('input[name="scale-sociable"]').change ( () => {
+		gradeScale();
 	});
 
-	$('input[name="rossa-compassion"]').change ( () => {
-		gradeRossaScale();
+	$('input[name="scale-compassion"]').change ( () => {
+		gradeScale();
 	});
 
-	$('input[name="rossa-awkward"]').change ( () => {
-		gradeRossaScale();
+	$('input[name="scale-awkward"]').change ( () => {
+		gradeScale();
 	});
 
-	$('input[name="rossa-scary"]').change ( () => {
-		gradeRossaScale();
+	$('input[name="scale-scary"]').change ( () => {
+		gradeScale();
 	});
 
-	$('input[name="rossa-strange"]').change ( () => {
-		gradeRossaScale();
+	$('input[name="scale-strange"]').change ( () => {
+		gradeScale();
 	});
 
-	$('input[name="rossa-dangerous"]').change ( () => {
-		gradeRossaScale();
+	$('input[name="scale-dangerous"]').change ( () => {
+		gradeScale();
+	});
+
+	$('input[name="scale-logical"]').change ( () => {
+		gradeScale();
+	});
+
+	$('input[name="scale-artificial"]').change ( () => {
+		gradeScale();
+	});
+
+	$('input[name="scale-similar"]').change ( () => {
+		gradeScale();
+	});
+
+	$("#prev").click(function () {
+	    prev();
 	});
 
 	$("#next").click(function () {

@@ -7,3 +7,6 @@ server.log
 participants.db
 .psiturk_history
 .python-version
+trialsdata.csv
+eventdata.csv
+questiondata.csv

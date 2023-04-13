@@ -1,0 +1,730 @@
+<p class="timer">
+	<span id="time-elapsed">--:--</span><span id="timer-text">/--:--</span>
+</p>
+
+
+<div id="container-scale">
+    <h1 class="postH1s">What do you think?</h2>
+    <h2 class="postH2">Consider the following</h1>
+
+    <hr />
+
+    <p>Please use the following form to rate what you think about each aspect of the robot, with 1 being the worst possible value and 10 being the best possible value.</p>
+
+    <div class="instructions well">
+
+        <form id="scale-questionnaire" action="debrief" method="post">
+            <div class="form1">
+                <!-- beginning of a question -->
+                <div class="row question">
+                    <div class="col-md-8">
+                        <p style="display: inline">How <b>reliabe</b> would you say the robot is?</p>
+                    </div>
+                    <br>
+                    <div class="scale-scale">
+                        <div class="scale-radio">
+                            <input type="radio" name="scale-reliable" id="scale-reliable1" value="1"></input>
+                            <label for="scale-reliable1">1</label>
+                        </div>
+                        <div class="scale-radio">
+                            <input type="radio" name="scale-reliable" id="scale-reliable2" value="2"></input>
+                            <label for="scale-reliable2">2</label>
+                        </div>
+                        <div class="scale-radio">
+                            <input type="radio" name="scale-reliable" id="scale-reliable3" value="3"></input>
+                            <label for="scale-reliable3">3</label>
+                        </div>
+                        <div class="scale-radio">
+                            <input type="radio" name="scale-reliable" id="scale-reliable4" value="4"></input>
+                            <label for="scale-reliable4">4</label>
+                        </div>
+                        <div class="scale-radio">
+                            <input type="radio" name="scale-reliable" id="scale-reliable5" value="5"></input>
+                            <label for="scale-reliable5">5</label>
+                        </div>
+                        <div class="scale-radio">
+                            <input type="radio" name="scale-reliable" id="scale-reliable6" value="6"></input>
+                            <label for="scale-reliable6">6</label>
+                        </div>
+                        <div class="scale-radio">
+                            <input type="radio" name="scale-reliable" id="scale-reliable7" value="7"></input>
+                            <label for="scale-reliable7">7</label>
+                        </div>
+                        <div class="scale-radio">
+                            <input type="radio" name="scale-reliable" id="scale-reliable8" value="8"></input>
+                            <label for="scale-reliable8">8</label>
+                        </div>
+                        <div class="scale-radio">
+                            <input type="radio" name="scale-reliable" id="scale-reliable9" value="9"></input>
+                            <label for="scale-reliable9">9</label>
+                        </div>
+                        <div class="scale-radio">
+                            <input type="radio" name="scale-reliable" id="scale-reliable10" value="10"></input>
+                            <label for="scale-reliable10">10</label>
+                        </div>
+                    </div>
+                    <!-- 
+                    <div class="scale-descriptions">
+                        <p style="display: inline;">Not reliable</p>
+                        <p style="display: inline; float: right">Very reliable</p>
+                    </div>
+                    -->
+                </div>
+
+                <!-- beginning of a question -->
+                <div class="row question">
+                    <div class="col-md-8">
+                        <p style="display: inline">How <b>confident</b> would you say the robot is?</p>
+                    </div>
+                    <br>
+                    <div class="scale-scale">
+                        <div class="scale-radio">
+                            <input type="radio" name="scale-confident" id="scale-confident1" value="1"></input>
+                            <label for="scale-confident1">1</label>
+                        </div>
+                        <div class="scale-radio">
+                            <input type="radio" name="scale-confident" id="scale-confident2" value="2"></input>
+                            <label for="scale-confident2">2</label>
+                        </div>
+                        <div class="scale-radio">
+                            <input type="radio" name="scale-confident" id="scale-confident3" value="3"></input>
+                            <label for="scale-confident3">3</label>
+                        </div>
+                        <div class="scale-radio">
+                            <input type="radio" name="scale-confident" id="scale-confident4" value="4"></input>
+                            <label for="scale-confident4">4</label>
+                        </div>
+                        <div class="scale-radio">
+                            <input type="radio" name="scale-confident" id="scale-confident5" value="5"></input>
+                            <label for="scale-confident5">5</label>
+                        </div>
+                        <div class="scale-radio">
+                            <input type="radio" name="scale-confident" id="scale-confident6" value="6"></input>
+                            <label for="scale-confident6">6</label>
+                        </div>
+                        <div class="scale-radio">
+                            <input type="radio" name="scale-confident" id="scale-confident7" value="7"></input>
+                            <label for="scale-confident7">7</label>
+                        </div>
+                        <div class="scale-radio">
+                            <input type="radio" name="scale-confident" id="scale-confident8" value="8"></input>
+                            <label for="scale-confident8">8</label>
+                        </div>
+                        <div class="scale-radio">
+                            <input type="radio" name="scale-confident" id="scale-confident9" value="9"></input>
+                            <label for="scale-confident9">9</label>
+                        </div>
+                        <div class="scale-radio">
+                            <input type="radio" name="scale-confident" id="scale-confident10" value="10"></input>
+                            <label for="scale-confident10">10</label>
+                        </div>
+                    </div>
+                    <!-- 
+                    <div class="scale-descriptions">
+                        <p style="display: inline;">Not confident at all</p>
+                        <p style="display: inline; float: right">Very confident</p>
+                    </div>
+                    -->
+                </div>
+
+                <!-- beginning of a question -->
+                <div class="row question">
+                    <div class="col-md-8">
+                        <p style="display: inline">How <b>responsive</b> would you say the robot was?</p>
+                    </div>
+                    <br>
+                    <div class="scale-scale">
+                        <div class="scale-radio">
+                            <input type="radio" name="scale-responsive" id="scale-responsive1" value="1"></input>
+                            <label for="scale-responsive1">1</label>
+                        </div>
+                        <div class="scale-radio">
+                            <input type="radio" name="scale-responsive" id="scale-responsive2" value="2"></input>
+                            <label for="scale-responsive2">2</label>
+                        </div>
+                        <div class="scale-radio">
+                            <input type="radio" name="scale-responsive" id="scale-responsive3" value="3"></input>
+                            <label for="scale-responsive3">3</label>
+                        </div>
+                        <div class="scale-radio">
+                            <input type="radio" name="scale-responsive" id="scale-responsive4" value="4"></input>
+                            <label for="scale-responsive4">4</label>
+                        </div>
+                        <div class="scale-radio">
+                            <input type="radio" name="scale-responsive" id="scale-responsive5" value="5"></input>
+                            <label for="scale-responsive5">5</label>
+                        </div>
+                        <div class="scale-radio">
+                            <input type="radio" name="scale-responsive" id="scale-responsive6" value="6"></input>
+                            <label for="scale-responsive6">6</label>
+                        </div>
+                        <div class="scale-radio">
+                            <input type="radio" name="scale-responsive" id="scale-responsive7" value="7"></input>
+                            <label for="scale-responsive7">7</label>
+                        </div>
+                        <div class="scale-radio">
+                            <input type="radio" name="scale-responsive" id="scale-responsive8" value="8"></input>
+                            <label for="scale-responsive8">8</label>
+                        </div>
+                        <div class="scale-radio">
+                            <input type="radio" name="scale-responsive" id="scale-responsive9" value="9"></input>
+                            <label for="scale-responsive9">9</label>
+                        </div>
+                        <div class="scale-radio">
+                            <input type="radio" name="scale-responsive" id="scale-responsive10" value="10"></input>
+                            <label for="scale-responsive10">10</label>
+                        </div>
+                    </div>
+                    <!--
+                    <div class="scale-descriptions">
+                        <p style="display: inline;">Not responsive at all</p>
+                        <p style="display: inline; float: right">Very responsive</p>
+                    </div>
+                    -->
+                </div>
+
+                <!-- beginning of a question -->
+                <div class="row">
+                    <div class="col-md-8">
+                        <p style="display: inline">How <b>sociable</b> would you say the robot was?</p>
+                    </div>
+                    <br>
+                    <div class="scale-scale">
+                        <div class="scale-radio">
+                            <input type="radio" name="scale-sociable" id="scale-sociable1" value="1"></input>
+                            <label for="scale-sociable1">1</label>
+                        </div>
+                        <div class="scale-radio">
+                            <input type="radio" name="scale-sociable" id="scale-sociable2" value="2"></input>
+                            <label for="scale-sociable2">2</label>
+                        </div>
+                        <div class="scale-radio">
+                            <input type="radio" name="scale-sociable" id="scale-sociable3" value="3"></input>
+                            <label for="scale-sociable3">3</label>
+                        </div>
+                        <div class="scale-radio">
+                            <input type="radio" name="scale-sociable" id="scale-sociable4" value="4"></input>
+                            <label for="scale-sociable4">4</label>
+                        </div>
+                        <div class="scale-radio">
+                            <input type="radio" name="scale-sociable" id="scale-sociable5" value="5"></input>
+                            <label for="scale-sociable5">5</label>
+                        </div>
+                        <div class="scale-radio">
+                            <input type="radio" name="scale-sociable" id="scale-sociable6" value="6"></input>
+                            <label for="scale-sociable6">6</label>
+                        </div>
+                        <div class="scale-radio">
+                            <input type="radio" name="scale-sociable" id="scale-sociable7" value="7"></input>
+                            <label for="scale-sociable7">7</label>
+                        </div>
+                        <div class="scale-radio">
+                            <input type="radio" name="scale-sociable" id="scale-sociable8" value="8"></input>
+                            <label for="scale-sociable8">8</label>
+                        </div>
+                        <div class="scale-radio">
+                            <input type="radio" name="scale-sociable" id="scale-sociable9" value="9"></input>
+                            <label for="scale-sociable9">9</label>
+                        </div>
+                        <div class="scale-radio">
+                            <input type="radio" name="scale-sociable" id="scale-sociable10" value="10"></input>
+                            <label for="scale-sociable10">10</label>
+                        </div>
+                    </div>
+                    <!-- 
+                    <div class="scale-descriptions">
+                        <p style="display: inline;">Not sociable at all</p>
+                        <p style="display: inline; float: right">Very Sociable</p>
+                    </div>
+                    -->
+                </div>
+            </div>
+
+            <div class="form2">
+                <!-- beginning of a question -->
+                <div class="row question">
+                <div class="col-md-8">
+                    <p style="display: inline">How <b>compassionate</b> would you say the robot was?</p>
+                </div>
+                <br>
+                <div class="scale-scale">
+                    <div class="scale-radio">
+                        <input type="radio" name="scale-compassion" id="scale-compassion1" value="1"></input>
+                        <label for="scale-compassion1">1</label>
+                    </div>
+                    <div class="scale-radio">
+                        <input type="radio" name="scale-compassion" id="scale-compassion2" value="2"></input>
+                        <label for="scale-compassion2">2</label>
+                    </div>
+                    <div class="scale-radio">
+                        <input type="radio" name="scale-compassion" id="scale-compassion3" value="3"></input>
+                        <label for="scale-compassion3">3</label>
+                    </div>
+                    <div class="scale-radio">
+                        <input type="radio" name="scale-compassion" id="scale-compassion4" value="4"></input>
+                        <label for="scale-compassion4">4</label>
+                    </div>
+                    <div class="scale-radio">
+                        <input type="radio" name="scale-compassion" id="scale-compassion5" value="5"></input>
+                        <label for="scale-compassion5">5</label>
+                    </div>
+                    <div class="scale-radio">
+                        <input type="radio" name="scale-compassion" id="scale-compassion6" value="6"></input>
+                        <label for="scale-compassion6">6</label>
+                    </div>
+                    <div class="scale-radio">
+                        <input type="radio" name="scale-compassion" id="scale-compassion7" value="7"></input>
+                        <label for="scale-compassion7">7</label>
+                    </div>
+                    <div class="scale-radio">
+                        <input type="radio" name="scale-compassion" id="scale-compassion8" value="8"></input>
+                        <label for="scale-compassion8">8</label>
+                    </div>
+                    <div class="scale-radio">
+                        <input type="radio" name="scale-compassion" id="scale-compassion9" value="9"></input>
+                        <label for="scale-compassion9">9</label>
+                    </div>
+                    <div class="scale-radio">
+                        <input type="radio" name="scale-compassion" id="scale-compassion10" value="10"></input>
+                        <label for="scale-compassion10">10</label>
+                    </div>
+                </div>
+                <!-- 
+                <div class="scale-descriptions">
+                    <p style="display: inline;">Not compassionate at all</p>
+                    <p style="display: inline; float: right">Very compassionate</p>
+                </div>
+                -->
+                </div>
+
+                <!-- beginning of a question -->
+                <div class="row question">
+                    <div class="col-md-8">
+                        <p style="display: inline">How <b>awkward</b> would you say the robot was?</p>
+                    </div>
+                    <br>
+                    <div class="scale-scale">
+                        <div class="scale-radio">
+                            <input type="radio" name="scale-awkward" id="scale-awkward1" value="1"></input>
+                            <label for="scale-awkward1">1</label>
+                        </div>
+                        <div class="scale-radio">
+                            <input type="radio" name="scale-awkward" id="scale-awkward2" value="2"></input>
+                            <label for="scale-awkward2">2</label>
+                        </div>
+                        <div class="scale-radio">
+                            <input type="radio" name="scale-awkward" id="scale-awkward3" value="3"></input>
+                            <label for="scale-awkward3">3</label>
+                        </div>
+                        <div class="scale-radio">
+                            <input type="radio" name="scale-awkward" id="scale-awkward4" value="4"></input>
+                            <label for="scale-awkward4">4</label>
+                        </div>
+                        <div class="scale-radio">
+                            <input type="radio" name="scale-awkward" id="scale-awkward5" value="5"></input>
+                            <label for="scale-awkward5">5</label>
+                        </div>
+                        <div class="scale-radio">
+                            <input type="radio" name="scale-awkward" id="scale-awkward6" value="6"></input>
+                            <label for="scale-awkward6">6</label>
+                        </div>
+                        <div class="scale-radio">
+                            <input type="radio" name="scale-awkward" id="scale-awkward7" value="7"></input>
+                            <label for="scale-awkward7">7</label>
+                        </div>
+                        <div class="scale-radio">
+                            <input type="radio" name="scale-awkward" id="scale-awkward8" value="8"></input>
+                            <label for="scale-awkward8">8</label>
+                        </div>
+                        <div class="scale-radio">
+                            <input type="radio" name="scale-awkward" id="scale-awkward9" value="9"></input>
+                            <label for="scale-awkward9">9</label>
+                        </div>
+                        <div class="scale-radio">
+                            <input type="radio" name="scale-awkward" id="scale-awkward10" value="10"></input>
+                            <label for="scale-awkward10">10</label>
+                        </div>
+                    </div>
+                    <!-- 
+                    <div class="scale-descriptions">
+                        <p style="display: inline;">Not awkward at all</p>
+                        <p style="display: inline; float: right">Very awkward</p>
+                    </div>
+                    -->
+                </div>
+
+                <!-- beginning of a question -->
+                <div class="row question">
+                    <div class="col-md-8">
+                        <p style="display: inline">How <b>scary</b> would you say the robot was?</p>
+                    </div>
+                    <br>
+                    <div class="scale-scale">
+                        <div class="scale-radio">
+                            <input type="radio" name="scale-scary" id="scale-scary1" value="1"></input>
+                            <label for="scale-scary1">1</label>
+                        </div>
+                        <div class="scale-radio">
+                            <input type="radio" name="scale-scary" id="scale-scary2" value="2"></input>
+                            <label for="scale-scary2">2</label>
+                        </div>
+                        <div class="scale-radio">
+                            <input type="radio" name="scale-scary" id="scale-scary3" value="3"></input>
+                            <label for="scale-scary3">3</label>
+                        </div>
+                        <div class="scale-radio">
+                            <input type="radio" name="scale-scary" id="scale-scary4" value="4"></input>
+                            <label for="scale-scary4">4</label>
+                        </div>
+                        <div class="scale-radio">
+                            <input type="radio" name="scale-scary" id="scale-scary5" value="5"></input>
+                            <label for="scale-scary5">5</label>
+                        </div>
+                        <div class="scale-radio">
+                            <input type="radio" name="scale-scary" id="scale-scary6" value="6"></input>
+                            <label for="scale-scary6">6</label>
+                        </div>
+                        <div class="scale-radio">
+                            <input type="radio" name="scale-scary" id="scale-scary7" value="7"></input>
+                            <label for="scale-scary7">7</label>
+                        </div>
+                        <div class="scale-radio">
+                            <input type="radio" name="scale-scary" id="scale-scary8" value="8"></input>
+                            <label for="scale-scary8">8</label>
+                        </div>
+                        <div class="scale-radio">
+                            <input type="radio" name="scale-scary" id="scale-scary9" value="9"></input>
+                            <label for="scale-scary9">9</label>
+                        </div>
+                        <div class="scale-radio">
+                            <input type="radio" name="scale-scary" id="scale-scary10" value="10"></input>
+                            <label for="scale-scary10">10</label>
+                        </div>
+                    </div>
+                    <!--
+                    <div class="scale-descriptions">
+                        <p style="display: inline;">Not scary at all</p>
+                        <p style="display: inline; float: right">Very scary</p>
+                    </div>
+                    -->
+                </div>
+
+                <!-- beginning of a question -->
+                <div class="row">
+                    <div class="col-md-8">
+                        <p style="display: inline">How <b>strange</b> would you say the robot was?</p>
+                    </div>
+                    <br>
+                    <div class="scale-scale">
+                        <div class="scale-radio">
+                            <input type="radio" name="scale-strange" id="scale-strange1" value="1"></input>
+                            <label for="scale-strange1">1</label>
+                        </div>
+                        <div class="scale-radio">
+                            <input type="radio" name="scale-strange" id="scale-strange2" value="2"></input>
+                            <label for="scale-strange2">2</label>
+                        </div>
+                        <div class="scale-radio">
+                            <input type="radio" name="scale-strange" id="scale-strange3" value="3"></input>
+                            <label for="scale-strange3">3</label>
+                        </div>
+                        <div class="scale-radio">
+                            <input type="radio" name="scale-strange" id="scale-strange4" value="4"></input>
+                            <label for="scale-strange4">4</label>
+                        </div>
+                        <div class="scale-radio">
+                            <input type="radio" name="scale-strange" id="scale-strange5" value="5"></input>
+                            <label for="scale-strange5">5</label>
+                        </div>
+                        <div class="scale-radio">
+                            <input type="radio" name="scale-strange" id="scale-strange6" value="6"></input>
+                            <label for="scale-strange6">6</label>
+                        </div>
+                        <div class="scale-radio">
+                            <input type="radio" name="scale-strange" id="scale-strange7" value="7"></input>
+                            <label for="scale-strange7">7</label>
+                        </div>
+                        <div class="scale-radio">
+                            <input type="radio" name="scale-strange" id="scale-strange8" value="8"></input>
+                            <label for="scale-strange8">8</label>
+                        </div>
+                        <div class="scale-radio">
+                            <input type="radio" name="scale-strange" id="scale-strange9" value="9"></input>
+                            <label for="scale-strange9">9</label>
+                        </div>
+                        <div class="scale-radio">
+                            <input type="radio" name="scale-strange" id="scale-strange10" value="10"></input>
+                            <label for="scale-strange10">10</label>
+                        </div>
+                    </div>
+                    <!--
+                    <div class="scale-descriptions">
+                        <p style="display: inline;">Not strange at all</p>
+                        <p style="display: inline; float: right">Very strange</p>
+                    </div>
+                    -->
+                </div>
+            </div>
+
+            <div class="form3">
+                <!-- beginning of a question -->
+                <div class="row question">
+                    <div class="col-md-8">
+                        <p style="display: inline">How <b>dangerous</b> would you say the robot was?</p>
+                    </div>
+                    <br>
+
+                    <div class="scale-scale">
+                        <div class="scale-radio">
+                            <input type="radio" name="scale-dangerous" id="scale-dangerous1" value="1"></input>
+                            <label for="scale-dangerous1">1</label>
+                        </div>
+                        <div class="scale-radio">
+                            <input type="radio" name="scale-dangerous" id="scale-dangerous2" value="2"></input>
+                            <label for="scale-dangerous2">2</label>
+                        </div>
+                        <div class="scale-radio">
+                            <input type="radio" name="scale-dangerous" id="scale-dangerous3" value="3"></input>
+                            <label for="scale-dangerous3">3</label>
+                        </div>
+                        <div class="scale-radio">
+                            <input type="radio" name="scale-dangerous" id="scale-dangerous4" value="4"></input>
+                            <label for="scale-dangerous4">4</label>
+                        </div>
+                        <div class="scale-radio">
+                            <input type="radio" name="scale-dangerous" id="scale-dangerous5" value="5"></input>
+                            <label for="scale-dangerous5">5</label>
+                        </div>
+                        <div class="scale-radio">
+                            <input type="radio" name="scale-dangerous" id="scale-dangerous6" value="6"></input>
+                            <label for="scale-dangerous6">6</label>
+                        </div>
+                        <div class="scale-radio">
+                            <input type="radio" name="scale-dangerous" id="scale-dangerous7" value="7"></input>
+                            <label for="scale-dangerous7">7</label>
+                        </div>
+                        <div class="scale-radio">
+                            <input type="radio" name="scale-dangerous" id="scale-dangerous8" value="8"></input>
+                            <label for="scale-dangerous8">8</label>
+                        </div>
+                        <div class="scale-radio">
+                            <input type="radio" name="scale-dangerous" id="scale-dangerous9" value="9"></input>
+                            <label for="scale-dangerous9">9</label>
+                        </div>
+                        <div class="scale-radio">
+                            <input type="radio" name="scale-dangerous" id="scale-dangerous10" value="10"></input>
+                            <label for="scale-dangerous10">10</label>
+                        </div>
+                    </div>
+
+                    <!--
+                        <div class="scale-descriptions">
+                        <p style="display: inline;">Not dangerous at all</p>
+                        <p style="display: inline; float: right">Very dangerous</p>
+                        </div>
+                    -->
+                </div>
+
+                <!-- beginning of a question -->
+                <div class="row question">
+                    <div class="col-md-8">
+                        <p style="display: inline">How <b>natural</b> would you say the robot was?</p>
+                    </div>
+                    <br>
+
+                    <div class="scale-scale">
+                        <div class="scale-radio">
+                            <input type="radio" name="scale-logical1" id="scale-logical1" value="1"></input>
+                            <label for="scale-logical1">1</label>
+                        </div>
+                        <div class="scale-radio">
+                            <input type="radio" name="scale-logical" id="scale-logical2" value="2"></input>
+                            <label for="scale-logical2">2</label>
+                        </div>
+                        <div class="scale-radio">
+                            <input type="radio" name="scale-logical" id="scale-logical3" value="3"></input>
+                            <label for="scale-logical3">3</label>
+                        </div>
+                        <div class="scale-radio">
+                            <input type="radio" name="scale-logical" id="scale-logical4" value="4"></input>
+                            <label for="scale-logical4">4</label>
+                        </div>
+                        <div class="scale-radio">
+                            <input type="radio" name="scale-logical" id="scale-logical5" value="5"></input>
+                            <label for="scale-logical5">5</label>
+                        </div>
+                        <div class="scale-radio">
+                            <input type="radio" name="scale-logical" id="scale-logical6" value="6"></input>
+                            <label for="scale-logical6">6</label>
+                        </div>
+                        <div class="scale-radio">
+                            <input type="radio" name="scale-logical" id="scale-logical7" value="7"></input>
+                            <label for="scale-logical7">7</label>
+                        </div>
+                        <div class="scale-radio">
+                            <input type="radio" name="scale-logical" id="scale-logical8" value="8"></input>
+                            <label for="scale-logical8">8</label>
+                        </div>
+                        <div class="scale-radio">
+                            <input type="radio" name="scale-logical" id="scale-logical9" value="9"></input>
+                            <label for="scale-logical9">9</label>
+                        </div>
+                        <div class="scale-radio">
+                            <input type="radio" name="scale-logical" id="scale-logical10" value="10"></input>
+                            <label for="scale-logical10">10</label>
+                        </div>
+                    </div>
+                <!-- 
+                <div class="scale-descriptions">
+                    <p style="display: inline;">Not compassionate at all</p>
+                    <p style="display: inline; float: right">Very compassionate</p>
+                </div>
+                -->
+                </div>
+
+                <!-- beginning of a question -->
+                <div class="row question">
+                    <div class="col-md-8">
+                        <p style="display: inline">How <b>logical</b> would you say the robot was?</p>
+                    </div>
+                    <br>
+
+                    <div class="scale-scale">
+                        <div class="scale-radio">
+                            <input type="radio" name="scale-artifical" id="scale-artificial1" value="1"></input>
+                            <label for="scale-artificial1">1</label>
+                        </div>
+                        <div class="scale-radio">
+                            <input type="radio" name="scale-artificial" id="scale-artificial2" value="2"></input>
+                            <label for="scale-artificial2">2</label>
+                        </div>
+                        <div class="scale-radio">
+                            <input type="radio" name="scale-artificial" id="scale-artificial3" value="3"></input>
+                            <label for="scale-artificial3">3</label>
+                        </div>
+                        <div class="scale-radio">
+                            <input type="radio" name="scale-artificial" id="scale-artificial4" value="4"></input>
+                            <label for="scale-artificial4">4</label>
+                        </div>
+                        <div class="scale-radio">
+                            <input type="radio" name="scale-artificial" id="scale-artificial5" value="5"></input>
+                            <label for="scale-artificial5">5</label>
+                        </div>
+                        <div class="scale-radio">
+                            <input type="radio" name="scale-artificial" id="scale-artificial6" value="6"></input>
+                            <label for="scale-artificial6">6</label>
+                        </div>
+                        <div class="scale-radio">
+                            <input type="radio" name="scale-artificial" id="scale-artificial7" value="7"></input>
+                            <label for="scale-artificial7">7</label>
+                        </div>
+                        <div class="scale-radio">
+                            <input type="radio" name="scale-artificial" id="scale-artificial8" value="8"></input>
+                            <label for="scale-artificial8">8</label>
+                        </div>
+                        <div class="scale-radio">
+                            <input type="radio" name="scale-artificial" id="scale-artificial9" value="9"></input>
+                            <label for="scale-artificial9">9</label>
+                        </div>
+                        <div class="scale-radio">
+                            <input type="radio" name="scale-artificial" id="scale-artificial10" value="10"></input>
+                            <label for="scale-artificial10">10</label>
+                        </div>
+                    </div>
+                <!-- 
+                <div class="scale-descriptions">
+                    <p style="display: inline;">Not compassionate at all</p>
+                    <p style="display: inline; float: right">Very compassionate</p>
+                </div>
+                -->
+                </div>
+
+                <!-- beginning of a question -->
+                <div class="row">
+                    <div class="col-md-8">
+                        <p style="display: inline">How <b>similar</b> would you say the <i>speaker</i> was to most people?</p>
+                    </div>
+                    <br>
+
+                    <div class="scale-scale">
+                        <div class="scale-radio">
+                            <input type="radio" name="scale-similar" id="scale-similar1" value="1"></input>
+                            <label for="scale-similar1">1</label>
+                        </div>
+                        <div class="scale-radio">
+                            <input type="radio" name="scale-similar" id="scale-similar2" value="2"></input>
+                            <label for="scale-similar2">2</label>
+                        </div>
+                        <div class="scale-radio">
+                            <input type="radio" name="scale-similar" id="scale-similar3" value="3"></input>
+                            <label for="scale-similar3">3</label>
+                        </div>
+                        <div class="scale-radio">
+                            <input type="radio" name="scale-similar" id="scale-similar4" value="4"></input>
+                            <label for="scale-similar4">4</label>
+                        </div>
+                        <div class="scale-radio">
+                            <input type="radio" name="scale-similar" id="scale-similar5" value="5"></input>
+                            <label for="scale-similar5">5</label>
+                        </div>
+                        <div class="scale-radio">
+                            <input type="radio" name="scale-similar" id="scale-similar6" value="6"></input>
+                            <label for="scale-similar6">6</label>
+                        </div>
+                        <div class="scale-radio">
+                            <input type="radio" name="scale-similar" id="scale-similar7" value="7"></input>
+                            <label for="scale-similar7">7</label>
+                        </div>
+                        <div class="scale-radio">
+                            <input type="radio" name="scale-similar" id="scale-similar8" value="8"></input>
+                            <label for="scale-similar8">8</label>
+                        </div>
+                        <div class="scale-radio">
+                            <input type="radio" name="scale-similar" id="scale-similar9" value="9"></input>
+                            <label for="scale-similar9">9</label>
+                        </div>
+                        <div class="scale-radio">
+                            <input type="radio" name="scale-similar" id="scale-similar10" value="10"></input>
+                            <label for="scale-similar10">10</label>
+                        </div>
+                    </div>
+                <!-- 
+                <div class="scale-descriptions">
+                    <p style="display: inline;">Not compassionate at all</p>
+                    <p style="display: inline; float: right">Very compassionate</p>
+                </div>
+                -->
+                </div>
+            </div>
+            
+        
+
+        
+
+        
+        </form>
+    </div>
+
+    <hr />
+
+    <p style="display: hide;" id="error"></p>
+    <div class="instructionsnav">
+        <div class="row">
+            <div class="col-xs-2">
+                <button type="button" id="prev" value="prev" class="btn btn-primary btn-lg previous">
+                <span class="glyphicon glyphicon-arrow-left"></span> Previous
+                </button>
+            
+            </div>
+            <div class="col-xs-8">
+            </div>
+            <div class="col-xs-2">
+                <button type="button" id="next" value="next" class="btn btn-primary btn-lg continue" disabled>
+                    Next <span class="glyphicon glyphicon-arrow-right"></span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+
+</div>
