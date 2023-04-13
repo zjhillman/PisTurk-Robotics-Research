@@ -754,6 +754,7 @@ var ScaleQuestionnaire = function (lastVideoWatched) {
 		$('.form2').hide();
 		$('.form3').hide();
 		$('#prev').hide();
+		$('#next').show();
 	}
 
 	var prev = () => {
@@ -817,8 +818,13 @@ var ScaleQuestionnaire = function (lastVideoWatched) {
 			return false;
 
 		var error = document.getElementById('error');
+
 		if (!areRadiosChecked()) {
-			disableNextButton();
+			if (scalePage == 3)
+				disableNextButton();
+			else
+				enableNextButton();
+
 			error.innerHTML = "Please check that you made a selection for every question";
 			error.setAttribute('style', 'display: inline-block;');
 			return false;
@@ -827,7 +833,6 @@ var ScaleQuestionnaire = function (lastVideoWatched) {
 			enableNextButton();
 			return true;
 		}
-
 	}
 
 	var enableNextButton = () => {
@@ -842,7 +847,7 @@ var ScaleQuestionnaire = function (lastVideoWatched) {
 	var areRadiosChecked = () => {
 		var numOfCheckedInputs = $('input:radio:checked').length;
 		
-		if (scalePage * inputsPerPage <= numOfCheckedInputs)
+		if (numberOfInputs <= numOfCheckedInputs)
 			return true;
 		else
 			return false;
