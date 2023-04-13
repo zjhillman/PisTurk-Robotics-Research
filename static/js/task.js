@@ -246,11 +246,11 @@ var demographics = function() {
 		}
 
 		psiTurk.recordTrialData({"phase":"demographics", 'gender':gender});
-		psiTurk.recordTrialData({"phase":"demographics", 'other':other});
+		psiTurk.recordTrialData({"phase":"demographics", 'other-gender':other});
 		psiTurk.recordTrialData({"phase":"demographics", 'age':age});
-		psiTurk.recordTrialData({"phase":"demographics", 'prolific':prolificID});
-		psiTurk.recordTrialData({"phase":"demographics", 'robot':robot});
-		psiTurk.recordTrialData({"phase":"demographics", 'prolific':prolific});
+		psiTurk.recordTrialData({"phase":"demographics", 'prolific-id':prolificID});
+		psiTurk.recordTrialData({"phase":"demographics", 'robotics-experience':robot});
+		psiTurk.recordTrialData({"phase":"demographics", 'prolific-experience':prolific});
 		return;
 	}
 
@@ -767,12 +767,14 @@ var ScaleQuestionnaire = function (lastVideoWatched) {
 				$('.form2').hide();
 				$('.form3').hide();
 				$('#prev').hide();
+				gradeScale();
 				break;
 			case 3:
 				scalePage--;
 				$('.form1').hide();
 				$('.form2').show();
 				$('.form3').hide();
+				gradeScale();
 				break;
 			default:
 				break;
@@ -787,12 +789,14 @@ var ScaleQuestionnaire = function (lastVideoWatched) {
 				$('.form2').show();
 				$('.form3').hide();
 				$('#prev').show();
+				gradeScale();
 				break;
 			case 2:
 				scalePage++;
 				$('.form1').hide();
 				$('.form2').hide();
 				$('.form3').show();
+				gradeScale();
 				break;
 			case 3:
 				finish()
@@ -814,19 +818,25 @@ var ScaleQuestionnaire = function (lastVideoWatched) {
 	}
 
 	var gradeScale = () => {
-		if (++numberOfTests < scalePage * droppedTests)
+		if (++numberOfTests < droppedTests)
 			return false;
 
 		var error = document.getElementById('error');
-
 		if (!areRadiosChecked()) {
-			if (scalePage == 3)
+			var numOfCheckedInputs = $('input:checked').length;
+			if (numberOfInputs <= numOfCheckedInputs) {
 				disableNextButton();
-			else
+				error.innerHTML = "Please check that you made a selection for every question";
+				error.setAttribute('style', 'display: inline-block;');
+			}
+			else if (scalePage * inputsPerPage <= numOfCheckedInputs) {
+				error.hidden = true;
 				enableNextButton();
-
-			error.innerHTML = "Please check that you made a selection for every question";
-			error.setAttribute('style', 'display: inline-block;');
+			}
+			else {
+				error.hidden = true;
+				disableNextButton();
+			}
 			return false;
 		} else {
 			error.hidden = true;
