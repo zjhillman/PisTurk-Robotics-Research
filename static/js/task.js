@@ -712,7 +712,6 @@ var ScaleQuestionnaire = function (lastVideoWatched) {
 	document.getElementById('time-elapsed').innerHTML = timeToString(Date.now() - experimentStartTime);
 	document.getElementById('timer-text').innerHTML = '/' + timeToString(allotedTime);
 	document.getElementById('current-page').innerHTML = scalePage;
-	document.getElementById('number-of-pages').innerHTML = scalePage;
 	
 	var timerInterval = setInterval(function () {
 		let elaspedTime = Date.now() - experimentStartTime;
