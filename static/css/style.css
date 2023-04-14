@@ -176,3 +176,24 @@ audio {
 .audio-video {
   display: grid;
 }
+
+#test1 {
+  width: 89%;
+}
+
+.picture-frame {
+  display: flex;
+  width: 100%;
+}
+
+.frame1, .frame2 {
+  flex: 50%;
+  margin-left: 10px;
+  margin-right: 10px;
+  margin-bottom: 10px;
+  border: 5px solid rgb(187, 186, 186);
+}
+
+.frame2 {
+  margin-top: 10px;
+}

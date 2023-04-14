@@ -27,6 +27,7 @@ var pages = [
 	"audiovisual.html",
 	"demographics.html",
 	"videogroup1.html",
+	"videogroup2.html",
 	"scale.html",
 	"postquestionnaire.html"
 ];
@@ -364,6 +365,8 @@ var VideoGroup1 = function () {
 	d3.select("#query").html('<p id="prompt">You can watch the video as many times as you want.</p>');
 	document.getElementById('time-elapsed').innerHTML = timeToString(Date.now() - experimentStartTime);
 	document.getElementById('timer-text').innerHTML = '/' + timeToString(allotedTime);
+	document.querySelector('video').setAttribute('oncontextmenu', 'return false;');
+	if (DEBUG) document.querySelector('video').setAttribute('controls', '');
 	
 	var timerInterval = setInterval(function () {
 		let elaspedTime = Date.now() - experimentStartTime;
@@ -459,11 +462,12 @@ var VideoGroup1 = function () {
 var VideoGroup2 = function () {
 
 	// Load the stage.html snippet into the body of the page
-	psiTurk.showPage('videogroup1.html');
+	psiTurk.showPage('videogroup2.html');
 	psiTurk.recordTrialData({"phase":"video-group-1", 'status':'begin'});
 	d3.select("#query").html('<p id="prompt">You can watch the video as many times as you want.</p>');
 	document.getElementById('time-elapsed').innerHTML = timeToString(Date.now() - experimentStartTime);
 	document.getElementById('timer-text').innerHTML = '/' + timeToString(allotedTime);
+	document.querySelector('video').setAttribute('oncontextmenu', 'return false;');
 	
 	var timerInterval = setInterval(function () {
 		let elaspedTime = Date.now() - experimentStartTime;
