@@ -366,6 +366,7 @@ var VideoGroup1 = function () {
 	document.getElementById('time-elapsed').innerHTML = timeToString(Date.now() - experimentStartTime);
 	document.getElementById('timer-text').innerHTML = '/' + timeToString(allotedTime);
 	document.querySelector('video').setAttribute('oncontextmenu', 'return false;');
+	if (DEBUG) document.querySelector('video').setAttribute('controls', '');
 	
 	var timerInterval = setInterval(function () {
 		let elaspedTime = Date.now() - experimentStartTime;
