@@ -7,7 +7,7 @@
 // Initalize psiturk object
 var psiTurk = new PsiTurk(uniqueId, adServerLoc, mode);
 
-const DEBUG = false;
+const DEBUG = true;
 var allotedTime = 15 * 60000; // 15 minutes
 var experimentStartTime;
 var warned = false;
@@ -357,6 +357,7 @@ var demographics = function() {
 *********************/
 var VideoGroup1 = function () {
 	experimentStartTime = Date.now();
+	psiTurk.recordTrialData({"experiment-start-time":Date(experimentStartTime)});
 
 	// Load the stage.html snippet into the body of the page
 	psiTurk.showPage('videogroup1.html');
@@ -460,7 +461,6 @@ var VideoGroup1 = function () {
 * Video Group 2 *
 ****************/
 var VideoGroup2 = function () {
-
 	// Load the stage.html snippet into the body of the page
 	psiTurk.showPage('videogroup2.html');
 	psiTurk.recordTrialData({"phase":"video-group-1", 'status':'begin'});
@@ -468,6 +468,7 @@ var VideoGroup2 = function () {
 	document.getElementById('time-elapsed').innerHTML = timeToString(Date.now() - experimentStartTime);
 	document.getElementById('timer-text').innerHTML = '/' + timeToString(allotedTime);
 	document.querySelector('video').setAttribute('oncontextmenu', 'return false;');
+	if (DEBUG) document.querySelector('video').setAttribute('controls', '');
 	
 	var timerInterval = setInterval(function () {
 		let elaspedTime = Date.now() - experimentStartTime;
@@ -1025,11 +1026,15 @@ var Questionnaire = function() {
 	})
 	
 	$("#next").click(function () {
+		console.log("nexT");
 		record_responses();
+		console.log("reponses recorded");
 		psiTurk.saveData({
 			success: function(){
 				psiTurk.computeBonus('compute_bonus', function() { 
+					console.log("completing session");
 					psiTurk.completeHIT(); // when finished saving compute bonus, the quit
+					console.log("should not reach here");
 				}); 
 			}, 
 			error: prompt_resubmit});
