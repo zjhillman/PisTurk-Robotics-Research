@@ -1021,11 +1021,15 @@ var Questionnaire = function() {
 	})
 	
 	$("#next").click(function () {
+		console.log("nexT");
 		record_responses();
+		console.log("reponses recorded");
 		psiTurk.saveData({
 			success: function(){
 				psiTurk.computeBonus('compute_bonus', function() { 
+					console.log("completing session");
 					psiTurk.completeHIT(); // when finished saving compute bonus, the quit
+					console.log("should not reach here");
 				}); 
 			}, 
 			error: prompt_resubmit});
