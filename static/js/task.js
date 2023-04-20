@@ -706,12 +706,13 @@ var ScaleQuestionnaire = function (lastVideoWatched) {
 	psiTurk.showPage('scale.html')
 	psiTurk.recordTrialData({"phase":"scale", 'status':'begin'});
 	var numberOfTests = 0;
+	var scalePage = 1;
+	var droppedTests = 4
 	const numberOfInputs = 12;
 	const inputsPerPage = 4;
 	document.getElementById('time-elapsed').innerHTML = timeToString(Date.now() - experimentStartTime);
 	document.getElementById('timer-text').innerHTML = '/' + timeToString(allotedTime);
-	var scalePage = 1;
-	var droppedTests = 4
+	document.getElementById('current-page').innerHTML = scalePage;
 	
 	var timerInterval = setInterval(function () {
 		let elaspedTime = Date.now() - experimentStartTime;
@@ -768,6 +769,7 @@ var ScaleQuestionnaire = function (lastVideoWatched) {
 				break;
 			case 2:
 				scalePage--;
+				document.getElementById('current-page').innerHTML = scalePage;
 				$('.form1').show();
 				$('.form2').hide();
 				$('.form3').hide();
@@ -776,6 +778,7 @@ var ScaleQuestionnaire = function (lastVideoWatched) {
 				break;
 			case 3:
 				scalePage--;
+				document.getElementById('current-page').innerHTML = scalePage;
 				$('.form1').hide();
 				$('.form2').show();
 				$('.form3').hide();
@@ -790,6 +793,7 @@ var ScaleQuestionnaire = function (lastVideoWatched) {
 		switch (scalePage) {
 			case 1:
 				scalePage++;
+				document.getElementById('current-page').innerHTML = scalePage;
 				$('.form1').hide();
 				$('.form2').show();
 				$('.form3').hide();
@@ -798,6 +802,7 @@ var ScaleQuestionnaire = function (lastVideoWatched) {
 				break;
 			case 2:
 				scalePage++;
+				document.getElementById('current-page').innerHTML = scalePage;
 				$('.form1').hide();
 				$('.form2').hide();
 				$('.form3').show();
